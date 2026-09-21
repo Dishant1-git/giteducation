@@ -153,6 +153,7 @@ function ArrowButton({ href, children, variant = "brand" }: { href: string; chil
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
   const [softwareTab, setSoftwareTab] = useState("Basic & Office");
   const [career, setCareer] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -237,7 +238,34 @@ export default function Home() {
           <div className="hidden items-center gap-7 text-sm font-medium lg:flex">
             {navLinks.slice(0, 2).map(([label, href]) => <a key={label} href={href} className="opacity-85 transition-opacity hover:opacity-100">{label}</a>)}
             <a href="#categories" className="rounded-full bg-gradient-to-r from-brand-700 via-brand-600 to-accent-500 px-3.5 py-1 text-white">New Batches</a>
-            {navLinks.slice(2).map(([label, href]) => <a key={label} href={href} className="opacity-85 transition-opacity hover:opacity-100">{label}</a>)}
+            {navLinks.slice(2).map(([label, href]) =>
+              label === "Courses" ? (
+                <div key={label} className="group relative">
+                  <a href={href} aria-haspopup="true" className="inline-flex items-center gap-1 opacity-85 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+                    {label}
+                    <svg viewBox="0 0 12 12" className="size-3 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </a>
+                  {/* pt-4 bridges the gap so the menu stays open while the pointer moves down */}
+                  <div className="invisible absolute top-full left-1/2 w-[34rem] -translate-x-1/2 translate-y-2 pt-4 opacity-0 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                    <div className="rounded-3xl border border-line bg-white p-3 text-foreground shadow-2xl shadow-panel/10">
+                      <div className="grid grid-cols-2 gap-1">
+                        {categories.map(([title, , , icon]) => (
+                          <a key={title} href="#categories" className="flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors hover:bg-brand-50 focus:bg-brand-50 focus:outline-none">
+                            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-subtle text-lg">{icon}</span>
+                            <span className="text-sm font-medium">{title}</span>
+                          </a>
+                        ))}
+                      </div>
+                      <a href={href} className="mt-2 flex items-center justify-between rounded-2xl bg-panel px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-logo">
+                        View featured courses<span>→</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <a key={label} href={href} className="opacity-85 transition-opacity hover:opacity-100">{label}</a>
+              ),
+            )}
           </div>
           <div className="flex items-center gap-2">
             <a href="#contact" className="hidden h-9 items-center rounded-full bg-brand-600 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-700 sm:inline-flex">Book Free Demo</a>
@@ -248,11 +276,30 @@ export default function Home() {
         </nav>
         {menuOpen && (
           <div className="mx-auto mt-2 max-w-[1304px] rounded-3xl border border-line bg-white p-5 shadow-xl lg:hidden">
-            {navLinks.map(([label, href]) => (
-              <a key={label} href={href} onClick={() => setMenuOpen(false)} className="flex items-center justify-between border-b border-line py-3 font-display text-lg tracking-tight last:border-0">
-                {label}<span className="text-sm text-muted">→</span>
-              </a>
-            ))}
+            {navLinks.map(([label, href]) =>
+              label === "Courses" ? (
+                <div key={label} className="border-b border-line">
+                  <button onClick={() => setMobileCoursesOpen(!mobileCoursesOpen)} aria-expanded={mobileCoursesOpen} className="flex w-full items-center justify-between py-3 font-display text-lg tracking-tight">
+                    {label}<span className={`text-sm text-muted transition-transform duration-300 ${mobileCoursesOpen ? "rotate-90" : ""}`}>→</span>
+                  </button>
+                  <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${mobileCoursesOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                    <div className="overflow-hidden">
+                      <div className="grid grid-cols-2 gap-1 pb-3">
+                        {categories.map(([title, , , icon]) => (
+                          <a key={title} href="#categories" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-2 py-2 text-sm transition-colors hover:bg-brand-50">
+                            <span className="text-base">{icon}</span>{title}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <a key={label} href={href} onClick={() => setMenuOpen(false)} className="flex items-center justify-between border-b border-line py-3 font-display text-lg tracking-tight last:border-0">
+                  {label}<span className="text-sm text-muted">→</span>
+                </a>
+              ),
+            )}
             <div className="mt-4 flex gap-3">
               <a href={tel} className="flex h-12 flex-1 items-center justify-center rounded-full border border-foreground/20 font-medium">Call us</a>
               <a href="#contact" onClick={() => setMenuOpen(false)} className="flex h-12 flex-1 items-center justify-center rounded-full bg-logo font-medium text-white">Book Demo</a>
