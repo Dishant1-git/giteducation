@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-900: #1e3a8a;
+
+  --color-ink: #2a2c5e;
+  --color-panel: #0b1030;
+  --color-logo: #0c1f6c;
+  --color-accent-yellow: #ffd23f;
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #0ea5e9;
+  --color-accent-glow: #00d4ff;
+
+  --color-background: #fff;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-subtle: #f8fafc;
+  --color-line: #e2e8f0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.hero-surface {
+  background:
+    radial-gradient(60% 50% at 80% 20%, rgb(0 212 255 / 0.22), transparent 70%),
+    radial-gradient(50% 60% at 10% 90%, rgb(37 99 235 / 0.45), transparent 70%),
+    linear-gradient(160deg, #0b1030 0%, #0c1f6c 55%, #1d4ed8 100%);
+}
+
+.grid-overlay {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.panel-glow {
+  background: radial-gradient(50% 50% at 50% 0%, rgb(37 99 235 / 0.35), transparent 70%);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Hero entrance (runs on page load) */
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(28px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.hero-in {
+  opacity: 0;
+  animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Floating shapes */
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -18px, 0) rotate(6deg); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, -30px, 0) scale(1.12); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; animation-delay: var(--d, 0ms); }
+.animate-drift { animation: drift 14s ease-in-out infinite; }
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55); }
+  100% { box-shadow: 0 0 0 18px rgb(37 211 102 / 0); }
+}
+
+.animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+
+@keyframes shine {
+  from { background-position: 200% center; }
+  to { background-position: -200% center; }
+}
+
+.text-shine {
+  background-size: 200% auto;
+  animation: shine 6s linear infinite;
+}
+
+/* Scroll reveal (toggled by IntersectionObserver in page.tsx).
+   Content is only hidden once the script has added .reveal-ready to <html>,
+   so it always stays visible if JavaScript fails or hasn't loaded. */
+.reveal {
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.reveal-ready .reveal:not(.is-visible) { opacity: 0; transform: translateY(40px); }
+.reveal-ready .reveal-left:not(.is-visible) { transform: translateX(-48px); }
+.reveal-ready .reveal-right:not(.is-visible) { transform: translateX(48px); }
+.reveal-ready .reveal-zoom:not(.is-visible) { transform: scale(0.92); }
+
+/* Chart bars grow once their card is revealed */
+.bar-grow {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.is-visible .bar-grow,
+html:not(.reveal-ready) .bar-grow {
+  transform: scaleY(1);
+}
+
+/* Lift + glow on hover for cards */
+.lift {
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease,
+    border-color 0.3s ease;
+  transition-delay: var(--d, 0ms);
+}
+
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgb(37 99 235 / 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-in, .reveal, .bar-grow { opacity: 1 !important; transform: none !important; filter: none; animation: none; transition: none; }
+  .animate-float, .animate-drift, .animate-marquee, .animate-pulse-ring, .text-shine { animation: none !important; }
+  .lift:hover { transform: none; }
+}
