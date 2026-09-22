@@ -30,6 +30,57 @@
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---------- Semantic tokens ----------
+     Components must use these, not the raw palette above. The palette is the
+     source; this layer is the contract. Every pairing below is >= 4.5:1. */
+
+  --color-surface: #fcfbf8;          /* page background */
+  --color-surface-raised: #ffffff;   /* cards, panels, table rows */
+  --color-surface-sunken: #f4f2ec;   /* wells, alternating rows */
+  --color-surface-accent: #eef3ff;   /* informational blocks */
+  --color-surface-inverse: #080c26;  /* dark sections */
+
+  --color-content: #0d1330;          /* body text on light  — 15.8:1 */
+  --color-content-muted: #5b6079;    /* secondary text      —  6.4:1 */
+  --color-content-inverse: #ffffff;  /* text on inverse     — 17.9:1 */
+  --color-content-inverse-muted: #b9c0dd;
+
+  --color-action: #1d36b8;           /* links, primary action — 8.6:1 on white */
+  --color-action-hover: #16236b;
+  --color-action-contrast: #ffffff;
+  --color-focus: #16236b;            /* focus ring, never removed */
+
+  --color-border-subtle: #e7e3da;
+  --color-border-strong: #c3cdea;
+  --color-border-inverse: rgb(255 255 255 / 0.18);
+
+  --color-status-info: #1d36b8;
+  --color-status-success: #0f6f4a;
+  --color-status-warning: #8a5300;
+  --color-status-danger: #a32020;
+  --color-status-info-soft: #eef3ff;
+  --color-status-success-soft: #e8f6f0;
+  --color-status-warning-soft: #fdf3e2;
+  --color-status-danger-soft: #fdecec;
+
+  --radius-control: 0.625rem;
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+
+  --shadow-card: 0 1px 2px rgb(13 19 48 / 0.04), 0 8px 24px -16px rgb(13 19 48 / 0.24);
+  --shadow-raised: 0 10px 30px -18px rgb(13 19 48 / 0.35);
+  --shadow-overlay: 0 24px 70px -24px rgb(15 23 42 / 0.35);
+}
+
+/* Motion tokens. Kept outside @theme so they can be read by JS (motion/react)
+   as well as CSS, and so a single edit retimes the whole site. */
+:root {
+  --motion-instant: 150ms;
+  --motion-fast: 180ms;
+  --motion-normal: 240ms;
+  --motion-slow: 320ms;
+  --motion-slower: 520ms;
 }
 
 /* Lenis handles smooth scrolling; native smooth scroll is only a fallback */
@@ -492,4 +543,180 @@ html:not(.reveal-ready) .bar-grow { transform: scaleY(1); }
   .animate-marquee, .animate-pulse-ring, .text-shine, .shine-sweep::after, .glow-border::before { animation: none !important; }
   .lift:hover, .tilt:hover { translate: none; scale: none; }
   .tilt { transform: none; }
+}
+
+/* ---------- Accessibility primitives ----------
+   Focus is never hidden. Any element that removes this outline must replace it
+   with an indicator of equal or better contrast. */
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
+
+/* On dark surfaces the ring flips to white so it stays visible. */
+:where(.on-inverse) :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: #ffffff;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  translate: 0 -160%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background: var(--color-surface-inverse);
+  color: var(--color-content-inverse);
+  font-weight: 600;
+  box-shadow: var(--shadow-overlay);
+  transition: translate var(--motion-fast) var(--ease-out-expo);
+}
+
+.skip-link:focus-visible {
+  translate: 0 0;
+}
+
+/* Anchored sections must clear the fixed header when jumped to. */
+:target,
+[id] {
+  scroll-margin-top: 7rem;
+}
+
+/* ---------- Content page structures ---------- */
+
+/* Formal data table used for batches, fees and specifications. */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.data-table caption {
+  caption-side: top;
+  padding-bottom: 0.75rem;
+  color: var(--color-content-muted);
+  font-size: 0.8125rem;
+  text-align: left;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: top;
+}
+
+.data-table thead th {
+  background: var(--color-surface-sunken);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-content);
+  border-bottom: 2px solid var(--color-border-strong);
+  white-space: nowrap;
+}
+
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface-accent);
+}
+
+/* Horizontal scroll container for tables and wide blocks on small screens. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.scroll-x:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Section eyebrow rule used to number course-page sections. */
+.section-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-rule::before {
+  content: "";
+  width: 2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* ---------- Print ----------
+   Course pages are printed by students and parents. Chrome, floating actions and
+   decoration are dropped; content, tables and link targets are kept. */
+
+@media print {
+  .no-print,
+  header,
+  footer .wordmark-rise {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    word-break: break-all;
+  }
+
+  .data-table thead {
+    display: table-header-group;
+  }
+
+  .print-block {
+    break-inside: avoid;
+  }
+}
+
+/* When a page renders its own sticky action bar, the floating actions move up so
+   the two never overlap. Declarative, so no page has to coordinate with chrome. */
+body:has(.course-action-bar) .floating-actions {
+  bottom: 5.25rem;
+}
+
+/* An open dropdown keeps its underline drawn. */
+.nav-link[aria-expanded="true"] {
+  opacity: 1;
+}
+
+.nav-link[aria-expanded="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* The sticky course action bar overlays the end of the page, so the footer gains
+   matching bottom padding while it is present. */
+@media (max-width: 1023px) {
+  body:has(.course-action-bar) footer {
+    padding-bottom: 4.5rem;
+  }
 }

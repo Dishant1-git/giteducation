@@ -1,126 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import Lenis from "lenis";
+import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
-const PHONE = "+91 00000 00000";
-const EMAIL = "info@giteducation.org";
-
-const navLinks = [
-  ["Home", "#top"],
-  ["About", "#about"],
-  ["Courses", "#courses"],
-  ["Certificate Programs", "#categories"],
-  ["Why Us", "#difference"],
-  ["Reviews", "#reviews"],
-  ["Resources", "#faq"],
-  ["Branches", "#contact"],
-  ["Contact", "#contact"],
-];
-
-// Courses mega menu columns
-const courseGroups: { title: string; blurb: string; items: { label: string; badge?: string }[] }[] = [
-  {
-    title: "Office & Basics",
-    blurb: "Everyday computer and office skills",
-    items: [{ label: "Basic Computer" }, { label: "MS Office" }, { label: "Advance Excel" }],
-  },
-  {
-    title: "Accounts & Typing",
-    blurb: "Accounting, GST and typing for jobs and exams",
-    items: [{ label: "Tally Prime / ERP" }, { label: "Punjabi Typing" }, { label: "English Typing" }],
-  },
-  {
-    title: "Design & CAD",
-    blurb: "Drafting, graphics and print design",
-    items: [{ label: "CAD / CAM" }, { label: "Graphic Design" }, { label: "DTP & Printing" }],
-  },
-  {
-    title: "Digital Marketing",
-    blurb: "Promote a business online",
-    items: [{ label: "Digital Marketing", badge: "New" }],
-  },
-];
-
-// Line icons (24px grid, stroked) for the Certificate Programs cards
-const programIcons: Record<string, string> = {
-  monitor: "M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M8 20h8 M12 16v4",
-  document: "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6",
-  chart: "M4 20h16 M7 16v-4 M12 16V8 M17 16v-7",
-  receipt: "M6 3h12v18l-3-2-3 2-3-2-3 2z M9 8h6 M9 12h6 M9 16h3",
-  keyboard: "M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z M6 10h.01 M10 10h.01 M14 10h.01 M18 10h.01 M7 14h10",
-  cube: "M12 3l8 4.5v9L12 21l-8-4.5v-9z M12 12l8-4.5 M12 12v9 M12 12L4 7.5",
-  pen: "M12 19l7-7 3 3-7 7-3-3z M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z M2 2l7.6 7.6",
-  type: "M4 7V4h16v3 M9 20h6 M12 4v16",
-  printer: "M6 9V3h12v6 M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2 M6 14h12v7H6z",
-};
-
-const certificatePrograms: { label: string; icon: string; badge?: string }[] = [
-  { label: "Basic Computer", icon: "monitor" },
-  { label: "MS Office", icon: "document" },
-  { label: "Advance Excel", icon: "chart" },
-  { label: "Tally Prime / ERP", icon: "receipt" },
-  { label: "Punjabi Typing", icon: "keyboard" },
-  { label: "CAD / CAM", icon: "cube" },
-  { label: "Graphic Design", icon: "pen" },
-  { label: "English Typing", icon: "type" },
-  { label: "DTP & Printing", icon: "printer" },
-];
-
-// Branches with their own website open in a new tab
-const branches = [
-  { city: "Chandigarh", href: "#contact" },
-  { city: "Mohali", href: "#contact" },
-  { city: "Ludhiana", href: "https://techcaddludhiana.com/", external: true },
-  { city: "Phagwara", href: "https://techcaddphagwara.in/", external: true },
-  { city: "Jalandhar", href: "#contact" },
-  { city: "Amritsar", href: "#contact" },
-  { city: "Hoshiarpur", href: "#contact" },
-];
-
-type MegaMenuData = {
-  links: { label: string; href: string; badge?: string }[];
-  featured: { title: string; href: string; image: string; tag: string; meta: string }[];
-  cta: { label: string; href: string };
-};
-
-// Header mega menus, keyed by nav label
-const megaMenus: Record<string, MegaMenuData> = {
-  About: {
-    links: [
-      { label: "About techcadd", href: "#about" },
-      { label: "Mission and Vision", href: "#about" },
-      { label: "Accreditations & Awards", href: "#about" },
-      { label: "Our Team", href: "#about" },
-    ],
-    featured: [
-      { title: "About techcadd", href: "#about", image: "/images/about/alpine-college-team-with-faculty.jpeg", tag: "Story", meta: "Since 2016" },
-      { title: "Mission and Vision", href: "#about", image: "/images/about/alpine-college-full-hall.jpeg", tag: "Purpose", meta: "Our direction" },
-      { title: "Our Team", href: "#about", image: "/images/about/team.jpg", tag: "People", meta: "Trainers & mentors" },
-    ],
-    cta: { label: "Talk to a counsellor", href: "#contact" },
-  },
-  Resources: {
-    links: [
-      { label: "Find My Career Track", href: "#contact", badge: "New" },
-      { label: "Training Matcher", href: "#contact", badge: "New" },
-      { label: "Salary Estimator", href: "#contact", badge: "New" },
-      { label: "Blogs", href: "#contact" },
-      { label: "Events", href: "#contact" },
-      { label: "Gallery", href: "#contact" },
-      { label: "FAQ", href: "#faq" },
-      { label: "Reviews", href: "#reviews" },
-      { label: "College Partnerships", href: "#contact" },
-    ],
-    featured: [
-      { title: "Find My Career Track", href: "#contact", image: "/images/tools/career-track-finder.png", tag: "Free Tool", meta: "4 Questions" },
-      { title: "Training Matcher", href: "#contact", image: "/images/tools/training-matcher.png", tag: "Free Tool", meta: "Instant Match" },
-      { title: "Salary Estimator", href: "#contact", image: "/images/tools/salary-estimator.png", tag: "Free Tool", meta: "Punjab & NCR" },
-    ],
-    cta: { label: "Ask us a question", href: "#contact" },
-  },
-};
+import { SITE, TEL_HREF } from "@/lib/site";
 
 const steps = [
   ["Day 1", "Counselling", "Tell us your goal (job, business or exam) and we'll suggest the right course and batch timing."],
@@ -129,16 +12,19 @@ const steps = [
   ["Completion", "Certificate & jobs", "Take the final test, get your certificate and get help with your CV and job interviews."],
 ];
 
+// [title, blurb, gradient, icon, course slug]
 const categories = [
-  ["Basic Computer", "Windows, internet, email, typing basics and everyday computer use.", "from-brand-600 to-accent-500", "💻"],
-  ["MS Office", "Word, Excel, PowerPoint and Outlook for office and school work.", "from-brand-700 to-brand-500", "📄"],
-  ["Advance Excel", "Formulas, VLOOKUP/XLOOKUP, pivot tables, dashboards and macros.", "from-emerald-600 to-accent-500", "📊"],
-  ["Tally Prime / ERP", "Accounting, inventory, GST, TDS and payroll with Tally Prime.", "from-ink to-brand-700", "🧾"],
-  ["Punjabi Typing", "Gurmukhi typing in Raavi and Asees fonts for government job tests.", "from-brand-500 to-accent-glow", "⌨️"],
-  ["CAD / CAM", "AutoCAD, SolidWorks, CATIA, Creo and Revit for engineers and architects.", "from-logo to-brand-600", "📐"],
-  ["Graphic Design", "Photoshop, CorelDRAW, Illustrator and InDesign for print and social media.", "from-violet-600 to-brand-500", "🎨"],
-  ["English Typing", "Build speed and accuracy for clerk, steno and data-entry exams.", "from-accent-500 to-brand-700", "🔤"],
-  ["DTP & Printing", "Page layout, visiting cards, flex banners and wedding cards.", "from-brand-700 to-violet-500", "🖨️"],
+  ["Artificial Intelligence", "Python, machine learning and generative AI with four live projects.", "from-violet-600 to-brand-500", "🤖", "artificial-intelligence-course-in-jalandhar"],
+  ["Basic Computer", "Windows, internet, email, typing basics and everyday computer use.", "from-brand-600 to-accent-500", "💻", "basic-computer-course-in-jalandhar"],
+  ["MS Office", "Word, Excel, PowerPoint and Outlook for office and school work.", "from-brand-700 to-brand-500", "📄", "ms-office-course-in-jalandhar"],
+  ["Advance Excel", "Formulas, VLOOKUP/XLOOKUP, pivot tables, dashboards and macros.", "from-emerald-600 to-accent-500", "📊", "advance-excel-course-in-jalandhar"],
+  ["Tally Prime with GST", "Accounting, inventory, GST, TDS and payroll with Tally Prime.", "from-ink to-brand-700", "🧾", "tally-prime-course-in-jalandhar"],
+  ["Punjabi Typing", "Gurmukhi typing in Raavi and Asees fonts for government job tests.", "from-brand-500 to-accent-glow", "⌨️", "punjabi-typing-course-in-jalandhar"],
+  ["CAD / CAM", "AutoCAD, SolidWorks, CATIA, Creo and Revit for engineers and architects.", "from-logo to-brand-600", "📐", "cad-cam-course-in-jalandhar"],
+  ["Graphic Design", "Photoshop, CorelDRAW, Illustrator and InDesign for print and social media.", "from-violet-600 to-brand-500", "🎨", "graphic-design-course-in-jalandhar"],
+  ["English Typing", "Build speed and accuracy for clerk, steno and data-entry exams.", "from-accent-500 to-brand-700", "🔤", "english-typing-course-in-jalandhar"],
+  ["DTP & Printing", "Page layout, visiting cards, flex banners and wedding cards.", "from-brand-700 to-violet-500", "🖨️", "dtp-printing-course-in-jalandhar"],
+  ["Digital Marketing", "SEO, Google Ads, Meta Ads and analytics run on a real business.", "from-brand-700 to-violet-500", "📣", "digital-marketing-course-in-jalandhar"],
 ];
 
 const differences = [
@@ -190,13 +76,6 @@ const faqs = [
   ["Will Punjabi typing help with government job tests?", "Yes. We teach Raavi and Asees fonts with daily timed practice so you reach the speed that recruitment tests ask for."],
   ["Will I get a certificate?", "Yes. You get a certificate on completing the course and passing the final test."],
   ["Can I pay the fees in instalments?", "Yes, fees can be paid in easy instalments. Visit us or call for current fees and batch timings."],
-];
-
-const footerCols: [string, string[]][] = [
-  ["Courses", ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime"]],
-  ["More Courses", ["Punjabi Typing", "English Typing", "CAD / CAM", "Graphic Design"]],
-  ["Institute", ["About Us", "Gallery", "Reviews", "Contact Us"]],
-  ["Support", ["FAQs", "Placement Help", "Enquire Now"]],
 ];
 
 const marqueeItems = ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime + GST", "Punjabi Typing", "English Typing", "AutoCAD", "SolidWorks", "Photoshop", "CorelDRAW", "DTP & Printing"];
@@ -257,59 +136,6 @@ function Scribble({ className = "", onLoad = false }: { className?: string; onLo
   );
 }
 
-// Hover mega menu: link list on the left, three featured image cards on the right.
-// The wrapper is deliberately not positioned, so the panel spans the whole nav
-// while still sitting inside this item's hover/focus group.
-function MegaMenu({ label, href, menu }: { label: string; href: string; menu: MegaMenuData }) {
-  return (
-    <div className="group">
-      <a href={href} aria-haspopup="true" className="nav-link inline-flex items-center gap-1">
-        {label}
-        <svg viewBox="0 0 12 12" className="size-3 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      </a>
-      <div className="invisible absolute inset-x-0 top-full -translate-y-2 px-3 pt-2 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-        <div className="mx-auto max-w-[1240px] overflow-hidden rounded-3xl border border-line/80 bg-white/95 font-sans text-foreground shadow-[0_22px_60px_-26px_rgba(15,23,42,0.32)] backdrop-blur-3xl">
-          <div className="grid grid-cols-[minmax(196px,236px)_1fr] gap-8 p-6">
-            <div className="flex flex-col justify-center border-r border-foreground/10 pr-8">
-              <ul className="-mx-2.5">
-                {menu.links.map((l) => (
-                  <li key={l.label}>
-                    <a href={l.href} className="flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-[15px] leading-snug font-semibold tracking-tight text-foreground/80 transition-colors duration-200 hover:bg-brand-600/[0.06] hover:text-brand-600">
-                      <span className="truncate">{l.label}</span>
-                      {l.badge && <span className="ml-auto shrink-0 rounded-full bg-brand-600/10 px-1.5 py-0.5 text-[9px] font-bold tracking-[0.08em] text-brand-600 uppercase">{l.badge}</span>}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <a href={menu.cta.href} className="group/cta mt-5 ml-0.5 inline-flex items-center gap-2 text-[13px] font-semibold text-brand-600">
-                {menu.cta.label}<span className="transition-transform duration-300 group-hover/cta:translate-x-1">→</span>
-              </a>
-            </div>
-            <div className="flex flex-col justify-center">
-              <ul className="grid grid-cols-3 gap-5">
-                {menu.featured.map((f) => (
-                  <li key={f.title}>
-                    <a href={f.href} className="group/card block">
-                      <span className="relative block aspect-[16/10] overflow-hidden rounded-xl bg-subtle ring-1 ring-foreground/5">
-                        <Image src={f.image} alt="" fill sizes="220px" className="object-cover transition-transform duration-700 group-hover/card:scale-105" />
-                      </span>
-                      <span className="mt-2.5 block text-[13.5px] leading-snug font-bold tracking-tight text-balance transition-colors duration-300 group-hover/card:text-brand-600">{f.title}</span>
-                      <span className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span className="rounded-md bg-brand-600/10 px-1.5 py-0.5 text-[9px] font-bold tracking-[0.06em] text-brand-700 uppercase">{f.tag}</span>
-                        <span className="font-mono text-[9px] tracking-[0.12em] text-muted uppercase">{f.meta}</span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function ArrowButton({ href, children, variant = "brand" }: { href: string; children: React.ReactNode; variant?: "brand" | "white" | "panel" }) {
   const [styles, sweep, circle] = {
     brand: ["bg-brand-600 text-white", "bg-ink", "bg-white text-brand-700"],
@@ -326,35 +152,29 @@ function ArrowButton({ href, children, variant = "brand" }: { href: string; chil
 }
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
   const [softwareTab, setSoftwareTab] = useState("Basic & Office");
   const [career, setCareer] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [showTop, setShowTop] = useState(false);
-  const progressRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const heroBgRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
 
-  // Smooth scrolling, header state, scroll progress bar and scroll-linked hero layers
+  // Scroll-linked hero layers. Transform and opacity only, so each layer moves on
+  // the compositor without repainting. Site-wide scrolling, the progress bar and
+  // the reveal system live in <SiteChrome>.
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Eased scrolling; also animates clicks on #anchor links, leaving room for the fixed header
-    const lenis = new Lenis({ autoRaf: true, lerp: 0.09, anchors: { offset: -90 } });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let ticking = false;
+    let lastY = window.scrollY;
+    let velocity = 0;
     const update = () => {
       ticking = false;
       const y = window.scrollY;
       const vh = window.innerHeight;
-      const max = document.documentElement.scrollHeight - vh;
-      setScrolled(y > 40);
-      setShowTop(y > 800);
-      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-      if (reduceMotion || y > vh * 1.2) return;
-      // Transform and opacity only, so each layer moves on the compositor without repainting
+      velocity = y - lastY;
+      lastY = y;
+      if (y > vh * 1.2) return;
       const p = Math.min(y / vh, 1);
       if (heroRef.current) {
         heroRef.current.style.transform = `translate3d(0, ${y * 0.3}px, 0) scale(${1 - p * 0.06})`;
@@ -364,15 +184,14 @@ export default function Home() {
       if (orbitRef.current) orbitRef.current.style.transform = `rotate(${p * 70}deg) scale(${1 + p * 0.12})`;
       if (tickerRef.current) {
         // Ticker slides with the scroll and leans with scroll speed
-        const skew = Math.max(-10, Math.min(10, lenis.velocity * -0.35));
+        const skew = Math.max(-10, Math.min(10, velocity * -0.35));
         tickerRef.current.style.transform = `translate3d(${-y * 0.3}px, 0, 0) skewX(${skew}deg)`;
       }
     };
     const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -380,248 +199,11 @@ export default function Home() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      lenis.destroy();
     };
   }, []);
-
-  // Reveal elements with the .reveal class as they scroll into view
-  useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
-    const root = document.documentElement;
-    // Anything already on screen (or scrolled past) shows immediately, without animating
-    document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
-      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-visible");
-    });
-    root.classList.add("reveal-ready");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const el = entry.target as HTMLElement;
-          el.classList.add("is-visible");
-          // Drop the stagger delay afterwards so hover effects respond instantly
-          el.addEventListener("transitionend", () => el.style.setProperty("--d", "0ms"), { once: true });
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
-    );
-    document.querySelectorAll(".reveal:not(.is-visible)").forEach((el) => observer.observe(el));
-    return () => {
-      observer.disconnect();
-      root.classList.remove("reveal-ready");
-    };
-  }, []);
-
-  // Pointer position for [data-pointer] elements: drives .spotlight glows, .tilt cards and the hero light
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let last: HTMLElement | null = null;
-    const onMove = (e: PointerEvent) => {
-      const el = e.target instanceof Element ? e.target.closest<HTMLElement>("[data-pointer]") : null;
-      if (last && last !== el) {
-        last.style.setProperty("--rx", "0deg");
-        last.style.setProperty("--ry", "0deg");
-      }
-      last = el;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const x = e.clientX - r.left;
-      const y = e.clientY - r.top;
-      // The hero sets its vars on the light itself, so the rest of the hero isn't restyled
-      const target = el.querySelector<HTMLElement>(":scope > .hero-spot") ?? el;
-      target.style.setProperty("--mx", `${x}px`);
-      target.style.setProperty("--my", `${y}px`);
-      if (el.classList.contains("tilt")) {
-        el.style.setProperty("--ry", `${(x / r.width - 0.5) * 12}deg`);
-        el.style.setProperty("--rx", `${(0.5 - y / r.height) * 12}deg`);
-      }
-    };
-    document.addEventListener("pointermove", onMove, { passive: true });
-    return () => document.removeEventListener("pointermove", onMove);
-  }, []);
-
-  const solid = scrolled || menuOpen;
-  const tel = `tel:${PHONE.replace(/\s/g, "")}`;
 
   return (
     <>
-      <div ref={progressRef} style={{ transform: "scaleX(0)" }} className="fixed inset-x-0 top-0 z-[60] h-1 origin-left bg-gradient-to-r from-brand-500 via-violet-500 to-accent-yellow" />
-
-      {/* Header */}
-      {/* Full-width and transparent at the top; on scroll it shrinks into a centred glass pill */}
-      <header className={`header-in fixed inset-x-0 top-0 z-50 transition-[padding] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${solid ? "px-4 pt-3" : "px-0 pt-0"}`}>
-        <nav className={`relative mx-auto flex items-center justify-between border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${solid ? "max-w-[1240px] rounded-[32px] 2xl:max-w-[1400px] border-white/50 bg-white/40 px-4 py-2.5 text-foreground shadow-[0_8px_32px_-8px_rgb(13_19_48/0.18),inset_0_1px_0_rgb(255_255_255/0.6)] backdrop-blur-2xl backdrop-saturate-[1.8] [--nav-accent:var(--color-brand-600)] lg:px-6" : "max-w-full rounded-none border-transparent border-b-white/10 bg-transparent px-5 py-4 text-white lg:px-10"}`}>
-          <a href="#top" aria-label="Techcadd home" className="group flex shrink-0 items-center">
-            <Image
-              src="/images/logo/tce.png"
-              alt="Techcadd"
-              width={952}
-              height={262}
-              preload
-              className={`w-auto transition-[filter,height,scale] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 ${solid ? "h-9 lg:h-10" : "h-10 brightness-0 invert lg:h-12"}`}
-            />
-          </a>
-          <div className="hidden items-center gap-5 self-stretch text-[13px] font-medium xl:flex">
-            {navLinks.slice(0, 2).map(([label, href]) =>
-              megaMenus[label] ? (
-                <MegaMenu key={label} label={label} href={href} menu={megaMenus[label]} />
-              ) : (
-                <a key={label} href={href} className="nav-link">{label}</a>
-              ),
-            )}
-            <a href="#categories" className="shine-sweep rounded-full bg-accent-yellow px-3.5 py-1 font-semibold text-ink">New Batches</a>
-            {navLinks.slice(2).map(([label, href]) =>
-              label === "Courses" ? (
-                // Not positioned, so the panel spans the whole nav (same as MegaMenu)
-                <div key={label} className="group">
-                  <a href={href} aria-haspopup="true" className="nav-link inline-flex items-center gap-1">
-                    {label}
-                    <svg viewBox="0 0 12 12" className="size-3 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </a>
-                  <div className="invisible absolute inset-x-0 top-full -translate-y-2 px-3 pt-2 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                    <div className="mx-auto max-w-[1240px] overflow-hidden rounded-3xl border border-line/80 bg-white/90 font-sans font-normal text-foreground shadow-[0_24px_70px_-24px_rgba(15,23,42,0.35)] backdrop-blur-3xl">
-                      <div className="grid grid-cols-4 gap-8 p-8">
-                        {courseGroups.map((g, gi) => (
-                          <div key={g.title}>
-                            <div className="mb-4 border-b border-foreground/10 pb-3">
-                              <span className="font-mono text-xs text-muted">0{gi + 1}</span>
-                              <h3 className="mt-1 text-lg tracking-tight">{g.title}</h3>
-                              <p className="mt-0.5 text-xs leading-relaxed text-muted">{g.blurb}</p>
-                            </div>
-                            <ul className="space-y-1.5">
-                              {g.items.map((item) => (
-                                <li key={item.label}>
-                                  <a href="#categories" className="group/link flex items-start gap-2 text-sm text-foreground/70 transition-colors duration-200 hover:text-brand-600">
-                                    <span className="mt-2.5 h-px w-0 shrink-0 bg-brand-600 transition-all duration-300 group-hover/link:w-3" />
-                                    <span className="leading-snug">{item.label}</span>
-                                    {item.badge && <span className="mt-0.5 shrink-0 rounded-full bg-brand-600/10 px-2 py-0.5 text-[10px] font-semibold text-brand-600">{item.badge}</span>}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-foreground/10 bg-subtle px-8 py-4">
-                        <figure className="flex min-w-0 items-center gap-3">
-                          <span aria-hidden="true" className="text-3xl leading-none font-bold text-brand-600/25">&ldquo;</span>
-                          <blockquote className="text-sm leading-snug text-muted italic">
-                            Everybody should learn to program a computer, because it teaches you how to think.
-                            <cite className="ml-1.5 font-medium text-foreground not-italic">— Steve Jobs</cite>
-                          </blockquote>
-                        </figure>
-                        <a href={href} className="group/all inline-flex items-center gap-2 text-sm font-medium text-brand-600">
-                          Browse all courses<span className="transition-transform duration-300 group-hover/all:translate-x-1">→</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : megaMenus[label] ? (
-                <MegaMenu key={label} label={label} href={href} menu={megaMenus[label]} />
-              ) : label === "Certificate Programs" ? (
-                // Not positioned, so the panel spans the whole nav (same as MegaMenu)
-                <div key={label} className="group">
-                  <a href={href} aria-haspopup="true" className="nav-link inline-flex items-center gap-1 whitespace-nowrap">
-                    {label}
-                    <svg viewBox="0 0 12 12" className="size-3 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </a>
-                  <div className="invisible absolute inset-x-0 top-full -translate-y-2 px-3 pt-2 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                    <div className="mx-auto max-w-[1240px] overflow-hidden rounded-3xl border border-line/80 bg-white/90 font-sans text-foreground shadow-[0_24px_70px_-24px_rgba(15,23,42,0.35)] backdrop-blur-3xl">
-                      <div className="grid grid-cols-3 gap-3 p-8">
-                        {certificatePrograms.map((p) => (
-                          <a key={p.label} href={href} className="group/card flex items-center gap-3 rounded-2xl border border-line/70 bg-white/60 px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-600/40 hover:bg-white hover:shadow-[0_10px_28px_-14px_rgba(15,23,42,0.35)]">
-                            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-600 transition-colors duration-200 group-hover/card:bg-brand-600 group-hover/card:text-white">
-                              <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={programIcons[p.icon]} /></svg>
-                            </span>
-                            <span className="min-w-0 flex-1 text-sm leading-snug font-medium text-foreground/80 transition-colors duration-200 group-hover/card:text-brand-600">{p.label}</span>
-                            {p.badge && <span className="shrink-0 rounded-full bg-brand-600/10 px-2 py-0.5 text-[10px] font-semibold text-brand-600">{p.badge}</span>}
-                          </a>
-                        ))}
-                      </div>
-                      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-foreground/10 bg-subtle px-8 py-4">
-                        <figure className="flex min-w-0 items-center gap-3">
-                          <span aria-hidden="true" className="text-3xl leading-none font-bold text-brand-600/25">&ldquo;</span>
-                          <blockquote className="text-sm leading-snug text-muted italic">
-                            Everybody should learn to program a computer, because it teaches you how to think.
-                            <cite className="ml-1.5 font-medium text-foreground not-italic">— Steve Jobs</cite>
-                          </blockquote>
-                        </figure>
-                        <a href="#courses" className="group/all inline-flex items-center gap-2 text-sm font-medium text-brand-600">
-                          See all courses<span className="transition-transform duration-300 group-hover/all:translate-x-1">→</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : label === "Branches" ? (
-                <div key={label} className="group relative flex items-center self-stretch">
-                  <a href={href} aria-haspopup="true" className="nav-link inline-flex items-center gap-1">
-                    {label}
-                    <svg viewBox="0 0 12 12" className="size-3 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </a>
-                  <div className="invisible absolute top-full left-1/2 w-56 -translate-x-1/2 -translate-y-2 pt-2 opacity-0 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                    <ul className="overflow-hidden rounded-2xl border border-line/80 bg-white/90 p-2 font-sans text-foreground shadow-[0_24px_70px_-24px_rgba(15,23,42,0.35)] backdrop-blur-3xl">
-                      {branches.map((b) => (
-                        <li key={b.city}>
-                          <a href={b.href} {...(b.external ? { target: "_blank", rel: "noreferrer" } : {})} className="group/link flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-foreground/70 transition-colors duration-200 hover:bg-subtle hover:text-brand-600">
-                            <span className="h-px w-0 shrink-0 bg-brand-600 transition-all duration-300 group-hover/link:w-3" />
-                            <span className="leading-snug">{b.city}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ) : (
-                // Reviews (also under Resources) and Why Us only fit in the bar on 2xl screens
-                <a key={label} href={href} className={`nav-link ${label === "Reviews" || label === "Why Us" ? "hidden 2xl:inline" : ""}`}>{label}</a>
-              ),
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <a href="#contact" className={`hidden h-9 items-center rounded-full px-5 text-sm font-semibold transition-all duration-500 hover:bg-accent-yellow hover:text-ink hover:shadow-lg hover:shadow-accent-yellow/30 sm:inline-flex ${solid ? "bg-brand-600 text-white" : "bg-white text-ink"}`}>Book Free Demo</a>
-            <button onClick={() => setMenuOpen(!menuOpen)} className="grid size-9 place-items-center rounded-full border border-current/20 transition-colors hover:bg-current/10 xl:hidden" aria-label="Toggle menu">
-              <span className={`text-lg leading-none transition-transform duration-300 ${menuOpen ? "rotate-90" : ""}`}>{menuOpen ? "×" : "☰"}</span>
-            </button>
-          </div>
-        </nav>
-        {menuOpen && (
-          <div className="menu-in mx-auto mt-2 max-w-6xl rounded-3xl border border-line bg-white p-5 shadow-2xl shadow-black/20 xl:hidden">
-            {navLinks.map(([label, href], i) =>
-              label === "Courses" ? (
-                <div key={label} style={delay(i, 40)} className="pop-in border-b border-line">
-                  <button onClick={() => setMobileCoursesOpen(!mobileCoursesOpen)} aria-expanded={mobileCoursesOpen} className="flex w-full items-center justify-between py-3 font-display text-lg font-semibold tracking-tight">
-                    {label}<span className={`text-sm text-muted transition-transform duration-300 ${mobileCoursesOpen ? "rotate-90" : ""}`}>→</span>
-                  </button>
-                  <div className={`grid transition-[grid-template-rows] duration-300 ease-out ${mobileCoursesOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
-                    <div className="overflow-hidden">
-                      <div className="grid grid-cols-2 gap-1 pb-3">
-                        {categories.map(([title, , , icon]) => (
-                          <a key={title} href="#categories" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-2 py-2 text-sm transition-colors hover:bg-brand-50">
-                            <span className="text-base">{icon}</span>{title}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <a key={label} href={href} onClick={() => setMenuOpen(false)} style={delay(i, 40)} className="pop-in flex items-center justify-between border-b border-line py-3 font-display text-lg font-semibold tracking-tight last:border-0">
-                  {label}<span className="text-sm text-muted">→</span>
-                </a>
-              ),
-            )}
-            <div className="mt-4 flex gap-3">
-              <a href={tel} className="flex h-12 flex-1 items-center justify-center rounded-full border border-foreground/20 font-medium">Call us</a>
-              <a href="#contact" onClick={() => setMenuOpen(false)} className="flex h-12 flex-1 items-center justify-center rounded-full bg-panel font-medium text-white">Book Demo</a>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main>
         {/* Hero */}
         <section id="top" data-pointer className="hero-surface relative flex min-h-screen flex-col justify-center overflow-hidden pt-32 pb-32 text-white">
           <div ref={heroBgRef} className="pointer-events-none absolute inset-0 will-change-transform">
@@ -724,8 +306,8 @@ export default function Home() {
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-6">
                 <ArrowButton href="#courses">Find your course</ArrowButton>
-                <a href={tel} className="text-sm font-medium transition-colors hover:text-brand-600">
-                  Talk to a counsellor<span className="mt-0.5 block font-mono text-xs text-muted">{PHONE}</span>
+                <a href={TEL_HREF} className="text-sm font-medium transition-colors hover:text-brand-600">
+                  Talk to a counsellor<span className="mt-0.5 block font-mono text-xs text-muted">{SITE.phone}</span>
                 </a>
               </div>
             </div>
@@ -775,16 +357,16 @@ export default function Home() {
               <ArrowButton href="#contact" variant="white">Enquire now</ArrowButton>
             </div>
             <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {categories.map(([title, text, gradient, icon], i) => (
+              {categories.map(([title, text, gradient, icon, slug], i) => (
                 <div key={title} style={delay(i % 3, 120)} className="reveal reveal-zoom">
-                  <a href="#contact" data-pointer className={`tilt spotlight spotlight-light group flex h-full min-h-56 flex-col justify-end overflow-hidden rounded-[1.75rem] bg-gradient-to-br p-6 ring-1 ring-white/10 ${gradient}`}>
+                  <Link href={`/courses/${slug}`} data-pointer className={`tilt spotlight spotlight-light group flex h-full min-h-56 flex-col justify-end overflow-hidden rounded-[1.75rem] bg-gradient-to-br p-6 ring-1 ring-white/10 ${gradient}`}>
                     <div className="grid-overlay pointer-events-none absolute inset-0 opacity-50" />
                     <div className="pointer-events-none absolute -top-16 -right-16 size-48 rounded-full bg-white/15 blur-2xl transition-transform duration-700 group-hover:scale-150" />
                     <span className="absolute top-5 right-5 grid size-14 place-items-center rounded-2xl border border-white/25 bg-white/15 text-3xl shadow-lg backdrop-blur transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:scale-115 group-hover:-rotate-12">{icon}</span>
                     <h3 className="relative font-display text-xl font-bold tracking-tight">{title}</h3>
                     <p className="relative mt-1.5 text-sm leading-relaxed text-white/80">{text}</p>
-                    <span className="relative mt-4 inline-flex items-center gap-2 text-sm font-semibold">Enquire <span className="grid size-7 place-items-center rounded-full bg-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-white group-hover:text-ink">→</span></span>
-                  </a>
+                    <span className="relative mt-4 inline-flex items-center gap-2 text-sm font-semibold">View course <span className="grid size-7 place-items-center rounded-full bg-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-white group-hover:text-ink">→</span></span>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -877,7 +459,7 @@ export default function Home() {
                 Students and parents in Jalandhar choose us for patient teaching, a well-equipped computer lab and courses that lead to real jobs.
               </p>
               <div className="mt-8 flex flex-wrap gap-6">
-                <a href={tel} className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Call Now <span className="transition-transform group-hover:translate-x-1">→</span></a>
+                <a href={TEL_HREF} className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Call Now <span className="transition-transform group-hover:translate-x-1">→</span></a>
                 <a href="#contact" className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Book a Free Demo <span className="transition-transform group-hover:translate-x-1">→</span></a>
               </div>
             </div>
@@ -1041,107 +623,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer id="contact" className="relative overflow-hidden border-t border-line bg-subtle">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="reveal reveal-zoom relative isolate mt-12 flex flex-col items-start justify-between gap-6 overflow-hidden rounded-[2rem] bg-panel p-8 text-white shadow-2xl shadow-brand-900/20 lg:flex-row lg:items-center lg:p-10">
-            <div className="panel-glow pointer-events-none absolute inset-0 -z-10" />
-            <div className="grid-overlay pointer-events-none absolute inset-0 -z-10 opacity-60" />
-            <div>
-              <h3 className="font-display text-2xl font-bold tracking-tight lg:text-3xl">Ready to start learning?</h3>
-              <p className="mt-1.5 text-sm text-white/65">Book a free demo class and see our computer lab before you decide.</p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <a href={`mailto:${EMAIL}?subject=Free%20demo%20class`} className="inline-flex h-11 items-center gap-2 rounded-full bg-accent-yellow px-6 text-sm font-semibold text-ink shadow-lg shadow-accent-yellow/20 transition-all hover:-translate-y-0.5 hover:bg-white">Book Free Demo →</a>
-              <a href={tel} className="inline-flex h-11 items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-medium transition-colors hover:border-white/50 hover:bg-white/10">📞 {PHONE}</a>
-            </div>
-          </div>
-          <div className="relative z-10 grid gap-12 pt-16 pb-14 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] lg:gap-8">
-            <div className="sm:col-span-2 lg:col-span-1">
-              <a href="#top" className="group flex items-center gap-2 font-display text-xl font-bold tracking-tight">
-                <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-accent-500 text-sm font-extrabold text-white transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">GIT</span>
-                GIT <span className="-ml-1 text-brand-600">Education</span>
-              </a>
-              <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed text-muted">Computer Training Institute</p>
-              <ul className="mt-7 space-y-3.5 text-sm text-muted">
-                <li className="flex gap-3">
-                  <svg viewBox="0 0 24 24" className="mt-0.5 size-[18px] shrink-0 fill-brand-600" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" /></svg>
-                  Jalandhar, Punjab, India
-                </li>
-                <li>
-                  <a href={tel} className="flex gap-3 transition-colors hover:text-brand-600">
-                    <svg viewBox="0 0 24 24" className="size-[18px] shrink-0 fill-brand-600" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z" /></svg>
-                    {PHONE}
-                  </a>
-                </li>
-                <li>
-                  <a href={`mailto:${EMAIL}`} className="flex gap-3 transition-colors hover:text-brand-600">
-                    <svg viewBox="0 0 24 24" className="size-[18px] shrink-0 fill-brand-600" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg>
-                    {EMAIL}
-                  </a>
-                </li>
-                <li className="flex gap-3">
-                  <svg viewBox="0 0 24 24" className="size-[18px] shrink-0 fill-none stroke-brand-600" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" /></svg>
-                  Mon – Sat, 8 AM – 7 PM
-                </li>
-              </ul>
-              <div className="mt-8 flex gap-3">
-                {[
-                  ["Instagram", <svg key="i" viewBox="0 0 24 24" className="size-5 fill-none stroke-current" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" className="fill-current stroke-none" /></svg>],
-                  ["YouTube", <svg key="y" viewBox="0 0 24 24" className="size-5 fill-current"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3-5.8 3z" /></svg>],
-                  ["LinkedIn", <svg key="l" viewBox="0 0 24 24" className="size-5 fill-current"><path d="M20.4 2H3.6C2.7 2 2 2.7 2 3.6v16.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6V3.6c0-.9-.7-1.6-1.6-1.6zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.8 13 12.8 14.3V19h-3V9.5h2.8v1.3h.1c.4-.7 1.4-1.5 2.8-1.5 3 0 3.5 2 3.5 4.5V19z" /></svg>],
-                ].map(([label, icon]) => (
-                  <a key={label as string} href="#top" aria-label={label as string} className="grid size-12 place-items-center rounded-full bg-line/70 text-foreground transition-all duration-300 hover:-translate-y-1 hover:bg-brand-600 hover:text-white hover:shadow-lg hover:shadow-brand-600/25">{icon}</a>
-                ))}
-              </div>
-            </div>
-            {footerCols.map(([heading, links]) => (
-              <div key={heading}>
-                <p className="sr-only">{heading}</p>
-                <ul className="space-y-4">
-                  {links.map((l) => <li key={l}><a href="#courses" className="inline-block text-[1.05rem] text-muted transition-all duration-200 hover:translate-x-1 hover:text-brand-600">{l}</a></li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Giant background wordmark */}
-        <svg aria-hidden="true" viewBox="0 0 1000 190" className="wordmark-rise pointer-events-none absolute inset-x-0 bottom-0 h-auto w-full select-none">
-          <defs>
-            <linearGradient id="footer-wordmark" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--color-ink)" stopOpacity="0.14" />
-              <stop offset="100%" stopColor="var(--color-brand-600)" stopOpacity="0.03" />
-            </linearGradient>
-          </defs>
-          <text x="16" y="176" textLength="918" lengthAdjust="spacingAndGlyphs" fill="url(#footer-wordmark)" style={{ fontFamily: "var(--font-inter), ui-sans-serif, sans-serif", fontSize: 200, fontWeight: 700 }}>techcadd</text>
-          <text x="926" y="176" fill="url(#footer-wordmark)" style={{ fontFamily: "var(--font-inter), ui-sans-serif, sans-serif", fontSize: 200, fontWeight: 700 }}>.</text>
-        </svg>
-
-        <div className="relative z-10 mx-auto max-w-6xl px-5">
-          <nav className="flex flex-wrap gap-x-9 gap-y-2 border-t border-foreground/10 py-6 text-sm text-muted">
-            {["Privacy Policy", "Terms & Conditions", "Refund Policy"].map((l) => <a key={l} href="#top" className="transition-colors hover:text-brand-600">{l}</a>)}
-          </nav>
-          <div className="flex flex-col gap-3 border-t border-foreground/10 py-7 text-sm text-muted lg:flex-row lg:items-center lg:justify-between">
-            <p>© {new Date().getFullYear()} GIT Education. All rights reserved. Built in <span className="font-medium text-foreground">Jalandhar, Punjab</span>.</p>
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="inline-flex items-center gap-2"><span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60" /><span className="relative inline-flex size-2 rounded-full bg-emerald-500" /></span>Admissions Open</span>
-              <span className="h-4 w-px bg-foreground/15" />
-              <span>4.9★ on Google (500+ reviews)</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Back to top */}
-      <a href="#top" aria-label="Back to top" className={`fixed right-6 bottom-24 z-40 grid size-11 place-items-center rounded-full border border-white/10 bg-panel text-white shadow-xl shadow-black/25 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 hover:bg-brand-600 ${showTop ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-4 scale-75 opacity-0"}`}>↑</a>
-
-      {/* WhatsApp */}
-      <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="animate-pulse-ring fixed right-5 bottom-5 z-40 grid size-14 place-items-center rounded-full bg-[#25d366] text-white shadow-xl shadow-black/20 transition-transform hover:scale-110 hover:-rotate-12">
-        <svg viewBox="0 0 24 24" className="size-7 fill-current" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.5.3-.5v-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.4 13.4 0 0 0 5.2 4.6c1.9.8 2.7.9 3.6.7a3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.2-.3-.2-.6-.4zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm0-21.6A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6A11.8 11.8 0 1 0 12 .2z" /></svg>
-      </a>
     </>
   );
 }
