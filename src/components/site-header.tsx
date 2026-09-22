@@ -6,13 +6,16 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
+import { openEnquiry } from "@/components/enquiry-modal";
 import { Icon } from "@/components/icon";
 import {
   MAIL_HREF,
   SITE,
   TEL_HREF,
   branches,
+  certificatePrograms,
   courseGroups,
+  courseHref,
   megaMenus,
   navLinks,
   type MegaMenuData,
@@ -61,7 +64,7 @@ function NavDropdown({
   label: string;
   wide?: boolean;
   openId: string | null;
-  setOpenId: (id: string | null) => void;
+  setOpenId: React.Dispatch<React.SetStateAction<string | null>>;
   children: React.ReactNode;
 }) {
   const id = useId();
@@ -111,18 +114,20 @@ function NavDropdown({
 
   const hoverClose = () => {
     if (!finePointer) return;
-    closeTimer.current = setTimeout(() => setOpenId(null), 120);
+    // Only close if this menu is still the open one; if the pointer has moved on to
+    // another dropdown in the meantime, leave that one open.
+    closeTimer.current = setTimeout(() => setOpenId((current) => (current === id ? null : current)), 120);
   };
 
   return (
     <div
       ref={wrapperRef}
-      className="group flex items-center self-stretch"
+      // Narrow panels anchor under their own trigger; wide ones span the whole nav
+      className={`group flex items-center self-stretch ${wide ? "" : "relative"}`}
       onPointerEnter={hoverOpen}
       onPointerLeave={hoverClose}
-      onFocus={() => setOpenId(id)}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node)) setOpenId(null);
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) setOpenId((current) => (current === id ? null : current));
       }}
     >
       <button
@@ -131,7 +136,9 @@ function NavDropdown({
         id={`${id}-trigger`}
         aria-expanded={open}
         aria-controls={`${id}-panel`}
-        onClick={() => setOpenId(open ? null : id)}
+        // Mouse users already opened it by hovering, so a click keeps it open rather
+        // than toggling it shut; touch users get a plain toggle.
+        onClick={() => setOpenId(open && !finePointer ? null : id)}
         className="nav-link inline-flex cursor-pointer items-center gap-1 whitespace-nowrap"
       >
         {label}
@@ -156,7 +163,7 @@ function NavDropdown({
                 : "absolute top-full left-1/2 w-60 -translate-x-1/2 pt-2"
             }
           >
-            <div className="mx-auto max-w-[1240px] overflow-hidden rounded-3xl border border-line/80 bg-white/95 font-sans text-foreground shadow-overlay backdrop-blur-3xl">
+            <div className="mx-auto max-w-[1240px] overflow-hidden rounded-3xl border border-line/80 bg-white font-sans text-foreground shadow-overlay">
               {children}
             </div>
           </motion.div>
@@ -218,18 +225,18 @@ function MegaMenuPanel({ menu, label }: { menu: MegaMenuData; label: string }) {
 function CoursesPanel() {
   return (
     <>
-      <div className="grid gap-6 p-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:p-8">
+      <div className="grid gap-6 p-6 font-normal sm:grid-cols-2 lg:grid-cols-5 lg:gap-7 lg:p-8">
         {courseGroups.map((group, index) => (
           <div key={group.title}>
             <div className="mb-4 border-b border-foreground/10 pb-3">
-              <span className="font-mono text-xs text-muted">0{index + 1}</span>
+              <span className="font-mono text-xs text-muted">{String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-1 text-lg tracking-tight">{group.title}</h3>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">{group.blurb}</p>
             </div>
             <ul className="space-y-1.5">
               {group.items.map((item) => (
-                <li key={item.slug}>
-                  <Link href={`/courses/${item.slug}`} className="group/link flex items-start gap-2 text-sm text-foreground/75 transition-colors duration-200 hover:text-action">
+                <li key={item.label}>
+                  <Link href={courseHref(item)} className="group/link flex items-start gap-2 text-sm text-foreground/75 transition-colors duration-200 hover:text-action">
                     <span aria-hidden="true" className="mt-2.5 h-px w-0 shrink-0 bg-action transition-all duration-300 group-hover/link:w-3" />
                     <span className="leading-snug">{item.label}</span>
                     {item.badge && <span className="mt-0.5 shrink-0 rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold text-action">{item.badge}</span>}
@@ -246,6 +253,41 @@ function CoursesPanel() {
         </p>
         <Link href="/courses" className="group/all inline-flex items-center gap-2 text-sm font-semibold text-action">
           Browse all courses
+          <span aria-hidden="true" className="transition-transform duration-300 group-hover/all:translate-x-1">→</span>
+        </Link>
+      </div>
+    </>
+  );
+}
+
+function CertificateProgramsPanel() {
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-3 p-8">
+        {certificatePrograms.map((program) => (
+          <Link
+            key={program.label}
+            href={`/courses/${program.slug}`}
+            className="group/card flex items-center gap-3 rounded-2xl border border-line/70 bg-white/60 px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-action/40 hover:bg-white hover:shadow-[0_10px_28px_-14px_rgba(15,23,42,0.35)]"
+          >
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-action/10 text-action transition-colors duration-200 group-hover/card:bg-action group-hover/card:text-white">
+              <Icon name={program.icon} className="size-5" />
+            </span>
+            <span className="min-w-0 flex-1 text-sm leading-snug font-medium text-foreground/80 transition-colors duration-200 group-hover/card:text-action">{program.label}</span>
+            {program.badge && <span className="shrink-0 rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold text-action">{program.badge}</span>}
+          </Link>
+        ))}
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-foreground/10 bg-subtle px-8 py-4">
+        <figure className="flex min-w-0 items-center gap-3">
+          <span aria-hidden="true" className="text-3xl leading-none font-bold text-action/25">&ldquo;</span>
+          <blockquote className="text-sm leading-snug text-muted italic">
+            Everybody should learn to program a computer, because it teaches you how to think.
+            <cite className="ml-1.5 font-medium text-foreground not-italic">— Steve Jobs</cite>
+          </blockquote>
+        </figure>
+        <Link href="/courses" className="group/all inline-flex items-center gap-2 text-sm font-medium text-action">
+          See all courses
           <span aria-hidden="true" className="transition-transform duration-300 group-hover/all:translate-x-1">→</span>
         </Link>
       </div>
@@ -364,7 +406,7 @@ export function SiteHeader() {
         aria-label="Primary"
         className={`relative mx-auto flex items-center justify-between border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           solid
-            ? "max-w-[1240px] rounded-[28px] border-white/50 bg-white/70 px-3 py-2.5 text-foreground shadow-[0_8px_32px_-8px_rgb(13_19_48/0.18),inset_0_1px_0_rgb(255_255_255/0.6)] backdrop-blur-2xl backdrop-saturate-[1.8] [--nav-accent:var(--color-action)] sm:px-4 lg:px-6 2xl:max-w-[1400px]"
+            ? "max-w-[1240px] rounded-[28px] border-line/80 bg-white/95 px-3 py-2.5 text-foreground shadow-[0_8px_32px_-8px_rgb(13_19_48/0.18)] backdrop-blur-xl [--nav-accent:var(--color-action)] sm:px-4 lg:px-6 2xl:max-w-[1400px]"
             : "max-w-full rounded-none border-transparent border-b-white/10 bg-transparent px-5 py-3.5 text-white lg:px-10"
         }`}
       >
@@ -398,6 +440,10 @@ export function SiteHeader() {
             <CoursesPanel />
           </NavDropdown>
 
+          <NavDropdown label="Certificate Programs" openId={openId} setOpenId={setOpenId}>
+            <CertificateProgramsPanel />
+          </NavDropdown>
+
           <Link href="/#difference" className="nav-link hidden 2xl:inline">
             Why Us
           </Link>
@@ -428,14 +474,15 @@ export function SiteHeader() {
             <Icon name="phone" className="size-4" />
             Call
           </a>
-          <Link
-            href="/#contact"
-            className={`hidden h-9 items-center rounded-full px-5 text-sm font-semibold transition-all duration-300 hover:bg-accent-yellow hover:text-ink sm:inline-flex ${
+          <button
+            type="button"
+            onClick={openEnquiry}
+            className={`hidden h-9 cursor-pointer items-center rounded-full px-5 text-sm font-semibold transition-all duration-300 hover:bg-accent-yellow hover:text-ink sm:inline-flex ${
               solid ? "bg-action text-white" : "bg-white text-ink"
             }`}
           >
             Book Free Demo
-          </Link>
+          </button>
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
@@ -458,6 +505,13 @@ export function SiteHeader() {
             id="mobile-menu"
             ref={drawerRef}
             tabIndex={-1}
+            // Close on any link tap. Route changes already close it, but in-page links
+            // (/#about, /#contact…) don't change the path and would leave it open.
+            onClick={(event) => {
+              if ((event.target as Element).closest("a")) setMenuOpen(false);
+            }}
+            // Let the mouse wheel scroll the drawer instead of Lenis scrolling the page
+            data-lenis-prevent
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
@@ -466,7 +520,6 @@ export function SiteHeader() {
           >
             <ul className="divide-y divide-line">
               {navLinks
-                .filter(([label]) => label !== "Certificate Programs")
                 .map(([label, href]) =>
                   label === "Courses" ? (
                     <li key={label}>
@@ -484,24 +537,32 @@ export function SiteHeader() {
                       </button>
                       <div id="mobile-courses" className={`grid transition-[grid-template-rows] duration-300 ease-out ${mobileSection === "courses" ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                         <div className="overflow-hidden">
-                          <ul className="pb-3">
-                            {courseGroups.flatMap((group) => group.items).map((item) => (
-                              <li key={item.slug}>
-                                <Link
-                                  href={`/courses/${item.slug}`}
-                                  className="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-[15px] transition-colors hover:bg-surface-accent hover:text-action"
-                                >
-                                  {item.label}
-                                  {item.badge && <span className="rounded-full bg-action/10 px-2 py-0.5 text-[10px] font-semibold text-action">{item.badge}</span>}
-                                </Link>
-                              </li>
+                          <div className="space-y-4 pb-4">
+                            {courseGroups.map((group, index) => (
+                              <div key={group.title}>
+                                <p className="flex items-baseline gap-2 border-b border-foreground/10 pb-1.5 text-sm font-semibold tracking-tight">
+                                  <span className="font-mono text-[11px] font-normal text-muted">{String(index + 1).padStart(2, "0")}</span>
+                                  {group.title}
+                                </p>
+                                <ul className="mt-1.5 grid grid-cols-2 gap-x-3">
+                                  {group.items.map((item) => (
+                                    <li key={item.label}>
+                                      <Link
+                                        href={courseHref(item)}
+                                        className="flex items-center gap-1.5 rounded-lg px-1 py-1.5 text-sm text-foreground/75 transition-colors hover:text-action"
+                                      >
+                                        <span className="leading-snug">{item.label}</span>
+                                        {item.badge && <span className="shrink-0 rounded-full bg-action/10 px-1.5 py-0.5 text-[9px] font-semibold text-action">{item.badge}</span>}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             ))}
-                            <li>
-                              <Link href="/courses" className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-[15px] font-semibold text-action">
-                                View all courses →
-                              </Link>
-                            </li>
-                          </ul>
+                            <Link href="/courses" className="flex items-center gap-2 px-1 text-[15px] font-semibold text-action">
+                              View all courses →
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -520,9 +581,16 @@ export function SiteHeader() {
                 <Icon name="phone" className="size-4" />
                 Call us
               </a>
-              <Link href="/#contact" className="flex h-12 items-center justify-center rounded-full bg-panel font-semibold text-white">
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  openEnquiry();
+                }}
+                className="flex h-12 cursor-pointer items-center justify-center rounded-full bg-panel font-semibold text-white"
+              >
                 Book free demo
-              </Link>
+              </button>
             </div>
           </motion.div>
         )}

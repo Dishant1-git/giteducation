@@ -336,6 +336,21 @@ html:not(.reveal-ready) .scribble path {
 
 .animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
 
+/* Waving hand: a few quick waves from the wrist, then a pause */
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(16deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(16deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.animate-wave {
+  animation: wave 2.2s ease-in-out infinite;
+  transform-origin: 70% 80%;
+}
+
 @keyframes shine {
   from { background-position: 200% center; }
   to { background-position: -200% center; }
@@ -530,6 +545,7 @@ html:not(.reveal-ready) .bar-grow { transform: scaleY(1); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .animate-wave { animation: none; }
   .hero-in, .word > span, .pop-in, .reveal, .bar-grow, .line-draw, .header-in, .menu-in {
     opacity: 1 !important;
     transform: none !important;

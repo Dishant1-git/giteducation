@@ -294,7 +294,8 @@ export default function Home() {
         </section>
 
         {/* About */}
-        <section id="about" className="py-24 lg:py-32">
+        {/* overflow-x-clip: the tilted frame behind the photo would otherwise widen the page on phones */}
+        <section id="about" className="overflow-x-clip py-24 lg:py-32">
           <div className="mx-auto grid max-w-6xl gap-16 px-5 lg:grid-cols-2 lg:items-center">
             <div className="reveal">
               <Pill>About Us</Pill>

@@ -41,47 +41,89 @@ export const navLinks: [label: string, href: string][] = [
   ["Contact", "/#contact"],
 ];
 
-/** Courses mega-menu columns. Items link to the slug-based course pages. */
-export const courseGroups: {
-  title: string;
-  blurb: string;
-  items: { label: string; slug: string; badge?: string }[];
-}[] = [
+export type CourseMenuItem = { label: string; slug?: string; badge?: string };
+
+/** Where a menu course links: its own page when one exists, otherwise the course listing. */
+export const courseHref = (item: CourseMenuItem) => (item.slug ? `/courses/${item.slug}` : "/courses");
+
+/** Courses mega-menu columns, one group per column. */
+export const courseGroups: { title: string; blurb: string; items: CourseMenuItem[] }[] = [
   {
-    title: "Office & Basics",
-    blurb: "Everyday computer and office skills",
+    title: "Basics & Accounting",
+    blurb: "Office, typing, GST and billing skills",
     items: [
       { label: "Basic Computer", slug: "basic-computer-course-in-jalandhar" },
       { label: "MS Office", slug: "ms-office-course-in-jalandhar" },
       { label: "Advance Excel", slug: "advance-excel-course-in-jalandhar" },
-    ],
-  },
-  {
-    title: "Accounts & Typing",
-    blurb: "Accounting, GST and typing for jobs and exams",
-    items: [
-      { label: "Tally Prime with GST", slug: "tally-prime-course-in-jalandhar" },
+      { label: "Google Workspace" },
+      { label: "CAT Pro" },
       { label: "Punjabi Typing", slug: "punjabi-typing-course-in-jalandhar" },
       { label: "English Typing", slug: "english-typing-course-in-jalandhar" },
+      { label: "Tally ERP-9" },
+      { label: "Tally Prime", slug: "tally-prime-course-in-jalandhar" },
+      { label: "QuickBooks" },
     ],
   },
   {
-    title: "Design & CAD",
-    blurb: "Drafting, graphics and print design",
+    title: "Digital Marketing",
+    blurb: "Promote a business online",
     items: [
-      { label: "CAD / CAM", slug: "cad-cam-course-in-jalandhar" },
-      { label: "Graphic Design", slug: "graphic-design-course-in-jalandhar" },
-      { label: "DTP & Printing", slug: "dtp-printing-course-in-jalandhar" },
-    ],
-  },
-  {
-    title: "Future Skills",
-    blurb: "AI and digital careers",
-    items: [
-      { label: "Artificial Intelligence", slug: "artificial-intelligence-course-in-jalandhar", badge: "New" },
       { label: "Digital Marketing", slug: "digital-marketing-course-in-jalandhar", badge: "New" },
+      { label: "SEO" },
+      { label: "SMO" },
+      { label: "Google Ads" },
+      { label: "Meta Ads" },
     ],
   },
+  {
+    title: "Graphic Design",
+    blurb: "Graphics and print design",
+    items: [
+      { label: "Graphic Design", slug: "graphic-design-course-in-jalandhar" },
+      { label: "Photoshop" },
+      { label: "Illustrator" },
+    ],
+  },
+  {
+    title: "CAD / CAM",
+    blurb: "Mechanical and civil design",
+    items: [
+      { label: "AutoCAD" },
+      { label: "SolidWorks" },
+      { label: "CNC Programming" },
+      { label: "WorkNC" },
+      { label: "SolidCAM" },
+      { label: "3ds Max" },
+      { label: "Revit" },
+      { label: "SketchUp" },
+      { label: "STAAD Pro" },
+      { label: "ETABS" },
+    ],
+  },
+  {
+    title: "Programming & AI",
+    blurb: "Python, AI and websites",
+    items: [
+      { label: "Core Python" },
+      { label: "Generative AI" },
+      { label: "Web Designing" },
+      { label: "Web Development with Python" },
+      { label: "WordPress" },
+    ],
+  },
+];
+
+/** Certificate Programs menu: icon cards (icon = key in `lineIcons`), each linking to its course page. */
+export const certificatePrograms: { label: string; icon: string; slug: string; badge?: string }[] = [
+  { label: "Basic Computer", icon: "monitor", slug: "basic-computer-course-in-jalandhar" },
+  { label: "MS Office", icon: "document", slug: "ms-office-course-in-jalandhar" },
+  { label: "Advance Excel", icon: "chart", slug: "advance-excel-course-in-jalandhar" },
+  { label: "Tally Prime / ERP", icon: "receipt", slug: "tally-prime-course-in-jalandhar" },
+  { label: "Punjabi Typing", icon: "keyboard", slug: "punjabi-typing-course-in-jalandhar" },
+  { label: "CAD / CAM", icon: "cube", slug: "cad-cam-course-in-jalandhar" },
+  { label: "Graphic Design", icon: "pen", slug: "graphic-design-course-in-jalandhar" },
+  { label: "English Typing", icon: "type", slug: "english-typing-course-in-jalandhar" },
+  { label: "DTP & Printing", icon: "printer", slug: "dtp-printing-course-in-jalandhar" },
 ];
 
 /** Branches. Some run their own site and open in a new tab. */
@@ -174,17 +216,17 @@ export const footerCols: [heading: string, links: [label: string, href: string][
   [
     "Courses",
     [
-      ["Artificial Intelligence", "/courses/artificial-intelligence-course-in-jalandhar"],
       ["Basic Computer", "/courses/basic-computer-course-in-jalandhar"],
       ["MS Office", "/courses/ms-office-course-in-jalandhar"],
       ["Advance Excel", "/courses/advance-excel-course-in-jalandhar"],
+      ["Tally Prime", "/courses/tally-prime-course-in-jalandhar"],
     ],
   ],
   [
     "More Courses",
     [
-      ["Tally Prime with GST", "/courses/tally-prime-course-in-jalandhar"],
       ["Punjabi Typing", "/courses/punjabi-typing-course-in-jalandhar"],
+      ["English Typing", "/courses/english-typing-course-in-jalandhar"],
       ["CAD / CAM", "/courses/cad-cam-course-in-jalandhar"],
       ["Graphic Design", "/courses/graphic-design-course-in-jalandhar"],
     ],
@@ -193,7 +235,7 @@ export const footerCols: [heading: string, links: [label: string, href: string][
     "Institute",
     [
       ["About Us", "/#about"],
-      ["All Courses", "/courses"],
+      ["Gallery", "/#contact"],
       ["Reviews", "/#reviews"],
       ["Contact Us", "/#contact"],
     ],

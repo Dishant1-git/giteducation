@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 
+import { EnquiryModal } from "@/components/enquiry-modal";
 import { SiteChrome } from "@/components/site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main-content">{children}</main>
         <SiteFooter />
         <SiteChrome />
+        <EnquiryModal />
       </body>
     </html>
   );
