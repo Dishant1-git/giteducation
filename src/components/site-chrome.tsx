@@ -48,29 +48,56 @@ export function SiteChrome() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Legacy reveal system for pages that use `.reveal` classes.
+  // Reveal-on-scroll for elements with the `.reveal` class.
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
     const root = document.documentElement;
+    const show = (el: HTMLElement) => {
+      el.classList.add("is-visible");
+      el.addEventListener("transitionend", () => el.style.setProperty("--d", "0ms"), { once: true });
+    };
     document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
-      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-visible");
+      if (el.getBoundingClientRect().top < window.innerHeight) show(el);
     });
     root.classList.add("reveal-ready");
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          const el = entry.target as HTMLElement;
-          el.classList.add("is-visible");
-          el.addEventListener("transitionend", () => el.style.setProperty("--d", "0ms"), { once: true });
-          observer.unobserve(el);
+          show(entry.target as HTMLElement);
+          observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+      // Any sliver counts: a high threshold leaves tall blocks hidden for too long.
+      { threshold: 0.01, rootMargin: "0px 0px -60px 0px" },
     );
     document.querySelectorAll(".reveal:not(.is-visible)").forEach((el) => observer.observe(el));
+
+    // Safety net: whatever the observer misses, reveal anything that has reached the
+    // viewport. Without this a single missed callback leaves a section blank for good.
+    let ticking = false;
+    const sweep = () => {
+      ticking = false;
+      const pending = document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)");
+      for (const el of pending) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          show(el);
+          observer.unobserve(el);
+        }
+      }
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(sweep);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
       observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       root.classList.remove("reveal-ready");
     };
   }, [pathname]);

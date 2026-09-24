@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import { Icon } from "@/components/icon";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 const steps = [
@@ -25,6 +27,16 @@ const categories = [
   ["English Typing", "Build speed and accuracy for clerk, steno and data-entry exams.", "from-accent-500 to-brand-700", "🔤", "english-typing-course-in-jalandhar"],
   ["DTP & Printing", "Page layout, visiting cards, flex banners and wedding cards.", "from-brand-700 to-violet-500", "🖨️", "dtp-printing-course-in-jalandhar"],
   ["Digital Marketing", "SEO, Google Ads, Meta Ads and analytics run on a real business.", "from-brand-700 to-violet-500", "📣", "digital-marketing-course-in-jalandhar"],
+];
+
+// Category panels. `pos` picks which part of the photo the narrow panel shows.
+const categoryPanels = [
+  { title: "Computer & MS Office", blurb: "Windows, internet, Word, Excel and email basics", image: "/images/categories/office.jpg", href: "/courses/basic-computer-course-in-jalandhar", pos: "object-[72%_50%]" },
+  { title: "Accounting & Tally", blurb: "Tally Prime, GST returns, billing and payroll entries", image: "/images/categories/accounts.jpg", href: "/courses/tally-prime-course-in-jalandhar", pos: "object-[38%_50%]" },
+  { title: "Web Development", blurb: "Web designing, WordPress and development with Python", image: "/images/categories/web.jpg", href: "/courses", pos: "object-center" },
+  { title: "CAD / CAM", blurb: "AutoCAD, SolidWorks and Revit drawings for engineers", image: "/images/categories/cad.jpg", href: "/courses/cad-cam-course-in-jalandhar", pos: "object-[28%_50%]" },
+  { title: "Graphic Design", blurb: "Photoshop, CorelDRAW and Illustrator for print work", image: "/images/categories/design.jpg", href: "/courses/graphic-design-course-in-jalandhar", pos: "object-[45%_60%]" },
+  { title: "Digital Marketing", blurb: "SEO, Google Ads and Meta Ads for businesses", image: "/images/categories/digital.jpg", href: "/courses/digital-marketing-course-in-jalandhar", pos: "object-[35%_50%]" },
 ];
 
 const differences = [
@@ -296,31 +308,114 @@ export default function Home() {
         {/* About */}
         {/* overflow-x-clip: the tilted frame behind the photo would otherwise widen the page on phones */}
         <section id="about" className="overflow-x-clip py-24 lg:py-32">
-          <div className="mx-auto grid max-w-6xl gap-16 px-5 lg:grid-cols-2 lg:items-center">
+          <div className="mx-auto grid max-w-6xl gap-16 px-5 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-20">
+            {/* Two overlapping photos with a dotted panel behind and a floating stat */}
+            <div style={delay(1)} className="reveal reveal-left relative pb-14 lg:pb-0">
+              <div className="dot-pattern pointer-events-none absolute -top-6 -left-6 hidden size-40 text-brand-300 sm:block" />
+              <div className="pointer-events-none absolute top-8 -right-2 hidden h-40 w-24 rounded-r-3xl border-y-2 border-r-2 border-brand-200 lg:block" />
+              <div className="relative grid grid-cols-2 gap-4 sm:gap-5">
+                <div className="group relative mt-10 self-start overflow-hidden rounded-[1.5rem] shadow-xl shadow-brand-900/15 sm:mt-14">
+                  <Image
+                    src="/images/about/alpine-college-team-with-faculty.jpeg"
+                    alt="GIT Education trainers with students at a college session"
+                    width={1280}
+                    height={960}
+                    sizes="(min-width: 1024px) 560px, 90vw"
+                    className="aspect-[3/4] w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+                  />
+                </div>
+                <div className="group relative self-start overflow-hidden rounded-[1.5rem] shadow-xl shadow-brand-900/15">
+                  <Image
+                    src="/images/about/alpine-college-full-hall.jpeg"
+                    alt="Students in a full GIT Education training hall"
+                    width={1600}
+                    height={1200}
+                    sizes="(min-width: 1024px) 560px, 90vw"
+                    className="aspect-[3/4] w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+                  />
+                </div>
+              </div>
+              <div className="animate-float absolute bottom-0 left-0 flex items-center gap-3 rounded-2xl bg-action px-5 py-4 text-white shadow-2xl shadow-brand-900/30 lg:bottom-6 lg:-left-6">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/15">
+                  <Icon name="users" className="size-5" />
+                </span>
+                <span>
+                  <span className="block font-display text-xl leading-none font-bold">
+                    <Counter to={10} suffix="K+" />
+                  </span>
+                  <span className="mt-1 block text-xs text-white/75">Students trained</span>
+                </span>
+              </div>
+            </div>
+
             <div className="reveal">
-              <Pill>About Us</Pill>
-              <h2 className="scroll-risemt-5 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">
-                Making <span className="relative inline-block text-brand-600">every student<Scribble className="text-accent-yellow" /></span> computer-ready for work
+              <Pill>Our About Us</Pill>
+              <h2 className="scroll-rise mt-5 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.2rem]">
+                Training <span className="relative inline-block text-brand-600">every student<Scribble className="text-accent-yellow" /></span> in Jalandhar since {SITE.established}.
               </h2>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-muted lg:text-lg">
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-muted">
                 GIT Education is a computer training institute in Jalandhar. From your first time on a computer to professional accounting, drafting and design software, we teach the skills that offices, businesses and government jobs ask for.
               </p>
-              <div className="mt-9 flex flex-wrap items-center gap-6">
+
+              <ul className="mt-7 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                {["One computer per student", "Daily practical assignments", "Morning, evening & weekend batches", "Certificate and placement help"].map((point) => (
+                  <li key={point} className="flex items-start gap-2.5 text-sm font-medium">
+                    <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-action/10 text-action">
+                      <Icon name="check" className="size-3" strokeWidth={3} />
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 flex items-center gap-4 rounded-2xl border border-line bg-white p-4">
+                <span className="grid size-16 shrink-0 place-items-center rounded-full border-4 border-action/15 font-display text-lg font-bold text-action">4.9★</span>
+                <span className="text-sm leading-relaxed">
+                  <span className="block font-semibold">Rated 4.9 on Google</span>
+                  <span className="block text-muted">by more than 500 students and parents</span>
+                </span>
+              </div>
+
+              <figure className="mt-5 rounded-2xl border border-line bg-subtle p-6">
+                <span aria-hidden="true" className="font-display text-4xl leading-none font-bold text-action/25">&ldquo;</span>
+                <blockquote className="mt-1 text-sm leading-relaxed italic">
+                  Nobody leaves a class stuck. Trainers sit with each student until the work feels easy, and the lab stays open for extra practice.
+                </blockquote>
+                <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                  <span className="text-xs font-semibold tracking-wide text-muted uppercase">{SITE.name}, {SITE.address.locality}</span>
+                  <a href={TEL_HREF} className="group inline-flex items-center gap-2 text-sm font-semibold text-action">
+                    Talk to a counsellor
+                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                  </a>
+                </figcaption>
+              </figure>
+
+              <div className="mt-8">
                 <ArrowButton href="#courses">Find your course</ArrowButton>
-                <a href={TEL_HREF} className="text-sm font-medium transition-colors hover:text-brand-600">
-                  Talk to a counsellor<span className="mt-0.5 block font-mono text-xs text-muted">{SITE.phone}</span>
-                </a>
               </div>
             </div>
-            <div style={delay(2)} className="reveal reveal-right relative">
-              <div className="absolute -inset-3 rotate-3 rounded-[2.25rem] bg-gradient-to-br from-brand-600 via-violet-500 to-accent-yellow opacity-90" />
-              <div className="group relative overflow-hidden rounded-[2rem] shadow-2xl shadow-brand-900/25">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80" alt="Students practising in a computer lab" className="scroll-parallax aspect-[4/3] w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 group-hover:rotate-1" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-panel/60 via-transparent to-transparent" />
-                <span className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-white/15 px-3 py-1 font-mono text-[10px] tracking-wider text-white uppercase backdrop-blur-md">GIT Education computer lab</span>
+          </div>
+
+          {/* Figures */}
+          <div className="mx-auto mt-20 grid max-w-6xl grid-cols-2 gap-4 px-5 lg:grid-cols-4">
+            {([
+              ["users", 10, "K+", "Students trained"],
+              ["book", 30, "+", "Courses & software"],
+              ["calendar", 10, "", "Years of teaching"],
+              ["certificate", 500, "+", "Google reviews"],
+            ] as const).map(([icon, to, suffix, label], i) => (
+              <div key={label} data-pointer style={delay(i, 110)} className="reveal lift spotlight flex items-center gap-4 rounded-3xl border border-line bg-white p-5 hover:border-brand-200">
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-action/10 text-action">
+                  <Icon name={icon} className="size-6" />
+                </span>
+                <span>
+                  <span className="block font-display text-2xl leading-none font-bold">
+                    <Counter to={to} suffix={suffix} />
+                  </span>
+                  <span className="mt-1.5 block text-xs text-muted">{label}</span>
+                </span>
               </div>
-            </div>
+            ))}
           </div>
           <div className="mx-auto mt-28 max-w-6xl px-5">
             <div className="reveal">
@@ -353,7 +448,7 @@ export default function Home() {
             <div className="reveal flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <div>
                 <Pill dark>Our Courses</Pill>
-                <h2 className="scroll-risemt-5 max-w-2xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Computer courses for every goal and every age</h2>
+                <h2 className="scroll-rise mt-5 max-w-2xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Computer courses for every goal and every age</h2>
               </div>
               <ArrowButton href="#contact" variant="white">Enquire now</ArrowButton>
             </div>
@@ -374,6 +469,58 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Category panels: picture only until hovered, then the panel widens to reveal the name */}
+        <section id="fields" className="py-24 lg:py-32">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="reveal text-center">
+              <Pill>Explore by field</Pill>
+              <h2 className="scroll-rise mt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.2rem]">Pick the work you want to do</h2>
+              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted">Hover a picture to see what that field covers.</p>
+            </div>
+
+            {/* Desktop: panels share the row and the hovered one grows sideways */}
+            <div style={delay(2)} className="reveal mt-14 hidden h-[28rem] gap-3 md:flex lg:h-[30rem]">
+              {categoryPanels.map(({ title, blurb, image, href, pos }) => (
+                <Link
+                  key={title}
+                  href={href}
+                  aria-label={`${title}: ${blurb}`}
+                  className="group relative flex-[1] overflow-hidden rounded-[1.75rem] ring-1 ring-foreground/10 transition-[flex-grow] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:flex-[4] focus-visible:flex-[4] focus-visible:outline-none"
+                >
+                  {/* Fixed-width image: the panel crops more or less of it, the picture itself never scales */}
+                  <Image
+                    src={image}
+                    alt=""
+                    width={1400}
+                    height={933}
+                    sizes="560px"
+                    className={`absolute inset-y-0 left-1/2 h-full w-[34rem] max-w-none -translate-x-1/2 object-cover ${pos}`}
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-panel via-panel/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" />
+                  <span className="absolute inset-x-0 bottom-0 translate-y-3 p-7 text-white opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                    <span className="block font-display text-2xl font-bold tracking-tight whitespace-nowrap">{title}</span>
+                    <span className="mt-2 block text-[13px] text-white/75 whitespace-nowrap">{blurb}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Phones: no hover, so each card shows its picture and text together */}
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 md:hidden">
+              {categoryPanels.map(({ title, blurb, image, href }, i) => (
+                <Link key={title} href={href} style={delay(i, 100)} className="reveal group relative block h-56 overflow-hidden rounded-[1.5rem] ring-1 ring-foreground/10">
+                  <Image src={image} alt="" width={1400} height={933} sizes="(min-width: 640px) 45vw, 90vw" className="absolute inset-0 size-full object-cover" />
+                  <span className="absolute inset-0 bg-gradient-to-t from-panel via-panel/40 to-transparent" />
+                  <span className="absolute inset-x-0 bottom-0 p-5 text-white">
+                    <span className="block font-display text-xl font-bold tracking-tight">{title}</span>
+                    <span className="mt-1 block text-sm text-white/75">{blurb}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Featured courses */}
         <section id="courses" className="relative overflow-hidden py-24 lg:py-32">
           <div className="dot-bg pointer-events-none absolute inset-0" />
@@ -381,7 +528,7 @@ export default function Home() {
           <div className="relative mx-auto max-w-6xl px-5">
             <div className="reveal text-center">
               <Pill>Featured Courses</Pill>
-              <h2 className="scroll-risemt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Courses that get you <span className="relative inline-block text-brand-600">hired<Scribble className="text-accent-yellow" /></span></h2>
+              <h2 className="scroll-rise mt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Courses that get you <span className="relative inline-block text-brand-600">hired<Scribble className="text-accent-yellow" /></span></h2>
               <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:text-lg">Practical training, real assignments and job support behind every course.</p>
             </div>
             <div className="mt-14 grid gap-5 md:grid-cols-6">
@@ -409,10 +556,10 @@ export default function Home() {
               </article>
               <article data-pointer style={delay(2)} className="reveal reveal-zoom lift spotlight spotlight-light flex flex-col items-center justify-center overflow-hidden rounded-[1.75rem] bg-panel p-6 text-white md:col-span-2">
                 <div className="panel-glow pointer-events-none absolute inset-0" />
-                <h3 className="relative text-center font-display text-xl font-bold tracking-tight">Punjabi Typing</h3>
-                <span className="text-shine relative mt-2 bg-gradient-to-r from-accent-yellow via-white to-accent-yellow bg-clip-text font-display text-6xl font-extrabold text-transparent">ਪੰਜਾਬੀ</span>
-                <p className="relative mt-2 text-center text-sm leading-relaxed text-white/70">Raavi &amp; Asees fonts · timed tests for government jobs</p>
-                <span className="relative mt-3 inline-flex items-center gap-1 font-mono text-xs text-accent-yellow">ਟਾਈਪ ਕਰੋ<span className="h-4 w-0.5 animate-pulse bg-accent-yellow" /></span>
+                <h3 className="relative text-center font-display text-xl font-bold tracking-tight">Web Development</h3>
+                <span className="text-shine relative mt-2 bg-gradient-to-r from-accent-yellow via-white to-accent-yellow bg-clip-text font-display text-6xl font-extrabold text-transparent">&lt;/&gt;</span>
+                <p className="relative mt-2 text-center text-sm leading-relaxed text-white/70">Web designing, WordPress &amp; development with Python</p>
+                <span className="relative mt-3 inline-flex items-center gap-1 font-mono text-xs text-accent-yellow">npm run dev<span className="h-4 w-0.5 animate-pulse bg-accent-yellow" /></span>
               </article>
               <article data-pointer style={delay(0)} className="reveal reveal-left lift spotlight glow-border rounded-[1.75rem] border border-line bg-white p-6 shadow-sm md:col-span-3">
                 <h3 className="text-center font-display text-xl font-bold tracking-tight">CAD / CAM</h3>
@@ -516,7 +663,7 @@ export default function Home() {
           <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.4fr]">
             <div className="reveal lg:sticky lg:top-28 lg:self-start">
               <Pill dark>Included</Pill>
-              <h2 className="scroll-risemt-5 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Included with every course we run</h2>
+              <h2 className="scroll-rise mt-5 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Included with every course we run</h2>
               <p className="mt-5 max-w-sm text-base leading-relaxed text-white/65">Whichever course and batch you choose, all of this comes as standard.</p>
             </div>
             <ol className="divide-y divide-white/10 border-y border-white/10">
@@ -536,7 +683,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-5 text-center">
             <div className="reveal">
               <Pill>Software</Pill>
-              <h2 className="scroll-risemt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Software We Teach</h2>
+              <h2 className="scroll-rise mt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Software We Teach</h2>
               <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:text-lg">From everyday office tools to professional accounting, drafting and design software.</p>
             </div>
             <div style={delay(2)} className="reveal mt-10 flex overflow-x-auto pb-2 sm:justify-center">
@@ -565,7 +712,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-5">
             <div className="reveal">
               <Pill dark>Career Paths</Pill>
-              <h2 className="scroll-risemt-5 max-w-3xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Pick a career, and we&apos;ll show you the courses for it</h2>
+              <h2 className="scroll-rise mt-5 max-w-3xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Pick a career, and we&apos;ll show you the courses for it</h2>
             </div>
             <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.6fr]">
               <div className="reveal reveal-left flex flex-col gap-1">

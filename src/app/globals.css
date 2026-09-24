@@ -172,6 +172,13 @@ body {
   mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
 }
 
+/* Small dotted square used as a decoration behind the About photos */
+.dot-pattern {
+  background-image: radial-gradient(currentColor 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+  opacity: 0.55;
+}
+
 .dot-bg {
   background-image: radial-gradient(rgb(13 19 48 / 0.08) 1px, transparent 1.2px);
   background-size: 22px 22px;
@@ -381,11 +388,10 @@ html:not(.reveal-ready) .scribble path {
 
 .reveal-ready .reveal:not(.is-visible) { opacity: 0; transform: translateY(36px); filter: blur(6px); }
 
-/* Curtain wipes */
-.reveal-left,
-.reveal-right { clip-path: inset(-50%); }
-.reveal-ready .reveal-left:not(.is-visible) { clip-path: inset(0 100% 0 0); transform: translateX(-24px); filter: none; }
-.reveal-ready .reveal-right:not(.is-visible) { clip-path: inset(0 0 0 100%); transform: translateX(24px); filter: none; }
+/* Slide in from the side. Deliberately not clip-path: clipping to zero width makes
+   the element invisible to IntersectionObserver, so it would never be revealed. */
+.reveal-ready .reveal-left:not(.is-visible) { transform: translateX(-40px); filter: none; }
+.reveal-ready .reveal-right:not(.is-visible) { transform: translateX(40px); filter: none; }
 
 /* Tip forward in 3D */
 .reveal-ready .reveal-zoom:not(.is-visible) {
