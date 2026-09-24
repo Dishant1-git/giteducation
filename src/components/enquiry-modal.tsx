@@ -170,62 +170,62 @@ export function EnquiryModal() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="no-scrollbar relative grid max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto overscroll-contain rounded-[2rem] shadow-2xl shadow-black/40 md:grid-cols-2"
+            className="no-scrollbar relative grid max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-3xl shadow-2xl shadow-black/40 md:grid-cols-2"
           >
             {/* Top-right of the whole popup: over the form on desktop, over the heading on phones */}
             <button
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute top-5 right-5 z-10 grid size-11 cursor-pointer place-items-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/15"
+              className="absolute top-4 right-4 z-10 grid size-9 cursor-pointer place-items-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/15"
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
 
             {/* Left: pitch */}
-            <div className="relative isolate overflow-hidden bg-panel p-5 text-white sm:p-9 md:p-10">
+            <div className="relative isolate overflow-hidden bg-panel p-5 text-white sm:p-7">
               <div className="panel-glow pointer-events-none absolute inset-0 -z-10" />
-              <h2 id={titleId} className="pr-12 font-display text-2xl leading-tight font-bold tracking-tight sm:text-[2.6rem] md:pr-0">
+              <h2 id={titleId} className="pr-12 font-display text-xl leading-tight font-bold tracking-tight sm:text-[1.75rem] md:pr-0">
                 <span aria-hidden="true" className="animate-wave mr-2 inline-block">
                   👋
                 </span>
                 Still exploring? Let us help
               </h2>
               {/* Dropped on short phone screens so the form still fits without scrolling */}
-              <p className="mt-3 text-sm leading-relaxed text-white/65 max-md:[@media(max-height:830px)]:hidden sm:mt-4 sm:text-[15px]">
+              <p className="mt-2.5 text-[13px] leading-relaxed text-white/65 max-md:[@media(max-height:830px)]:hidden">
                 Talk to a counsellor and we&apos;ll map the shortest route from where you are to the job you want.
               </p>
 
-              <figure className="mt-8 hidden rounded-3xl border border-white/10 bg-white/[0.06] p-7 md:block">
-                <blockquote className="text-lg leading-relaxed">&ldquo;AI is the new electricity.&rdquo;</blockquote>
-                <figcaption className="mt-6 flex items-center gap-4">
-                  <span className="grid size-12 place-items-center rounded-full bg-white/10 text-white/80">
-                    <Icon name="robot" className="size-5" />
+              <figure className="mt-6 hidden rounded-2xl border border-white/10 bg-white/[0.06] p-5 md:block">
+                <blockquote className="text-sm leading-relaxed">&ldquo;AI is the new electricity.&rdquo;</blockquote>
+                <figcaption className="mt-4 flex items-center gap-3">
+                  <span className="grid size-9 place-items-center rounded-full bg-white/10 text-white/80">
+                    <Icon name="robot" className="size-4" />
                   </span>
                   <span>
-                    <span className="block font-semibold">Andrew Ng</span>
-                    <span className="block text-sm text-white/60">Founder, DeepLearning.AI</span>
+                    <span className="block text-[13px] font-semibold">Andrew Ng</span>
+                    <span className="block text-xs text-white/60">Founder, DeepLearning.AI</span>
                   </span>
                 </figcaption>
               </figure>
 
-              <div className="mt-6 hidden items-center justify-between gap-3 rounded-2xl bg-white/90 px-6 py-4 text-ink md:flex">
-                <span className="flex items-center gap-3 font-semibold">
+              <div className="mt-4 hidden items-center justify-between gap-3 rounded-xl bg-white/90 px-4 py-2.5 text-ink md:flex">
+                <span className="flex items-center gap-2 text-[13px] font-semibold">
                   <GoogleG />
                   Google Verified
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5 text-[#1d9bf0]">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4 text-[#1d9bf0]">
                     <path fill="currentColor" d="M12 2 14.4 4l3.1-.4.9 3 2.7 1.6-.9 3 .9 3-2.7 1.6-.9 3-3.1-.4L12 22l-2.4-2-3.1.4-.9-3L2.9 15.8l.9-3-.9-3 2.7-1.6.9-3 3.1.4z" />
                     <path fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="m8.5 12 2.3 2.3 4.7-4.6" />
                   </svg>
                 </span>
-                <span className="tracking-[0.2em] text-amber-500" aria-label="Rated 5 out of 5">
+                <span className="text-xs tracking-[0.18em] text-amber-500" aria-label="Rated 5 out of 5">
                   ★★★★★
                 </span>
               </div>
 
-              <p className="mt-8 hidden text-sm leading-relaxed text-white/55 md:block">
+              <p className="mt-5 hidden text-xs leading-relaxed text-white/55 md:block">
                 You can also share your requirements at{" "}
                 <a href={`mailto:${SITE.email}`} className="font-medium text-white underline underline-offset-2">
                   {SITE.email}
@@ -235,7 +235,7 @@ export function EnquiryModal() {
             </div>
 
             {/* Right: form */}
-            <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-6 text-white sm:p-9 md:p-10">
+            <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-5 text-white sm:p-7">
 
               <EnquiryForm key={formKey} initialCourse={course} onDone={close} />
             </div>

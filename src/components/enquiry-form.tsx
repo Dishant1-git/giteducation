@@ -120,7 +120,7 @@ export function EnquiryForm({
   };
 
   const field =
-    "h-[52px] w-full rounded-2xl border bg-white/10 px-5 text-[15px] text-white placeholder:text-white/70 outline-none transition-colors focus:border-white focus:bg-white/15 max-md:[@media(max-height:700px)]:h-11";
+    "h-11 w-full rounded-xl border bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none transition-colors focus:border-white focus:bg-white/15";
   const fieldBorder = (name: keyof typeof form) => (errors[name] ? "border-red-300" : "border-white/25");
   const errorText = (name: keyof typeof form) =>
     errors[name] && (
@@ -131,19 +131,19 @@ export function EnquiryForm({
 
   if (status === "sent") {
     return (
-      <div className={`flex min-h-[28rem] flex-col items-start justify-center ${className}`} role="status">
-        <span className="grid size-14 place-items-center rounded-full bg-[#a3e635] text-ink">
-          <Icon name="check" className="size-7" strokeWidth={2.5} />
+      <div className={`flex min-h-[20rem] flex-col items-start justify-center ${className}`} role="status">
+        <span className="grid size-11 place-items-center rounded-full bg-[#a3e635] text-ink">
+          <Icon name="check" className="size-5" strokeWidth={2.5} />
         </span>
-        <p className="mt-6 font-display text-2xl font-bold tracking-tight sm:text-3xl">Thanks, {form.name.trim().split(" ")[0]}! Your enquiry is booked.</p>
-        <p className="mt-3 max-w-sm text-white/80">
+        <p className="mt-5 font-display text-xl font-bold tracking-tight sm:text-2xl">Thanks, {form.name.trim().split(" ")[0]}! Your enquiry is booked.</p>
+        <p className="mt-2.5 max-w-sm text-sm text-white/80">
           We have received your request for a free demo class in <span className="font-semibold text-white">{form.course}</span>. A counsellor will call you on{" "}
           <span className="font-semibold text-white">{form.phone}</span> within working hours.
         </p>
         <button
           type="button"
           onClick={onDone ?? reset}
-          className="mt-8 h-12 cursor-pointer rounded-full bg-white px-8 font-semibold text-brand-700 transition-colors hover:bg-white/90"
+          className="mt-6 h-10 cursor-pointer rounded-full bg-white px-6 text-sm font-semibold text-brand-700 transition-colors hover:bg-white/90"
         >
           {onDone ? "Done" : "Send another enquiry"}
         </button>
@@ -152,10 +152,10 @@ export function EnquiryForm({
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className={`space-y-3 sm:space-y-4 ${className}`}>
-      <Heading className="text-xl leading-snug font-bold sm:text-2xl md:pr-12">{heading}</Heading>
+    <form onSubmit={onSubmit} noValidate className={`space-y-2.5 ${className}`}>
+      <Heading className="text-base leading-snug font-bold sm:text-[17px] md:pr-12">{heading}</Heading>
 
-      <div className="pt-3">
+      <div className="pt-1.5">
         <label htmlFor={`${id}-course`} className="sr-only">
           Course of interest
         </label>
@@ -166,7 +166,7 @@ export function EnquiryForm({
             onChange={update("course")}
             aria-invalid={!!errors.course}
             aria-describedby={errors.course ? `${id}-course-error` : undefined}
-            className={`${field} ${fieldBorder("course")} cursor-pointer appearance-none pr-12 ${form.course ? "" : "text-white/90"}`}
+            className={`${field} ${fieldBorder("course")} cursor-pointer appearance-none pr-10 ${form.course ? "" : "text-white/90"}`}
           >
             <option value="" disabled className="text-foreground">
               Select Your Course of Interest*
@@ -186,7 +186,7 @@ export function EnquiryForm({
               </optgroup>
             ))}
           </select>
-          <svg viewBox="0 0 12 12" aria-hidden="true" className="pointer-events-none absolute top-1/2 right-5 size-3.5 -translate-y-1/2">
+          <svg viewBox="0 0 12 12" aria-hidden="true" className="pointer-events-none absolute top-1/2 right-4 size-3 -translate-y-1/2">
             <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
@@ -229,22 +229,22 @@ export function EnquiryForm({
       </div>
 
       <div>
-        <div className="flex flex-wrap items-center gap-3 pt-1 pb-3">
-          <label htmlFor={`${id}-answer`} className="font-semibold">
+        <div className="flex flex-wrap items-center gap-2.5 pt-0.5 pb-2">
+          <label htmlFor={`${id}-answer`} className="text-[13px] font-semibold">
             Security verification
           </label>
           {/* Question and refresh wrap together, never apart */}
-          <span className="flex items-center gap-3">
-            <span className="shrink-0 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 font-bold tracking-wide whitespace-nowrap" aria-live="polite">
+          <span className="flex items-center gap-2.5">
+            <span className="shrink-0 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[13px] font-bold tracking-wide whitespace-nowrap" aria-live="polite">
               {sum.a} + {sum.b} = ?
             </span>
             <button
               type="button"
               onClick={refreshSum}
               aria-label="New question"
-              className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-xl border border-white/30 bg-white/10 transition-colors hover:bg-white/20"
+              className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-lg border border-white/30 bg-white/10 transition-colors hover:bg-white/20"
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 12a8 8 0 1 1-2.3-5.7L20 8.5 M20 4v4.5h-4.5" />
               </svg>
             </button>
@@ -265,26 +265,26 @@ export function EnquiryForm({
       </div>
 
       {submitError && (
-        <p role="alert" className="flex items-start gap-3 rounded-2xl border border-red-200/60 bg-red-950/40 px-5 py-4 text-sm font-medium text-white">
-          <span aria-hidden="true" className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-red-200 text-xs font-bold text-red-900">
+        <p role="alert" className="flex items-start gap-2.5 rounded-xl border border-red-200/60 bg-red-950/40 px-4 py-3 text-[13px] font-medium text-white">
+          <span aria-hidden="true" className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-red-200 text-[10px] font-bold text-red-900">
             !
           </span>
           {submitError}
         </p>
       )}
 
-      <p className="flex items-center gap-3 rounded-2xl bg-[#a3e635] px-6 py-3 font-semibold text-ink max-md:[@media(max-height:700px)]:hidden sm:py-4">
-        <span className="grid size-6 place-items-center rounded-full bg-ink text-[#a3e635]">
-          <Icon name="check" className="size-3.5" strokeWidth={3} />
+      <p className="flex items-center gap-2.5 rounded-xl bg-[#a3e635] px-4 py-2.5 text-[13px] font-semibold text-ink">
+        <span className="grid size-5 place-items-center rounded-full bg-ink text-[#a3e635]">
+          <Icon name="check" className="size-3" strokeWidth={3} />
         </span>
         Expert response within 5 minutes.
       </p>
 
-      <div className="pt-2">
+      <div className="pt-1">
         <button
           type="submit"
           disabled={status === "sending"}
-          className="group inline-flex h-14 cursor-pointer items-center gap-3 rounded-full bg-white/70 px-10 font-semibold text-brand-700 transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70 max-md:[@media(max-height:700px)]:h-12"
+          className="group inline-flex h-11 cursor-pointer items-center gap-2.5 rounded-full bg-white/70 px-7 text-sm font-semibold text-brand-700 transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70"
         >
           {status === "sending" ? "Sending…" : "Submit"}
           <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
