@@ -460,7 +460,7 @@ export function SiteHeader() {
             <BranchesPanel />
           </NavDropdown>
 
-          <Link href="/#contact" className="nav-link">
+          <Link href="/contact" className="nav-link">
             Contact
           </Link>
         </div>

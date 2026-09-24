@@ -59,14 +59,14 @@ export const courseEnquiryEmail = (courseName: string) =>
 /** Primary navigation. Every href is a real route or a hash on the home page. */
 export const navLinks: [label: string, href: string][] = [
   ["Home", "/"],
-  ["About", "/#about"],
+  ["About", "/about"],
   ["Courses", "/courses"],
   ["Certificate Programs", "/certificate-programs"],
   ["Why Us", "/#difference"],
   ["Reviews", "/reviews"],
   ["Resources", "/#faq"],
   ["Branches", "/#contact"],
-  ["Contact", "/#contact"],
+  ["Contact", "/contact"],
 ];
 
 export type CourseMenuItem = { label: string; slug?: string; badge?: string };
@@ -179,15 +179,15 @@ export type MegaMenuData = {
 export const megaMenus: Record<string, MegaMenuData> = {
   About: {
     links: [
-      { label: "About GIT Education", href: "/#about" },
-      { label: "Mission and Vision", href: "/#about" },
-      { label: "Accreditations & Awards", href: "/#about" },
-      { label: "Our Team", href: "/#about" },
+      { label: "About GIT Education", href: "/about" },
+      { label: "Mission and Vision", href: "/about/mission-vision" },
+      { label: "Accreditations & Awards", href: "/about/accreditations-awards" },
+      { label: "Our Team", href: "/about/team" },
     ],
     featured: [
-      { title: "About GIT Education", href: "/#about", image: "/images/about/alpine-college-team-with-faculty.jpeg", tag: "Story", meta: "Since 2016" },
-      { title: "Mission and Vision", href: "/#about", image: "/images/about/alpine-college-full-hall.jpeg", tag: "Purpose", meta: "Our direction" },
-      { title: "Our Team", href: "/#about", image: "/images/about/team.jpg", tag: "People", meta: "Trainers & mentors" },
+      { title: "About GIT Education", href: "/about", image: "/images/about/alpine-college-team-with-faculty.jpeg", tag: "Story", meta: "Since 2016" },
+      { title: "Mission and Vision", href: "/about/mission-vision", image: "/images/about/alpine-college-full-hall.jpeg", tag: "Purpose", meta: "Our direction" },
+      { title: "Our Team", href: "/about/team", image: "/images/about/team.jpg", tag: "People", meta: "Trainers & mentors" },
     ],
     cta: { label: "Talk to a counsellor", href: "/#contact" },
   },
@@ -268,18 +268,18 @@ export const footerCols: [heading: string, links: [label: string, href: string][
   [
     "Institute",
     [
-      ["About Us", "/#about"],
+      ["About Us", "/about"],
       ["Gallery", "/gallery"],
       ["Reviews", "/reviews"],
-      ["Contact Us", "/#contact"],
+      ["Contact Us", "/contact"],
     ],
   ],
   [
     "Support",
     [
       ["FAQs", "/faq"],
-      ["Placement Help", "/#contact"],
-      ["Enquire Now", "/#contact"],
+      ["Placement Help", "/contact"],
+      ["Enquire Now", "/contact#enquire"],
     ],
   ],
 ];

@@ -97,4 +97,58 @@ export function StaggerItem({
   );
 }
 
+/**
+ * Heading whose words rise out of a clipping mask one after another, the first
+ * time it scrolls into view. Each entry in `lines` renders on its own line.
+ */
+export function WordReveal({
+  lines,
+  className,
+  as = "h2",
+  step = 0.055,
+}: {
+  lines: string[];
+  className?: string;
+  as?: "h1" | "h2";
+  step?: number;
+}) {
+  const reduce = useReducedMotion();
+  const Component = motion[as];
+  let index = 0;
+
+  return (
+    <Component
+      className={className}
+      initial={reduce ? false : "hidden"}
+      whileInView="shown"
+      viewport={{ once: true, amount: 0.4 }}
+      aria-label={lines.join(" ")}
+    >
+      {lines.map((line) => (
+        <span key={line} aria-hidden="true" className="block">
+          {line.split(" ").map((word, i) => {
+            const delay = index++ * step;
+            return (
+              <span key={`${word}-${i}`}>
+                {i > 0 && " "}
+                <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                  <motion.span
+                    className="inline-block"
+                    variants={{
+                      hidden: { y: "110%" },
+                      shown: { y: "0%", transition: { duration: 0.8, delay, ease: EASE } },
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              </span>
+            );
+          })}
+        </span>
+      ))}
+    </Component>
+  );
+}
+
 export { motion, useReducedMotion };

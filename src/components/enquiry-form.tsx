@@ -16,15 +16,17 @@ import { courseGroups } from "@/lib/site";
  * MySQL `form_submissions` table by POST /api/enquiries.
  */
 
+/** Stored in `form_submissions.form_type`; must be one the API accepts. */
+export type EnquiryFormType = "book-demo" | "contact";
 type Enquiry = { course: string; name: string; phone: string };
 type SubmitResult = { ok: true } | { ok: false; message?: string; errors?: Record<string, string> };
 
-async function submitEnquiry(enquiry: Enquiry): Promise<SubmitResult> {
+async function submitEnquiry(formType: EnquiryFormType, enquiry: Enquiry): Promise<SubmitResult> {
   try {
     const response = await fetch("/api/enquiries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formType: "book-demo", ...enquiry, pageUrl: window.location.href }),
+      body: JSON.stringify({ formType, ...enquiry, pageUrl: window.location.href }),
     });
     const data = (await response.json().catch(() => ({}))) as { message?: string; errors?: Record<string, string> };
     if (response.ok) return { ok: true };
@@ -47,12 +49,14 @@ const newSum = (previous?: { a: number; b: number }) => {
 const MENU_COURSES = new Set(courseGroups.flatMap((group) => group.items.map((item) => item.label)));
 
 export function EnquiryForm({
+  formType = "book-demo",
   initialCourse = "",
   heading = "Tell us your goal. We'll code it into reality.",
   headingLevel = "h3",
   onDone,
   className = "",
 }: {
+  formType?: EnquiryFormType;
   initialCourse?: string;
   heading?: string;
   headingLevel?: "h2" | "h3";
@@ -98,7 +102,7 @@ export function EnquiryForm({
     }
     setStatus("sending");
     setSubmitError("");
-    const result = await submitEnquiry({ course: form.course, name: form.name.trim(), phone: form.phone });
+    const result = await submitEnquiry(formType, { course: form.course, name: form.name.trim(), phone: form.phone });
     if (result.ok) {
       setStatus("sent");
       return;
