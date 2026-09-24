@@ -77,7 +77,7 @@ export const FEE_NOTE =
   "Fees shown are indicative for the standard batch and are confirmed in writing at counselling. Instalment plans, sibling concessions and student-ID concessions are available.";
 
 /** FAQs appended to every course. Course-specific FAQs come first. */
-const COMMON_FAQS: [string, string][] = [
+export const COMMON_FAQS: [string, string][] = [
   [
     "Can I pay the fees in instalments?",
     "Yes. Every course can be paid in two or three instalments. The schedule is written on your admission receipt, and there is no extra charge for paying in parts.",

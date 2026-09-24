@@ -63,7 +63,7 @@ export const navLinks: [label: string, href: string][] = [
   ["Courses", "/courses"],
   ["Certificate Programs", "/certificate-programs"],
   ["Why Us", "/#difference"],
-  ["Reviews", "/#reviews"],
+  ["Reviews", "/reviews"],
   ["Resources", "/#faq"],
   ["Branches", "/#contact"],
   ["Contact", "/#contact"],
@@ -160,7 +160,7 @@ export const certificateHref = (slug: string) => `/certificate-programs/${slug}`
 
 /** Branches. Some run their own site and open in a new tab. */
 export const branches: { city: string; href: string; external?: boolean }[] = [
-  { city: "Jalandhar", href: "/#contact" },
+  { city: "Jalandhar", href: "https://techcaddjalandhar.com/", external: true },
   { city: "Chandigarh", href: "/#contact" },
   { city: "Mohali", href: "/#contact" },
   { city: "Ludhiana", href: "https://techcaddludhiana.com/", external: true },
@@ -193,20 +193,20 @@ export const megaMenus: Record<string, MegaMenuData> = {
   },
   Resources: {
     links: [
-      { label: "Find My Career Track", href: "/#contact", badge: "New" },
-      { label: "Training Matcher", href: "/#contact", badge: "New" },
-      { label: "Salary Estimator", href: "/#contact", badge: "New" },
-      { label: "Blogs", href: "/#contact" },
-      { label: "Events", href: "/#contact" },
-      { label: "Gallery", href: "/#contact" },
-      { label: "FAQ", href: "/#faq" },
-      { label: "Reviews", href: "/#reviews" },
-      { label: "College Partnerships", href: "/#contact" },
+      { label: "Find My Career Track", href: "/tools/career-track-finder", badge: "New" },
+      { label: "Training Matcher", href: "/tools/training-matcher", badge: "New" },
+      { label: "Salary Estimator", href: "/tools/salary-estimator", badge: "New" },
+      { label: "Blogs", href: "/blogs" },
+      { label: "Events", href: "/events" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Reviews", href: "/reviews" },
+      { label: "College Partnerships", href: "/college-partnerships" },
     ],
     featured: [
-      { title: "Find My Career Track", href: "/#contact", image: "/images/tools/career-track-finder.png", tag: "Free Tool", meta: "4 Questions" },
-      { title: "Training Matcher", href: "/#contact", image: "/images/tools/training-matcher.png", tag: "Free Tool", meta: "Instant Match" },
-      { title: "Salary Estimator", href: "/#contact", image: "/images/tools/salary-estimator.png", tag: "Free Tool", meta: "Punjab & NCR" },
+      { title: "Find My Career Track", href: "/tools/career-track-finder", image: "/images/tools/career-track-finder.png", tag: "Free Tool", meta: "4 Questions" },
+      { title: "Training Matcher", href: "/tools/training-matcher", image: "/images/tools/training-matcher.png", tag: "Free Tool", meta: "Instant Match" },
+      { title: "Salary Estimator", href: "/tools/salary-estimator", image: "/images/tools/salary-estimator.png", tag: "Free Tool", meta: "Punjab & NCR" },
     ],
     cta: { label: "Ask us a question", href: "/#contact" },
   },
@@ -241,6 +241,8 @@ export const lineIcons: Record<string, string> = {
   target: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 11.2a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6z",
   book: "M4 4h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H4z M20 4h-6a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H20z",
   code: "M9 17 4 12l5-5 M15 7l5 5-5 5 M13 4l-2 16",
+  building: "M4 21h16 M6 21V7l6-4 6 4v14 M10 21v-4h4v4 M9 10h.01 M15 10h.01 M9 14h.01 M15 14h.01",
+  chip: "M7 7h10v10H7z M10 10h4v4h-4z M9 3v4 M15 3v4 M9 17v4 M15 17v4 M3 9h4 M3 15h4 M17 9h4 M17 15h4",
   robot: "M8 8h8a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3z M12 4v4 M9 13h.01 M15 13h.01 M9 17h6 M2 12v3 M22 12v3",
 };
 
@@ -267,15 +269,15 @@ export const footerCols: [heading: string, links: [label: string, href: string][
     "Institute",
     [
       ["About Us", "/#about"],
-      ["Gallery", "/#contact"],
-      ["Reviews", "/#reviews"],
+      ["Gallery", "/gallery"],
+      ["Reviews", "/reviews"],
       ["Contact Us", "/#contact"],
     ],
   ],
   [
     "Support",
     [
-      ["FAQs", "/#faq"],
+      ["FAQs", "/faq"],
       ["Placement Help", "/#contact"],
       ["Enquire Now", "/#contact"],
     ],

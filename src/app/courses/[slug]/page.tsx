@@ -89,7 +89,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-28 border-t border-border-subtle py-12 first:border-t-0 lg:py-16">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-32 border-t border-border-subtle py-12 first:border-t-0 lg:scroll-mt-8 lg:py-16">
       <Reveal>
         <SectionHeading id={id} index={index} title={title} lead={lead} />
       </Reveal>
@@ -235,7 +235,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </ol>
           </nav>
 
-          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-12">
+          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
             <div>
               <Reveal>
                 <p className="flex flex-wrap items-center gap-2 text-xs">
@@ -288,53 +288,78 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             <Reveal delay={0.1}>
               <aside
                 aria-labelledby="admission-summary"
-                className="print-block rounded-panel border border-white/15 bg-white/[0.07] p-6 backdrop-blur-md lg:sticky lg:top-28"
+                className="print-block flex flex-col rounded-panel border border-white/15 bg-white/[0.07] p-5 backdrop-blur-md sm:p-6"
               >
-                <h2 id="admission-summary" className="font-mono text-[11px] tracking-[0.18em] text-white/55 uppercase">
-                  Admission summary
-                </h2>
-                <p className="mt-3 flex items-baseline gap-2">
-                  <span className="font-display text-4xl font-extrabold tracking-tight">{formatFee(course.fee.amount)}</span>
-                  <span className="text-sm text-white/60">course fee</span>
-                </p>
-                <p className="mt-1 text-sm text-white/65">or {course.fee.installments}</p>
+                <div className="flex items-center justify-between gap-4">
+                  <h2 id="admission-summary" className="font-mono text-[11px] tracking-[0.18em] text-white/55 uppercase">
+                    Your learning path
+                  </h2>
+                  <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/80">
+                    {course.curriculum.length} modules
+                  </span>
+                </div>
 
-                <dl className="mt-6 space-y-4 border-t border-white/15 pt-6">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-sm text-white/60">Duration</dt>
-                    <dd className="text-sm font-semibold">{course.duration}</dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-sm text-white/60">Class load</dt>
-                    <dd className="text-right text-sm font-semibold">{course.weeklyHours}</dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-sm text-white/60">Batch size</dt>
-                    <dd className="text-sm font-semibold">Max {course.seats} students</dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <dt className="text-sm text-white/60">Languages</dt>
-                    <dd className="text-right text-sm font-semibold">{course.languages.join(", ")}</dd>
-                  </div>
-                </dl>
+                <ol className="mt-4 space-y-2.5">
+                  {course.curriculum.slice(0, 4).map((module, i) => (
+                    <li key={module.title} className="flex items-center gap-3">
+                      <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-white/10 font-mono text-xs font-bold text-accent-yellow">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-sm font-semibold">{module.title}</span>
+                      <span className="shrink-0 text-xs text-white/55">{module.hours}</span>
+                    </li>
+                  ))}
+                </ol>
+                {course.curriculum.length > 4 && (
+                  <a href="#curriculum" className="mt-3 inline-flex w-fit items-center gap-1.5 text-xs font-semibold text-accent-yellow hover:underline">
+                    + {course.curriculum.length - 4} more modules in the syllabus <span aria-hidden="true">→</span>
+                  </a>
+                )}
 
-                <Link
-                  href="/#contact"
-                  className="mt-6 flex h-12 items-center justify-center gap-2 rounded-full bg-white font-semibold text-ink transition-colors duration-200 hover:bg-accent-yellow"
-                >
-                  Reserve a seat
-                </Link>
-                <a
-                  href={courseEnquiryEmail(`${course.shortTitle} course`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 flex h-11 items-center justify-center gap-2 rounded-full border border-white/25 text-sm font-medium transition-colors duration-200 hover:border-white/50 hover:bg-white/10"
-                >
-                  <Icon name="mail" className="size-4" />
-                  Email an enquiry
-                  <span className="sr-only"> (opens Gmail in a new tab)</span>
-                </a>
-                <p className="mt-4 text-xs leading-relaxed text-white/50">{FEE_NOTE}</p>
+                {course.tools.length > 0 && (
+                  <div className="mt-5 border-t border-white/15 pt-4">
+                    <p className="text-xs font-semibold tracking-wide text-white/55 uppercase">Software you will use</p>
+                    <ul className="mt-3 flex flex-wrap gap-1.5">
+                      {[...new Set(course.tools.flatMap((group) => group.items))]
+                        .slice(0, 6)
+                        .map((tool) => (
+                          <li key={tool} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs text-white/85">
+                            {tool}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="mt-5 grid grid-cols-2 gap-2.5 border-t border-white/15 pt-4">
+                  <div className="rounded-xl bg-white/5 p-3">
+                    <p className="text-[11px] tracking-wide text-white/55 uppercase">Next batch</p>
+                    <p className="mt-1 text-sm font-semibold">{course.nextBatch}</p>
+                  </div>
+                  <div className="rounded-xl bg-white/5 p-3">
+                    <p className="text-[11px] tracking-wide text-white/55 uppercase">Batch size</p>
+                    <p className="mt-1 text-sm font-semibold">Max {course.seats} students</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                  <Link
+                    href="/#contact"
+                    className="flex h-11 items-center justify-center gap-2 rounded-full bg-white text-sm font-semibold text-ink transition-colors duration-200 hover:bg-accent-yellow"
+                  >
+                    Reserve a seat
+                  </Link>
+                  <a
+                    href={courseEnquiryEmail(`${course.shortTitle} course`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-11 items-center justify-center gap-2 rounded-full border border-white/25 text-sm font-medium transition-colors duration-200 hover:border-white/50 hover:bg-white/10"
+                  >
+                    <Icon name="mail" className="size-4" />
+                    Email us
+                    <span className="sr-only"> an enquiry (opens Gmail in a new tab)</span>
+                  </a>
+                </div>
               </aside>
             </Reveal>
           </div>
@@ -382,7 +407,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
       {/* ---------- Body ---------- */}
       <div className="mx-auto max-w-[1240px] px-5 lg:px-8">
         <div className="lg:grid lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-14">
-          <div className="sticky top-[4.25rem] z-30 -mx-5 border-b border-border-subtle bg-surface/95 px-5 py-2 backdrop-blur lg:top-28 lg:z-auto lg:mx-0 lg:self-start lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:pt-16 lg:backdrop-blur-none">
+          <div className="sticky top-[4.25rem] z-30 -mx-5 border-b border-border-subtle bg-surface/95 px-5 py-2 backdrop-blur lg:top-24 lg:z-auto lg:mx-0 lg:mt-16 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none">
             <SectionNav sections={SECTIONS} />
           </div>
 
@@ -393,23 +418,49 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               title={`About the ${course.shortTitle} course`}
               lead={`${course.category} · ${course.duration} · ${SITE.address.locality}, ${SITE.address.region}`}
             >
-              <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-                <Reveal>
-                  <div className="space-y-4 text-[15px] leading-relaxed text-content-muted sm:text-base">
-                    {course.summary.map((paragraph) => (
-                      <p key={paragraph.slice(0, 32)}>{paragraph}</p>
-                    ))}
-                  </div>
-                </Reveal>
-                <Stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="space-y-8">
+                <div className="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-start">
+                  <Reveal>
+                    <div className="space-y-4 text-[15px] leading-relaxed text-content-muted sm:text-base">
+                      {course.summary.map((paragraph) => (
+                        <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </Reveal>
+                  <Reveal delay={0.08}>
+                    <div className="print-block rounded-card border border-border-subtle bg-surface-sunken p-5">
+                      <h3 className="font-mono text-[11px] font-bold tracking-[0.18em] text-content-muted uppercase">Course details</h3>
+                      <dl className="mt-4 divide-y divide-border-subtle text-sm">
+                        {(
+                          [
+                            ["Duration", course.duration],
+                            ["Class load", course.weeklyHours],
+                            ["Delivery", course.modes.join(" · ")],
+                            ["Languages", course.languages.join(", ")],
+                            ["Batch size", `Max ${course.seats} students`],
+                            ["Modules", `${course.curriculum.length} modules`],
+                          ] as const
+                        ).map(([label, value]) => (
+                          <div key={label} className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0">
+                            <dt className="shrink-0 text-content-muted">{label}</dt>
+                            <dd className="text-right font-semibold">{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  </Reveal>
+                </div>
+                <Stagger className="grid gap-3 sm:grid-cols-2">
                   {course.highlights.map((highlight) => (
                     <StaggerItem key={highlight.title}>
-                      <div className="print-block h-full rounded-card border border-border-subtle bg-surface-raised p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card">
-                        <span className="grid size-10 place-items-center rounded-xl bg-surface-accent text-action">
+                      <div className="print-block flex h-full gap-4 rounded-card border border-border-subtle bg-surface-raised p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card">
+                        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-accent text-action">
                           <Icon name={highlight.icon} className="size-5" />
                         </span>
-                        <h3 className="mt-4 text-[15px] font-bold tracking-tight">{highlight.title}</h3>
-                        <p className="mt-1.5 text-sm leading-relaxed text-content-muted">{highlight.text}</p>
+                        <div className="min-w-0">
+                          <h3 className="text-[15px] font-bold tracking-tight">{highlight.title}</h3>
+                          <p className="mt-1 text-sm leading-relaxed text-content-muted">{highlight.text}</p>
+                        </div>
                       </div>
                     </StaggerItem>
                   ))}
@@ -425,7 +476,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             >
               <Stagger as="ul" className="grid gap-3 sm:grid-cols-2">
                 {course.outcomes.map((outcome) => (
-                  <StaggerItem as="li" key={outcome}>
+                  <StaggerItem as="li" key={outcome} className="sm:odd:last:col-span-2">
                     <div className="print-block flex h-full items-start gap-3 rounded-card border border-border-subtle bg-surface-raised p-4">
                       <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-status-success-soft text-status-success">
                         <Icon name="check" className="size-3.5" strokeWidth={2.4} />

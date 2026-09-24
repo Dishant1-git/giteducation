@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Icon } from "@/components/icon";
@@ -14,11 +14,18 @@ import { TEL_HREF } from "@/lib/site";
 export function SectionNav({ sections }: { sections: { id: string; label: string }[] }) {
   const [active, setActive] = useState(sections[0]?.id ?? "");
   const activeRef = useRef<HTMLAnchorElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  // Set while a click-driven scroll is running, so sections passed on the way
+  // do not flash as active.
+  const jumpingRef = useRef(false);
+  const reduceMotion = useReducedMotion();
   const tooFewSections = sections.length < 3;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (jumpingRef.current) return;
         // The heading nearest the top of the viewport wins, so the index never
         // flickers between two sections that are both partly visible.
         const visible = entries
@@ -35,18 +42,53 @@ export function SectionNav({ sections }: { sections: { id: string; label: string
     return () => observer.disconnect();
   }, [sections]);
 
-  // Keep the active item in view in the horizontal mobile index.
+  // Keep the active item in view in the horizontal mobile index. Only the list
+  // scrolls: scrollIntoView would also move the page and cut short a jump.
   useEffect(() => {
-    activeRef.current?.scrollIntoView({ block: "nearest", inline: "center" });
-  }, [active]);
+    const list = listRef.current;
+    const link = activeRef.current;
+    if (!list || !link || list.scrollWidth <= list.clientWidth) return;
+    list.scrollTo({ left: link.offsetLeft - (list.clientWidth - link.offsetWidth) / 2, behavior: reduceMotion ? "auto" : "smooth" });
+  }, [active, reduceMotion]);
+
+  function jumpTo(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    event.preventDefault();
+
+    // The sticky wrapper's `top` is already sized to sit under the fixed header.
+    // Below lg, also clear the sticky index bar itself. At lg, line the
+    // section's heading up with the top of the index beside it.
+    const wrapper = navRef.current?.parentElement;
+    const stickyTop = wrapper ? parseFloat(getComputedStyle(wrapper).top) || 0 : 0;
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const offset = isDesktop
+      ? stickyTop - (parseFloat(getComputedStyle(target).paddingTop) || 0)
+      : stickyTop + (wrapper?.offsetHeight ?? 0);
+
+    setActive(id);
+    jumpingRef.current = true;
+    const release = () => {
+      jumpingRef.current = false;
+      window.removeEventListener("scrollend", release);
+    };
+    window.addEventListener("scrollend", release);
+    window.setTimeout(release, 1200); // browsers without scrollend
+
+    window.scrollTo({
+      top: target.getBoundingClientRect().top + window.scrollY - offset,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+    window.history.replaceState(window.history.state, "", `#${id}`);
+  }
 
   // An index of one or two entries is noise, not navigation.
   if (tooFewSections) return null;
 
   return (
-    <nav aria-label="On this page" className="no-print">
+    <nav ref={navRef} aria-label="On this page" className="no-print">
       <p className="section-rule mb-3 hidden text-content-muted lg:flex">On this page</p>
-      <ul className="scroll-x flex gap-1 lg:block lg:space-y-0.5">
+      <ul ref={listRef} className="scroll-x relative flex gap-1 lg:block lg:space-y-0.5">
         {sections.map((section, index) => {
           const isActive = active === section.id;
           return (
@@ -54,6 +96,7 @@ export function SectionNav({ sections }: { sections: { id: string; label: string
               <Link
                 ref={isActive ? activeRef : undefined}
                 href={`#${section.id}`}
+                onClick={(event) => jumpTo(event, section.id)}
                 aria-current={isActive ? "true" : undefined}
                 className={`relative flex items-center gap-2 rounded-control px-3 py-2 text-[13px] leading-snug whitespace-nowrap transition-colors duration-200 lg:whitespace-normal ${
                   isActive

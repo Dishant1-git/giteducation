@@ -43,7 +43,7 @@ type CertificateDetails = {
 export type CertificateProgram = CertificateMenuItem & CertificateDetails & { course: Course };
 
 /** FAQs appended to every certificate program. Program-specific FAQs come first. */
-const COMMON_FAQS: [string, string][] = [
+export const COMMON_FAQS: [string, string][] = [
   [
     "How can an employer verify my certificate?",
     "Every certificate carries a registration number. An employer can call the institute or email us that number and we confirm your name, the program, the modules completed and your result from our records.",
