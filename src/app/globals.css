@@ -172,6 +172,16 @@ body {
   mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
 }
 
+/* Scrollable, but without the visible scrollbar (used by the enquiry popup) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Small dotted square used as a decoration behind the About photos */
 .dot-pattern {
   background-image: radial-gradient(currentColor 1.5px, transparent 1.6px);

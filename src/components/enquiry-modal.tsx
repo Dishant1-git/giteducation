@@ -176,7 +176,7 @@ export function EnquiryModal() {
   };
 
   const field =
-    "h-14 w-full rounded-2xl border bg-white/10 px-5 text-[15px] text-white placeholder:text-white/70 outline-none transition-colors focus:border-white focus:bg-white/15";
+    "h-[52px] w-full rounded-2xl border bg-white/10 px-5 text-[15px] text-white placeholder:text-white/70 outline-none transition-colors focus:border-white focus:bg-white/15 max-md:[@media(max-height:700px)]:h-11";
   const fieldBorder = (name: keyof typeof form) => (errors[name] ? "border-red-300" : "border-white/25");
   const errorText = (name: keyof typeof form) =>
     errors[name] && (
@@ -209,7 +209,7 @@ export function EnquiryModal() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="relative grid max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto overscroll-contain rounded-[2rem] shadow-2xl shadow-black/40 md:grid-cols-2"
+            className="no-scrollbar relative grid max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl overflow-y-auto overscroll-contain rounded-[2rem] shadow-2xl shadow-black/40 md:grid-cols-2"
           >
             {/* Top-right of the whole popup: over the form on desktop, over the heading on phones */}
             <button
@@ -224,15 +224,16 @@ export function EnquiryModal() {
             </button>
 
             {/* Left: pitch */}
-            <div className="relative isolate overflow-hidden bg-panel p-7 text-white sm:p-10 md:p-12">
+            <div className="relative isolate overflow-hidden bg-panel p-5 text-white sm:p-9 md:p-10">
               <div className="panel-glow pointer-events-none absolute inset-0 -z-10" />
-              <h2 id={titleId} className="pr-12 font-display text-3xl leading-tight font-bold tracking-tight sm:text-[2.6rem] md:pr-0">
+              <h2 id={titleId} className="pr-12 font-display text-2xl leading-tight font-bold tracking-tight sm:text-[2.6rem] md:pr-0">
                 <span aria-hidden="true" className="animate-wave mr-2 inline-block">
                   👋
                 </span>
                 Still exploring? Let us help
               </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-white/65">
+              {/* Dropped on short phone screens so the form still fits without scrolling */}
+              <p className="mt-3 text-sm leading-relaxed text-white/65 max-md:[@media(max-height:830px)]:hidden sm:mt-4 sm:text-[15px]">
                 Talk to a counsellor and we&apos;ll map the shortest route from where you are to the job you want.
               </p>
 
@@ -273,7 +274,7 @@ export function EnquiryModal() {
             </div>
 
             {/* Right: form */}
-            <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-7 text-white sm:p-10 md:p-12">
+            <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-6 text-white sm:p-9 md:p-10">
 
               {status === "sent" ? (
                 <div className="flex min-h-[28rem] flex-col items-start justify-center">
@@ -289,7 +290,7 @@ export function EnquiryModal() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} noValidate className="space-y-4">
+                <form onSubmit={onSubmit} noValidate className="space-y-3 sm:space-y-4">
                   <h3 className="text-xl leading-snug font-bold sm:text-2xl md:pr-12">Tell us your goal. We&apos;ll code it into reality.</h3>
 
                   <div className="pt-3">
@@ -396,7 +397,7 @@ export function EnquiryModal() {
                     {errorText("answer")}
                   </div>
 
-                  <p className="flex items-center gap-3 rounded-2xl bg-[#a3e635] px-6 py-4 font-semibold text-ink">
+                  <p className="flex items-center gap-3 rounded-2xl bg-[#a3e635] px-6 py-3 font-semibold text-ink max-md:[@media(max-height:700px)]:hidden sm:py-4">
                     <span className="grid size-6 place-items-center rounded-full bg-ink text-[#a3e635]">
                       <Icon name="check" className="size-3.5" strokeWidth={3} />
                     </span>
@@ -407,7 +408,7 @@ export function EnquiryModal() {
                     <button
                       type="submit"
                       disabled={status === "sending"}
-                      className="group inline-flex h-14 cursor-pointer items-center gap-3 rounded-full bg-white/70 px-10 font-semibold text-brand-700 transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70"
+                      className="group inline-flex h-14 cursor-pointer items-center gap-3 rounded-full bg-white/70 px-10 font-semibold text-brand-700 transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70 max-md:[@media(max-height:700px)]:h-12"
                     >
                       {status === "sending" ? "Sending…" : "Submit"}
                       <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
