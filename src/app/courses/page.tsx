@@ -51,7 +51,7 @@ export default function CoursesIndexPage() {
               timings and fees.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/#contact" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-yellow px-7 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white">
+              <Link href="/#contact" data-enquiry className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-yellow px-7 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white">
                 Book a free demo class
                 <span aria-hidden="true">→</span>
               </Link>

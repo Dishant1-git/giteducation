@@ -28,12 +28,40 @@ export const TEL_HREF = `tel:${SITE.phone.replace(/\s/g, "")}`;
 export const MAIL_HREF = `mailto:${SITE.email}`;
 export const WHATSAPP_HREF = `https://wa.me/${SITE.whatsapp}`;
 
+/**
+ * Gmail compose link with the institute's address, subject and message filled in.
+ * Opens in the browser, so it works on computers with no mail app set up.
+ */
+export const gmailComposeHref = ({ subject, body }: { subject: string; body: string }) =>
+  `https://mail.google.com/mail/?${new URLSearchParams({ view: "cm", fs: "1", to: SITE.email, su: subject, body })}`;
+
+/** Default enquiry email for a course or certificate program. */
+export const courseEnquiryEmail = (courseName: string) =>
+  gmailComposeHref({
+    subject: `Enquiry: ${courseName} – ${SITE.name}, ${SITE.address.locality}`,
+    body: [
+      "Hello GIT Education team,",
+      "",
+      `I am interested in the ${courseName} at your ${SITE.address.locality} centre. Please share:`,
+      "",
+      "1. Fees and instalment options",
+      "2. Upcoming batch dates and timings",
+      "3. Course duration and syllabus",
+      "4. A slot for a free demo class",
+      "",
+      "My name: ",
+      "My phone number: ",
+      "",
+      "Thank you.",
+    ].join("\n"),
+  });
+
 /** Primary navigation. Every href is a real route or a hash on the home page. */
 export const navLinks: [label: string, href: string][] = [
   ["Home", "/"],
   ["About", "/#about"],
   ["Courses", "/courses"],
-  ["Certificate Programs", "/courses"],
+  ["Certificate Programs", "/certificate-programs"],
   ["Why Us", "/#difference"],
   ["Reviews", "/#reviews"],
   ["Resources", "/#faq"],
@@ -113,18 +141,22 @@ export const courseGroups: { title: string; blurb: string; items: CourseMenuItem
   },
 ];
 
-/** Certificate Programs menu: icon cards (icon = key in `lineIcons`), each linking to its course page. */
-export const certificatePrograms: { label: string; icon: string; slug: string; badge?: string }[] = [
-  { label: "Basic Computer", icon: "monitor", slug: "basic-computer-course-in-jalandhar" },
-  { label: "MS Office", icon: "document", slug: "ms-office-course-in-jalandhar" },
-  { label: "Advance Excel", icon: "chart", slug: "advance-excel-course-in-jalandhar" },
-  { label: "Tally Prime / ERP", icon: "receipt", slug: "tally-prime-course-in-jalandhar" },
-  { label: "Punjabi Typing", icon: "keyboard", slug: "punjabi-typing-course-in-jalandhar" },
-  { label: "CAD / CAM", icon: "cube", slug: "cad-cam-course-in-jalandhar" },
-  { label: "Graphic Design", icon: "pen", slug: "graphic-design-course-in-jalandhar" },
-  { label: "English Typing", icon: "type", slug: "english-typing-course-in-jalandhar" },
-  { label: "DTP & Printing", icon: "printer", slug: "dtp-printing-course-in-jalandhar" },
+/** Certificate Programs menu: icon cards (icon = key in `lineIcons`), each linking to its own page at /certificate-programs/[slug]. */
+export type CertificateMenuItem = { label: string; icon: string; slug: string; badge?: string };
+
+export const certificatePrograms: CertificateMenuItem[] = [
+  { label: "Basic Computer", icon: "monitor", slug: "basic-computer-certificate-program-in-jalandhar" },
+  { label: "MS Office", icon: "document", slug: "ms-office-certificate-program-in-jalandhar" },
+  { label: "Advance Excel", icon: "chart", slug: "advance-excel-certificate-program-in-jalandhar" },
+  { label: "Tally Prime / ERP", icon: "receipt", slug: "tally-prime-erp-certificate-program-in-jalandhar" },
+  { label: "Punjabi Typing", icon: "keyboard", slug: "punjabi-typing-certificate-program-in-jalandhar" },
+  { label: "CAD / CAM", icon: "cube", slug: "cad-cam-certificate-program-in-jalandhar" },
+  { label: "Graphic Design", icon: "pen", slug: "graphic-design-certificate-program-in-jalandhar" },
+  { label: "English Typing", icon: "type", slug: "english-typing-certificate-program-in-jalandhar" },
+  { label: "DTP & Printing", icon: "printer", slug: "dtp-printing-certificate-program-in-jalandhar" },
 ];
+
+export const certificateHref = (slug: string) => `/certificate-programs/${slug}`;
 
 /** Branches. Some run their own site and open in a new tab. */
 export const branches: { city: string; href: string; external?: boolean }[] = [

@@ -3,45 +3,37 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
+import { EnquiryForm } from "@/components/enquiry-form";
 import { Icon } from "@/components/icon";
-import { SITE, courseGroups } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
 /**
  * "Still exploring?" enquiry popup.
  *
  * - Opens by itself once per browser session, 10 seconds after the site loads.
- * - Anything can open it with `openEnquiry()` (the header's Book Free Demo buttons do).
+ * - Anything can open it with `openEnquiry()` (the header's Book Free Demo buttons do),
+ *   or by carrying a `data-enquiry` attribute (works from server components too).
  * - Escape, the close button or a click on the backdrop closes it.
  *
- * Submissions are validated here but not sent anywhere yet: there is no form
- * backend in this project. Wire `submitEnquiry` to your email/CRM/API when ready.
+ * - The course dropdown is pre-filled: from `openEnquiry("Course")` or a
+ *   `data-enquiry="Course"` value if given, otherwise from the page's
+ *   `data-enquiry-course` attribute (set by course and certificate pages).
+ *
+ * The form itself lives in enquiry-form.tsx.
  */
 
 const OPEN_EVENT = "enquiry:open";
 const AUTO_OPEN_KEY = "enquiry-auto-shown";
 const AUTO_OPEN_DELAY = 10_000;
 
-/** Open the enquiry popup from anywhere on the page. */
-export function openEnquiry() {
-  window.dispatchEvent(new Event(OPEN_EVENT));
+/** Open the enquiry popup from anywhere, optionally with a course pre-selected. */
+export function openEnquiry(course?: unknown) {
+  // Accepts being used directly as an onClick handler: a click event is not a course.
+  window.dispatchEvent(new CustomEvent<string | undefined>(OPEN_EVENT, { detail: typeof course === "string" ? course : undefined }));
 }
 
-type Enquiry = { course: string; name: string; phone: string };
-
-// TODO: send to a real endpoint (email service, CRM or an API route).
-async function submitEnquiry(enquiry: Enquiry) {
-  void enquiry;
-}
-
-/** A random single-digit sum, always different from `previous` so a refresh visibly changes. */
-const newSum = (previous?: { a: number; b: number }) => {
-  let a: number, b: number;
-  do {
-    a = 1 + Math.floor(Math.random() * 9);
-    b = 1 + Math.floor(Math.random() * 9);
-  } while (previous && a === previous.a && b === previous.b);
-  return { a, b };
-};
+/** The course of the page being viewed, if it declares one. */
+const pageCourse = () => document.querySelector("[data-enquiry-course]")?.getAttribute("data-enquiry-course") ?? "";
 
 function GoogleG() {
   return (
@@ -56,17 +48,19 @@ function GoogleG() {
 
 export function EnquiryModal() {
   const [open, setOpen] = useState(false);
-  const [sum, setSum] = useState(newSum);
-  const [form, setForm] = useState({ course: "", name: "", phone: "", answer: "" });
-  const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [course, setCourse] = useState("");
+  const [formKey, setFormKey] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const reduce = useReducedMotion();
   const titleId = useId();
 
-  const show = useCallback(() => {
+  const show = useCallback((event?: Event) => {
     lastFocus.current = document.activeElement as HTMLElement | null;
+    const requested = event instanceof CustomEvent && typeof event.detail === "string" ? event.detail : "";
+    setCourse(requested || pageCourse());
+    // Fresh form (and fresh pre-selection) every time the popup opens.
+    setFormKey((key) => key + 1);
     setOpen(true);
   }, []);
 
@@ -80,6 +74,23 @@ export function EnquiryModal() {
     window.addEventListener(OPEN_EVENT, show);
     return () => window.removeEventListener(OPEN_EVENT, show);
   }, [show]);
+
+  // Any link or button marked `data-enquiry` (every "Book demo" CTA, on every
+  // page) opens this popup instead of following its href. Server components
+  // only need the attribute; the href remains the no-JavaScript fallback.
+  // Capture phase runs before Next's <Link> handler, which skips navigation
+  // once the default is prevented. Modified clicks (new tab etc.) are left alone.
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const trigger = event.target instanceof Element ? event.target.closest("[data-enquiry]") : null;
+      if (!trigger) return;
+      event.preventDefault();
+      openEnquiry(trigger.getAttribute("data-enquiry") || undefined);
+    };
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, []);
 
   // Auto-open once per session, 10s after load
   useEffect(() => {
@@ -135,58 +146,8 @@ export function EnquiryModal() {
     };
   }, [open, close]);
 
-  const update = (field: keyof typeof form) => (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const value = field === "phone" ? event.target.value.replace(/\D/g, "").slice(0, 10) : event.target.value;
-    setForm((f) => ({ ...f, [field]: value }));
-    setErrors((e) => ({ ...e, [field]: undefined }));
-  };
-
-  const refreshSum = () => {
-    setSum((s) => newSum(s));
-    setForm((f) => ({ ...f, answer: "" }));
-    setErrors((e) => ({ ...e, answer: undefined }));
-  };
-
-  const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const next: typeof errors = {};
-    if (!form.course) next.course = "Please choose a course.";
-    if (form.name.trim().length < 2) next.name = "Please enter your full name.";
-    if (!/^\d{10}$/.test(form.phone)) next.phone = "Enter a 10-digit contact number.";
-    if (Number(form.answer) !== sum.a + sum.b) next.answer = "That answer isn't right. Try again.";
-    setErrors(next);
-    if (Object.keys(next).length) {
-      // Wrong answer: ask a fresh question but keep the error message showing
-      if (next.answer) {
-        setSum((s) => newSum(s));
-        setForm((f) => ({ ...f, answer: "" }));
-      }
-      return;
-    }
-    setStatus("sending");
-    await submitEnquiry({ course: form.course, name: form.name.trim(), phone: form.phone });
-    setStatus("sent");
-  };
-
-  const reset = () => {
-    setForm({ course: "", name: "", phone: "", answer: "" });
-    setErrors({});
-    setStatus("idle");
-    setSum((s) => newSum(s));
-  };
-
-  const field =
-    "h-[52px] w-full rounded-2xl border bg-white/10 px-5 text-[15px] text-white placeholder:text-white/70 outline-none transition-colors focus:border-white focus:bg-white/15 max-md:[@media(max-height:700px)]:h-11";
-  const fieldBorder = (name: keyof typeof form) => (errors[name] ? "border-red-300" : "border-white/25");
-  const errorText = (name: keyof typeof form) =>
-    errors[name] && (
-      <p id={`${titleId}-${name}-error`} className="mt-1.5 text-xs font-medium text-red-100">
-        {errors[name]}
-      </p>
-    );
-
   return (
-    <AnimatePresence onExitComplete={() => status === "sent" && reset()}>
+    <AnimatePresence>
       {open && (
         <motion.div
           key="enquiry"
@@ -276,148 +237,7 @@ export function EnquiryModal() {
             {/* Right: form */}
             <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-6 text-white sm:p-9 md:p-10">
 
-              {status === "sent" ? (
-                <div className="flex min-h-[28rem] flex-col items-start justify-center">
-                  <span className="grid size-14 place-items-center rounded-full bg-[#a3e635] text-ink">
-                    <Icon name="check" className="size-7" strokeWidth={2.5} />
-                  </span>
-                  <h3 className="mt-6 font-display text-2xl font-bold tracking-tight sm:text-3xl">Thanks, {form.name.trim().split(" ")[0]}!</h3>
-                  <p className="mt-3 max-w-sm text-white/80">
-                    A counsellor will call you on <span className="font-semibold text-white">{form.phone}</span> about {form.course}.
-                  </p>
-                  <button type="button" onClick={close} className="mt-8 h-12 cursor-pointer rounded-full bg-white px-8 font-semibold text-brand-700 transition-colors hover:bg-white/90">
-                    Done
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={onSubmit} noValidate className="space-y-3 sm:space-y-4">
-                  <h3 className="text-xl leading-snug font-bold sm:text-2xl md:pr-12">Tell us your goal. We&apos;ll code it into reality.</h3>
-
-                  <div className="pt-3">
-                    <label htmlFor={`${titleId}-course`} className="sr-only">
-                      Course of interest
-                    </label>
-                    <div className="relative">
-                      <select
-                        id={`${titleId}-course`}
-                        value={form.course}
-                        onChange={update("course")}
-                        aria-invalid={!!errors.course}
-                        aria-describedby={errors.course ? `${titleId}-course-error` : undefined}
-                        className={`${field} ${fieldBorder("course")} cursor-pointer appearance-none pr-12 ${form.course ? "" : "text-white/90"}`}
-                      >
-                        <option value="" disabled className="text-foreground">
-                          Select Your Course of Interest*
-                        </option>
-                        {courseGroups.map((group) => (
-                          <optgroup key={group.title} label={group.title} className="text-foreground">
-                            {group.items.map((item) => (
-                              <option key={item.label} value={item.label} className="text-foreground">
-                                {item.label}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ))}
-                      </select>
-                      <svg viewBox="0 0 12 12" aria-hidden="true" className="pointer-events-none absolute top-1/2 right-5 size-3.5 -translate-y-1/2">
-                        <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    {errorText("course")}
-                  </div>
-
-                  <div>
-                    <label htmlFor={`${titleId}-name`} className="sr-only">
-                      Full name
-                    </label>
-                    <input
-                      id={`${titleId}-name`}
-                      value={form.name}
-                      onChange={update("name")}
-                      placeholder="Full Name*"
-                      autoComplete="name"
-                      aria-invalid={!!errors.name}
-                      aria-describedby={errors.name ? `${titleId}-name-error` : undefined}
-                      className={`${field} ${fieldBorder("name")}`}
-                    />
-                    {errorText("name")}
-                  </div>
-
-                  <div>
-                    <label htmlFor={`${titleId}-phone`} className="sr-only">
-                      Contact number
-                    </label>
-                    <input
-                      id={`${titleId}-phone`}
-                      value={form.phone}
-                      onChange={update("phone")}
-                      placeholder="Contact Number (10 Digits)*"
-                      inputMode="numeric"
-                      autoComplete="tel-national"
-                      aria-invalid={!!errors.phone}
-                      aria-describedby={errors.phone ? `${titleId}-phone-error` : undefined}
-                      className={`${field} ${fieldBorder("phone")}`}
-                    />
-                    {errorText("phone")}
-                  </div>
-
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3 pt-1 pb-3">
-                      <label htmlFor={`${titleId}-answer`} className="font-semibold">
-                        Security verification
-                      </label>
-                      {/* Question and refresh wrap together, never apart */}
-                      <span className="flex items-center gap-3">
-                        <span className="shrink-0 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 font-bold tracking-wide whitespace-nowrap" aria-live="polite">
-                          {sum.a} + {sum.b} = ?
-                        </span>
-                        <button
-                          type="button"
-                          onClick={refreshSum}
-                          aria-label="New question"
-                          className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-xl border border-white/30 bg-white/10 transition-colors hover:bg-white/20"
-                        >
-                          <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M20 12a8 8 0 1 1-2.3-5.7L20 8.5 M20 4v4.5h-4.5" />
-                          </svg>
-                        </button>
-                      </span>
-                    </div>
-                    <input
-                      id={`${titleId}-answer`}
-                      value={form.answer}
-                      onChange={update("answer")}
-                      placeholder="Answer"
-                      inputMode="numeric"
-                      autoComplete="off"
-                      aria-invalid={!!errors.answer}
-                      aria-describedby={errors.answer ? `${titleId}-answer-error` : undefined}
-                      className={`${field} ${fieldBorder("answer")}`}
-                    />
-                    {errorText("answer")}
-                  </div>
-
-                  <p className="flex items-center gap-3 rounded-2xl bg-[#a3e635] px-6 py-3 font-semibold text-ink max-md:[@media(max-height:700px)]:hidden sm:py-4">
-                    <span className="grid size-6 place-items-center rounded-full bg-ink text-[#a3e635]">
-                      <Icon name="check" className="size-3.5" strokeWidth={3} />
-                    </span>
-                    Expert response within 5 minutes.
-                  </p>
-
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={status === "sending"}
-                      className="group inline-flex h-14 cursor-pointer items-center gap-3 rounded-full bg-white/70 px-10 font-semibold text-brand-700 transition-colors hover:bg-white disabled:cursor-wait disabled:opacity-70 max-md:[@media(max-height:700px)]:h-12"
-                    >
-                      {status === "sending" ? "Sending…" : "Submit"}
-                      <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
-                        →
-                      </span>
-                    </button>
-                  </div>
-                </form>
-              )}
+              <EnquiryForm key={formKey} initialCourse={course} onDone={close} />
             </div>
           </motion.div>
         </motion.div>

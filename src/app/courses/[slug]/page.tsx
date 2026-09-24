@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { COURSES, FEE_NOTE, PLACEMENT_STEPS, formatFee, getCourse, getRelatedCourses, type Course } from "@/lib/courses";
-import { MAIL_HREF, SITE, TEL_HREF, WHATSAPP_HREF } from "@/lib/site";
+import { SITE, TEL_HREF, WHATSAPP_HREF, courseEnquiryEmail } from "@/lib/site";
 
 import { Accordion, CourseActionBar, PrintButton, SectionNav } from "./course-ui";
 
@@ -200,10 +200,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
   if (!course) notFound();
 
   const related = getRelatedCourses(course);
-  const enquirySubject = encodeURIComponent(`Enquiry: ${course.title}`);
 
   return (
-    <article className="pb-4">
+    // data-enquiry-course pre-selects this course whenever the enquiry popup opens on this page.
+    <article className="pb-4" data-enquiry-course={course.shortTitle}>
       <StructuredData course={course} />
 
       {/* ---------- Hero ---------- */}
@@ -266,6 +266,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <Link
                     href="/#contact"
+                    data-enquiry
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-yellow px-7 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white"
                   >
                     Book a free demo class
@@ -324,11 +325,14 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   Reserve a seat
                 </Link>
                 <a
-                  href={`${MAIL_HREF}?subject=${enquirySubject}`}
+                  href={courseEnquiryEmail(`${course.shortTitle} course`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-3 flex h-11 items-center justify-center gap-2 rounded-full border border-white/25 text-sm font-medium transition-colors duration-200 hover:border-white/50 hover:bg-white/10"
                 >
                   <Icon name="mail" className="size-4" />
                   Email an enquiry
+                  <span className="sr-only"> (opens Gmail in a new tab)</span>
                 </a>
                 <p className="mt-4 text-xs leading-relaxed text-white/50">{FEE_NOTE}</p>
               </aside>

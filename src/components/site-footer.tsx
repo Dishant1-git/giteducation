@@ -41,6 +41,7 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-3">
             <a
               href={`${MAIL_HREF}?subject=Free%20demo%20class`}
+              data-enquiry
               className="inline-flex h-11 items-center gap-2 rounded-full bg-accent-yellow px-6 text-sm font-semibold text-ink shadow-lg shadow-accent-yellow/20 transition-all hover:-translate-y-0.5 hover:bg-white"
             >
               Book Free Demo →

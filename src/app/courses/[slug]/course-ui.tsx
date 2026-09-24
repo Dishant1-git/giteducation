@@ -244,6 +244,7 @@ export function CourseActionBar({ courseTitle }: { courseTitle: string }) {
             </a>
             <Link
               href="/#contact"
+              data-enquiry
               className="inline-flex h-11 shrink-0 items-center rounded-full bg-action px-5 text-sm font-semibold text-white transition-colors hover:bg-action-hover"
             >
               Book demo

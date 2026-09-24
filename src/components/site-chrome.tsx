@@ -2,7 +2,7 @@
 
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 
 import { SITE, WHATSAPP_HREF } from "@/lib/site";
@@ -20,6 +20,7 @@ export function SiteChrome() {
   const pathname = usePathname();
   const [showTop, setShowTop] = useState(false);
   const reduce = useReducedMotion();
+  const lenisRef = useRef<Lenis | null>(null);
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.3 });
@@ -29,8 +30,27 @@ export function SiteChrome() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({ autoRaf: true, lerp: 0.09, anchors: { offset: -110 } });
-    return () => lenis.destroy();
+    lenisRef.current = lenis;
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
   }, []);
+
+  // Every page opens at its hero — on first load, on refresh and after client-side
+  // navigation. The browser's own scroll restoration is switched off (it would
+  // reopen a refreshed page half-way down), and Lenis keeps its own scroll target,
+  // so it is reset too or it would ease the new page back to the old position.
+  // Links to an anchor (/#contact) keep their own target.
+  useEffect(() => {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  }, []);
+
+  useEffect(() => {
+    if (window.location.hash) return;
+    lenisRef.current?.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     let ticking = false;

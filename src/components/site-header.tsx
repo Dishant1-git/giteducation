@@ -13,6 +13,7 @@ import {
   SITE,
   TEL_HREF,
   branches,
+  certificateHref,
   certificatePrograms,
   courseGroups,
   courseHref,
@@ -267,7 +268,7 @@ function CertificateProgramsPanel() {
         {certificatePrograms.map((program) => (
           <Link
             key={program.label}
-            href={`/courses/${program.slug}`}
+            href={certificateHref(program.slug)}
             className="group/card flex items-center gap-3 rounded-2xl border border-line/70 bg-white/60 px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-action/40 hover:bg-white hover:shadow-[0_10px_28px_-14px_rgba(15,23,42,0.35)]"
           >
             <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-action/10 text-action transition-colors duration-200 group-hover/card:bg-action group-hover/card:text-white">
@@ -286,8 +287,8 @@ function CertificateProgramsPanel() {
             <cite className="ml-1.5 font-medium text-foreground not-italic">— Steve Jobs</cite>
           </blockquote>
         </figure>
-        <Link href="/courses" className="group/all inline-flex items-center gap-2 text-sm font-medium text-action">
-          See all courses
+        <Link href="/certificate-programs" className="group/all inline-flex items-center gap-2 text-sm font-medium text-action">
+          See all certificate programs
           <span aria-hidden="true" className="transition-transform duration-300 group-hover/all:translate-x-1">→</span>
         </Link>
       </div>
@@ -563,6 +564,46 @@ export function SiteHeader() {
                               View all courses →
                             </Link>
                           </div>
+                        </div>
+                      </div>
+                    </li>
+                  ) : label === "Certificate Programs" ? (
+                    <li key={label}>
+                      <button
+                        type="button"
+                        onClick={() => setMobileSection((section) => (section === "certificates" ? null : "certificates"))}
+                        aria-expanded={mobileSection === "certificates"}
+                        aria-controls="mobile-certificates"
+                        className="flex w-full cursor-pointer items-center justify-between py-3.5 font-display text-lg font-semibold tracking-tight"
+                      >
+                        Certificate Programs
+                        <span aria-hidden="true" className={`text-sm text-muted transition-transform duration-300 ${mobileSection === "certificates" ? "rotate-90" : ""}`}>
+                          →
+                        </span>
+                      </button>
+                      <div
+                        id="mobile-certificates"
+                        className={`grid transition-[grid-template-rows] duration-300 ease-out ${mobileSection === "certificates" ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                      >
+                        <div className="overflow-hidden" inert={mobileSection !== "certificates"}>
+                          <ul className="grid grid-cols-2 gap-2 pb-4">
+                            {certificatePrograms.map((program) => (
+                              <li key={program.slug}>
+                                <Link
+                                  href={certificateHref(program.slug)}
+                                  className="flex items-center gap-2 rounded-xl border border-line/70 px-2.5 py-2 text-sm text-foreground/80 transition-colors hover:border-action/40 hover:text-action"
+                                >
+                                  <Icon name={program.icon} className="size-4 shrink-0 text-action" />
+                                  <span className="leading-snug">{program.label}</span>
+                                </Link>
+                              </li>
+                            ))}
+                            <li className="col-span-2">
+                              <Link href={href} className="flex items-center gap-2 px-1 pt-1 text-[15px] font-semibold text-action">
+                                View all certificate programs →
+                              </Link>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </li>

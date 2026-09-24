@@ -254,7 +254,7 @@ export default function Home() {
                 Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi typing, CAD/CAM and graphic design, taught hands-on with one computer per student.
               </p>
               <div style={delay(7, 150)} className="hero-in mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-                <a href="#contact" className="group relative isolate inline-flex h-13 items-center justify-center gap-2 overflow-hidden rounded-full bg-accent-yellow px-8 font-semibold text-ink shadow-xl shadow-accent-yellow/25 transition-transform hover:-translate-y-0.5">
+                <a href="#contact" data-enquiry className="group relative isolate inline-flex h-13 items-center justify-center gap-2 overflow-hidden rounded-full bg-accent-yellow px-8 font-semibold text-ink shadow-xl shadow-accent-yellow/25 transition-transform hover:-translate-y-0.5">
                   <span className="absolute inset-0 -z-10 translate-y-full rounded-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
                   Book a free demo class
                 </a>
@@ -608,7 +608,7 @@ export default function Home() {
               </p>
               <div className="mt-8 flex flex-wrap gap-6">
                 <a href={TEL_HREF} className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Call Now <span className="transition-transform group-hover:translate-x-1">→</span></a>
-                <a href="#contact" className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Book a Free Demo <span className="transition-transform group-hover:translate-x-1">→</span></a>
+                <a href="#contact" data-enquiry className="group inline-flex items-center gap-1.5 font-semibold text-brand-600 hover:text-brand-700">Book a Free Demo <span className="transition-transform group-hover:translate-x-1">→</span></a>
               </div>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
