@@ -18,7 +18,6 @@ const PICKS = [
   "tally-prime-course-in-jalandhar",
   "punjabi-typing-course-in-jalandhar",
   "cad-cam-course-in-jalandhar",
-  "graphic-design-course-in-jalandhar",
   "advance-excel-course-in-jalandhar",
   "digital-marketing-course-in-jalandhar",
   "artificial-intelligence-course-in-jalandhar",

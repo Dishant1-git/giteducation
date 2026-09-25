@@ -10,7 +10,7 @@
  * "Free to learn, exam paid".
  */
 
-export type TrackId = "ai" | "cad" | "marketing" | "design" | "accounts" | "data";
+export type TrackId = "ai" | "cad" | "marketing" | "accounts" | "data";
 export type BackgroundId = "school" | "graduate" | "engineering" | "working";
 export type RewardId = "job" | "freelance" | "business";
 export type PaceId = "light" | "steady" | "fulltime";
@@ -35,7 +35,6 @@ export const QUESTIONS: Question[] = [
       { id: "ai", title: "Get a computer to do the boring part", text: "Prompts, small Python scripts and AI tools that finish in minutes what used to take a day." },
       { id: "cad", title: "Draw and model a real object", text: "Dimensions, sections, assemblies — a part or a floor plan that could actually be built." },
       { id: "marketing", title: "Grow a page's traffic and enquiries", text: "Keywords, ad copy, analytics, and the numbers moving week on week." },
-      { id: "design", title: "Design posters, logos and social posts", text: "Colour, type and layout — work people stop scrolling to look at." },
       { id: "accounts", title: "Keep a business's books in order", text: "Billing, GST returns and ledgers that balance at the end of the month." },
       { id: "data", title: "Turn messy data into a clean report", text: "Spreadsheets, formulas and dashboards that answer the manager's question." },
     ],
@@ -172,32 +171,6 @@ export const TRACKS: Record<TrackId, Track> = {
     service: "get more calls and walk-ins from Google and Instagram",
     clientType: "shop, clinic or coaching centre owner",
   },
-  design: {
-    id: "design",
-    name: "Graphic Design",
-    summary: "You notice fonts and colours others miss. Learn to design for print and social media with the tools studios and printing presses actually use.",
-    icon: "pen",
-    courseSlug: "graphic-design-course-in-jalandhar",
-    skill: "Photoshop, CorelDRAW and Illustrator",
-    phases: [
-      { title: "Foundations", tasks: ["Design basics: alignment, contrast, hierarchy and colour", "Photoshop: selections, layers, masks and retouching", "CorelDRAW or Illustrator: vector shapes and text"] },
-      { title: "Build", tasks: ["Recreate five designs you admire, then make your own version", "Learn print specs: bleed, CMYK, resolution and flex sizes", "Design one piece every day for a month and post it"] },
-      { title: "Show", tasks: ["Put the three portfolio projects below on Behance or Instagram", "Visit five printing presses and studios with your portfolio", "Apply to design jobs and pitch two local brands"] },
-    ],
-    resources: [
-      { name: "Canva Design School courses", provider: "Canva", cost: "Free course" },
-      { name: "Adobe Express and Photoshop tutorials", provider: "Adobe", cost: "Free course" },
-      { name: "Social Media Marketing", provider: "HubSpot Academy", cost: "Free certificate" },
-    ],
-    projects: [
-      { title: "Brand identity kit", text: "Logo, colours, visiting card and letterhead for a made-up or real local brand." },
-      { title: "Social media set", text: "Nine matching Instagram posts for one business, with a consistent style." },
-      { title: "Print job", text: "A flex banner and a brochure, set up with bleed and ready for the press." },
-    ],
-    jobTitles: ["Graphic Designer", "Social Media Designer", "DTP Operator", "Junior Visual Designer", "Print & Packaging Designer"],
-    service: "design your posts, banners and visiting cards so your brand looks consistent",
-    clientType: "shop owner, event organiser or local brand",
-  },
   accounts: {
     id: "accounts",
     name: "Accounts & GST",
@@ -316,7 +289,7 @@ export type Plan = {
 
 /** A second track worth a look, based on background, if it differs from the first. */
 const ALTERNATE: Record<BackgroundId, TrackId[]> = {
-  school: ["design", "data"],
+  school: ["marketing", "data"],
   graduate: ["accounts", "marketing"],
   engineering: ["cad", "ai"],
   working: ["data", "marketing"],

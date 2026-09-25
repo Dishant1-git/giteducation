@@ -281,43 +281,6 @@ const details: Record<string, CertificateDetails> = {
     ],
   },
 
-  "graphic-design-certificate-program-in-jalandhar": {
-    courseSlug: "graphic-design-course-in-jalandhar",
-    title: "Graphic Design Certificate Program in Jalandhar",
-    credential: "Certificate in Graphic Design & Print Production",
-    code: "GIT-GD",
-    tagline: "Photoshop, Illustrator and CorelDRAW certified through a real portfolio of print and social work.",
-    summary: [
-      "The Graphic Design certificate program certifies that you can take a brief and deliver finished, print-ready and social-ready design. You are assessed on a portfolio, not a written test.",
-      "You design logos, visiting cards, banners, social posts and brochures for real briefs, and learn the file preparation that print shops and studios in Jalandhar expect.",
-    ],
-    seo: {
-      title: "Graphic Design Certificate Program in Jalandhar | Photoshop, Illustrator & CorelDRAW",
-      description:
-        "Graphic Design certificate program in Jalandhar. Photoshop, Illustrator, CorelDRAW and InDesign with a portfolio-based assessment, verifiable certificate and placement support.",
-      keywords: ["graphic design certificate jalandhar", "photoshop certificate course punjab", "coreldraw certificate jalandhar"],
-    },
-    skills: [
-      "Edit and retouch photos in Photoshop",
-      "Design logos and vector artwork in Illustrator and CorelDRAW",
-      "Lay out brochures and multi-page documents",
-      "Design social media posts and ad creatives",
-      "Prepare print-ready files with bleed and CMYK",
-      "Present work and handle client revisions",
-    ],
-    assessment: [
-      { part: "Portfolio", weight: 55, checks: "Six finished pieces reviewed against their briefs" },
-      { part: "Timed brief", weight: 30, checks: "Design a piece from a new brief in three hours" },
-      { part: "Presentation", weight: 15, checks: "Present and defend two portfolio pieces" },
-    ],
-    passMark: "55% overall, with at least 50% in the portfolio",
-    usedFor: ["Graphic designer and DTP applications", "Studio, print-shop and agency interviews (with your portfolio)", "Freelance design work", "Social media design for your own business"],
-    faqs: [
-      ["I cannot draw. Can I still pass?", "Yes. The assessment checks layout, type, colour and software skill. Hand drawing is not tested."],
-      ["Do I keep my portfolio?", "Yes. You leave with all files and a PDF portfolio you can send to employers and clients."],
-    ],
-  },
-
   "english-typing-certificate-program-in-jalandhar": {
     courseSlug: "english-typing-course-in-jalandhar",
     title: "English Typing Certificate Program in Jalandhar",
@@ -355,42 +318,6 @@ const details: Record<string, CertificateDetails> = {
     ],
   },
 
-  "dtp-printing-certificate-program-in-jalandhar": {
-    courseSlug: "dtp-printing-course-in-jalandhar",
-    title: "DTP & Printing Certificate Program in Jalandhar",
-    credential: "Certificate in Desktop Publishing",
-    code: "GIT-DTP",
-    tagline: "Page layout and press-ready files — visiting cards, banners and wedding cards, certified on real print jobs.",
-    summary: [
-      "The DTP & Printing certificate program certifies that you can typeset and lay out print jobs that go to press without being sent back. It is built for print-shop and DTP-operator roles.",
-      "You produce the everyday jobs of a Jalandhar print shop in Punjabi, Hindi and English, and the assessment checks every file for size, bleed, colour mode and resolution.",
-    ],
-    seo: {
-      title: "DTP & Printing Certificate Program in Jalandhar | CorelDRAW, PageMaker & InDesign",
-      description:
-        "DTP & Printing certificate program in Jalandhar. Typesetting, CorelDRAW, PageMaker, InDesign and press-ready output with a practical print-job assessment and verifiable certificate.",
-      keywords: ["dtp certificate jalandhar", "printing certificate course punjab", "coreldraw pagemaker certificate jalandhar"],
-    },
-    skills: [
-      "Typeset in Punjabi, Hindi and English with Unicode",
-      "Lay out cards, pamphlets and brochures",
-      "Prepare flex and large-format files at the right scale",
-      "Set bleed, crop marks, CMYK and resolution",
-      "Produce bill books and stationery sets",
-      "Package files for the press",
-    ],
-    assessment: [
-      { part: "Print jobs", weight: 60, checks: "Three press-ready jobs checked against print specifications" },
-      { part: "Typesetting test", weight: 25, checks: "Timed multilingual typesetting of a given text" },
-      { part: "Viva", weight: 15, checks: "Explain bleed, colour mode and file preparation" },
-    ],
-    passMark: "50% overall, with at least 45% in print jobs",
-    usedFor: ["DTP operator and print-shop job applications", "Running or joining a family print business", "Typesetting work for publishers", "Progression to the Graphic Design certificate"],
-    faqs: [
-      ["How is this different from the Graphic Design certificate?", "DTP certifies typesetting and print production. Graphic Design also covers concept, branding and social media design. Many students take DTP first."],
-      ["Is Punjabi typesetting included?", "Yes, including the legacy font and Unicode conversion problems that cause most reprints in local print shops."],
-    ],
-  },
 };
 
 /** Every certificate program, in menu order. Throws at build time if the menu and content disagree. */
