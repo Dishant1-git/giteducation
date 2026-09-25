@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import { openEnquiry } from "@/components/enquiry-modal";
 import { Icon } from "@/components/icon";
 import { GENERAL_FAQS } from "@/lib/faq";
 import { ROLES } from "@/lib/salary-estimator";
@@ -150,6 +151,7 @@ export default function Home() {
   const [career, setCareer] = useState(0);
   // One open answer per FAQ column, so the two columns never disturb each other.
   const [openFaq, setOpenFaq] = useState<[number | null, number | null]>([0, null]);
+  const [ctaPhone, setCtaPhone] = useState("");
   const heroRef = useRef<HTMLDivElement>(null);
   const heroBgRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
@@ -789,6 +791,80 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Closing call to action */}
+        <section className="relative z-10 -mt-10 overflow-hidden rounded-t-[2.5rem] bg-surface py-24 lg:py-28">
+          <div className="dot-bg pointer-events-none absolute inset-0" />
+          <div className="pointer-events-none absolute top-0 left-1/2 size-[36rem] -translate-x-1/2 -translate-y-1/3 rounded-full bg-brand-200/35 blur-3xl" />
+          <div className="relative mx-auto max-w-3xl px-5 text-center">
+            <p className="reveal font-mono text-sm font-semibold tracking-[0.18em] text-action uppercase">Ready to get started?</p>
+            <h2 className="reveal scroll-rise mt-4 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] text-balance lg:text-[3.4rem]">
+              Start building your career today.
+            </h2>
+            <p style={delay(1)} className="reveal mx-auto mt-6 max-w-xl text-base leading-relaxed text-content-muted lg:text-lg">
+              Talk to a counsellor today. One call is usually enough to know which course fits your studies, your timings and the job you want.
+            </p>
+
+            {/* The number carries into the Book Free Demo popup, where the visitor adds their name and course. */}
+            <form
+              style={delay(2)}
+              onSubmit={(event) => {
+                event.preventDefault();
+                openEnquiry({ phone: ctaPhone.replace(/\D/g, "").slice(0, 10) });
+              }}
+              className="reveal mx-auto mt-10 flex max-w-xl flex-col gap-3 sm:flex-row"
+            >
+              <label htmlFor="cta-phone" className="sr-only">
+                Your mobile number
+              </label>
+              <input
+                id="cta-phone"
+                value={ctaPhone}
+                onChange={(event) => setCtaPhone(event.target.value.replace(/\D/g, "").slice(0, 10))}
+                placeholder="Your mobile number"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                className="h-14 flex-1 rounded-full border border-border-subtle bg-surface-raised px-6 text-[15px] shadow-sm outline-none transition-colors placeholder:text-content-muted focus:border-action"
+              />
+              <button
+                type="submit"
+                className="group inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-panel px-8 font-semibold text-white transition-colors hover:bg-action"
+              >
+                Book Demo
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </button>
+            </form>
+
+            <div style={delay(3)} className="reveal mt-8 flex justify-center">
+              <a
+                href={TEL_HREF}
+                className="group inline-flex items-center gap-4 rounded-full bg-gradient-to-r from-action to-brand-500 py-3 pr-8 pl-3 text-white shadow-xl shadow-action/25 transition-transform hover:-translate-y-0.5"
+              >
+                <span className="grid size-12 place-items-center rounded-full bg-white/20 transition-transform duration-500 group-hover:scale-110">
+                  <Icon name="phone" className="size-5" />
+                </span>
+                <span className="text-left">
+                  <span className="block font-mono text-[11px] tracking-[0.18em] text-white/75 uppercase">Call now</span>
+                  <span className="block text-lg font-bold">{SITE.phone}</span>
+                </span>
+              </a>
+            </div>
+
+            <ul style={delay(4)} className="reveal mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-content-muted">
+              {["Free demo class", "Certificate on completion", "Placement assistance"].map((item, i) => (
+                <Fragment key={item}>
+                  {i > 0 && <li aria-hidden="true" className="hidden h-4 w-px bg-border-subtle sm:block" />}
+                  <li className="inline-flex items-center gap-2">
+                    <span className="grid size-5 place-items-center rounded-full bg-action/10 text-action">
+                      <Icon name="check" className="size-3" strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                </Fragment>
+              ))}
+            </ul>
           </div>
         </section>
 
