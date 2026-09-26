@@ -33,7 +33,7 @@ export const BRANCHES: Branch[] = [
   { id: "mca", name: "MCA / M.Sc IT", icon: "code", tracks: ["python-ai", "web-python", "excel-data"] },
   { id: "aids", name: "AI & Data Science", icon: "robot", tracks: ["python-ai", "excel-data", "web-python"] },
   { id: "mech", name: "Mechanical & Automobile", icon: "cube", tracks: ["cad-mech", "cnc", "excel-data"] },
-  { id: "civil", name: "Civil & Architecture", icon: "building", tracks: ["cad-civil", "structural", "graphic-design"] },
+  { id: "civil", name: "Civil & Architecture", icon: "building", tracks: ["cad-civil", "structural", "excel-data"] },
   { id: "ece", name: "ECE / EE / Electronics", icon: "chip", tracks: ["python-ai", "cad-mech", "excel-data"] },
   { id: "commerce", name: "MBA / BBA / B.Com", icon: "briefcase", tracks: ["tally-gst", "excel-data", "digital-marketing"] },
 ];
@@ -129,16 +129,6 @@ export const TRACKS: Record<string, Track> = {
     outcome: "One analysed structure with a design report",
     courseSlug: "cad-cam-course-in-jalandhar",
     enquiryName: "CAD / CAM",
-  },
-  "graphic-design": {
-    id: "graphic-design",
-    title: "Presentation & Graphic Design",
-    tag: "Add-on",
-    text: "Present drawings and projects like a professional: sheets, posters and portfolio layouts.",
-    stack: ["Photoshop", "CorelDRAW", "Illustrator"],
-    outcome: "One printed project portfolio",
-    courseSlug: "graphic-design-course-in-jalandhar",
-    enquiryName: "Graphic Design",
   },
   "tally-gst": {
     id: "tally-gst",

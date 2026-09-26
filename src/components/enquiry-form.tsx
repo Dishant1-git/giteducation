@@ -51,6 +51,7 @@ const MENU_COURSES = new Set(courseGroups.flatMap((group) => group.items.map((it
 export function EnquiryForm({
   formType = "book-demo",
   initialCourse = "",
+  initialPhone = "",
   heading = "Tell us your goal. We'll code it into reality.",
   headingLevel = "h3",
   onDone,
@@ -58,6 +59,8 @@ export function EnquiryForm({
 }: {
   formType?: EnquiryFormType;
   initialCourse?: string;
+  /** Pre-fills the contact number (the home page CTA passes what the visitor typed there). */
+  initialPhone?: string;
   heading?: string;
   headingLevel?: "h2" | "h3";
   /** Shows a "Done" button on the thank-you screen (the popup uses it to close). */
@@ -66,7 +69,7 @@ export function EnquiryForm({
 }) {
   const id = useId();
   const [sum, setSum] = useState(newSum);
-  const [form, setForm] = useState({ course: initialCourse, name: "", phone: "", answer: "" });
+  const [form, setForm] = useState({ course: initialCourse, name: "", phone: initialPhone, answer: "" });
   const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [submitError, setSubmitError] = useState("");
@@ -116,7 +119,7 @@ export function EnquiryForm({
   };
 
   const reset = () => {
-    setForm({ course: initialCourse, name: "", phone: "", answer: "" });
+    setForm({ course: initialCourse, name: "", phone: initialPhone, answer: "" });
     setErrors({});
     setSubmitError("");
     setStatus("idle");

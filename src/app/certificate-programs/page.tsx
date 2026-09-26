@@ -11,7 +11,7 @@ import { EnquireButton, FadeIn } from "./[slug]/certificate-ui";
 export const metadata: Metadata = {
   title: "Certificate Programs in Jalandhar | Practical Assessment & Verifiable Certificates",
   description:
-    "Certificate programs at GIT Education Jalandhar: Basic Computer, MS Office, Advance Excel, Tally Prime / ERP, Punjabi and English typing, CAD / CAM, Graphic Design and DTP — each with a practical assessment and a verifiable certificate.",
+    "Certificate programs at GIT Education Jalandhar: Basic Computer, MS Office, Advance Excel, Tally Prime / ERP, Punjabi and English typing and CAD / CAM — each with a practical assessment and a verifiable certificate.",
   alternates: { canonical: "/certificate-programs" },
 };
 

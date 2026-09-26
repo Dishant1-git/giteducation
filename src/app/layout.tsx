@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description:
-    "Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi Typing, CAD/CAM, Graphic Design and Artificial Intelligence courses in Jalandhar.",
+    "Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi Typing, CAD/CAM, Digital Marketing and Artificial Intelligence courses in Jalandhar.",
   openGraph: {
     type: "website",
     locale: "en_IN",

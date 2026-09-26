@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Select-String -Path src/lib/certificate-programs.ts -Pattern 'slug: \"' | % { \"$\\($_.LineNumber\\): $\\($_.Line.Trim\\(\\)\\)\" })",
+      "PowerShell(npx next build 2>&1 | Select-String -Pattern \"rror|Compiled|✓ Generating|courses/|certificate-programs/\" | % { $_.Line } | Select-Object -First 30)",
+      "PowerShell($d = \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-giteducation-org-giteducation\\\\d0d5eb12-e97e-495d-b201-0c4664c4c581\\\\scratchpad\\\\browser\"; \\(Get-Content \"$d\\\\removed.mjs\"\\) -replace 'http://localhost:3003', '${BASE}' -replace '^import puppeteer', \"const BASE = process.env.BASE ?? 'http://localhost:3003';`r`nimport puppeteer\" | Set-Content \"$d\\\\removed.mjs\" -Encoding utf8; Select-String -Path \"$d\\\\removed.mjs\" -Pattern 'BASE' | Select-Object -First 4 | % { $_.Line.Trim\\(\\) })",
+      "PowerShell(npx next dev -p 3100)",
+      "PowerShell($d = \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-giteducation-org-giteducation\\\\d0d5eb12-e97e-495d-b201-0c4664c4c581\\\\scratchpad\\\\browser\"; Push-Location $d; $env:BASE = \"http://localhost:3100\"; node removed.mjs 2>&1; Pop-Location)",
+      "PowerShell($d = \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-HP-Desktop-giteducation-org-giteducation\\\\d0d5eb12-e97e-495d-b201-0c4664c4c581\\\\scratchpad\\\\browser\"; Push-Location $d; $env:BASE = \"http://localhost:3002\"; node removed.mjs 2>&1; Pop-Location)",
+      "PowerShell(Select-String -Path src/app/page.tsx -Pattern '^\\(<<<<<<<|=======|>>>>>>>\\)' | % { \"$\\($_.LineNumber\\): $\\($_.Line\\)\" }; \"total lines: \" + \\(Get-Content src/app/page.tsx\\).Count; \"--- other conflicted files:\"; git status --short | Select-Object -First 20)"
+    ]
+  }
+}

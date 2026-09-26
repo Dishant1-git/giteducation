@@ -26,10 +26,15 @@ const OPEN_EVENT = "enquiry:open";
 const AUTO_OPEN_KEY = "enquiry-auto-shown";
 const AUTO_OPEN_DELAY = 10_000;
 
-/** Open the enquiry popup from anywhere, optionally with a course pre-selected. */
-export function openEnquiry(course?: unknown) {
-  // Accepts being used directly as an onClick handler: a click event is not a course.
-  window.dispatchEvent(new CustomEvent<string | undefined>(OPEN_EVENT, { detail: typeof course === "string" ? course : undefined }));
+/** What an opener may pre-fill in the form. */
+export type EnquiryPrefill = { course?: string; phone?: string };
+
+/** Open the enquiry popup from anywhere, optionally pre-filling course and phone. */
+export function openEnquiry(prefill?: unknown) {
+  // Accepts being used directly as an onClick handler: a click event is not a prefill.
+  const detail: EnquiryPrefill | undefined =
+    typeof prefill === "string" ? { course: prefill } : prefill && typeof prefill === "object" && !("nativeEvent" in prefill) && !(prefill instanceof Event) ? (prefill as EnquiryPrefill) : undefined;
+  window.dispatchEvent(new CustomEvent<EnquiryPrefill | undefined>(OPEN_EVENT, { detail }));
 }
 
 /** The course of the page being viewed, if it declares one. */
@@ -49,6 +54,7 @@ function GoogleG() {
 export function EnquiryModal() {
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState("");
+  const [phone, setPhone] = useState("");
   const [formKey, setFormKey] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
@@ -57,8 +63,9 @@ export function EnquiryModal() {
 
   const show = useCallback((event?: Event) => {
     lastFocus.current = document.activeElement as HTMLElement | null;
-    const requested = event instanceof CustomEvent && typeof event.detail === "string" ? event.detail : "";
-    setCourse(requested || pageCourse());
+    const detail = (event instanceof CustomEvent ? event.detail : undefined) as EnquiryPrefill | undefined;
+    setCourse(detail?.course || pageCourse());
+    setPhone(detail?.phone ?? "");
     // Fresh form (and fresh pre-selection) every time the popup opens.
     setFormKey((key) => key + 1);
     setOpen(true);
@@ -237,7 +244,7 @@ export function EnquiryModal() {
             {/* Right: form */}
             <div className="relative bg-gradient-to-br from-brand-600 via-brand-500 to-violet-600 p-5 text-white sm:p-7">
 
-              <EnquiryForm key={formKey} initialCourse={course} onDone={close} />
+              <EnquiryForm key={formKey} initialCourse={course} initialPhone={phone} onDone={close} />
             </div>
           </motion.div>
         </motion.div>

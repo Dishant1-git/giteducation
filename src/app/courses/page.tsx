@@ -7,9 +7,9 @@ import { COURSES, formatFee, getCoursesByCategory } from "@/lib/courses";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "All Courses in Jalandhar | Computer, Accounting, Design & AI Training",
+  title: "All Courses in Jalandhar | Computer, Accounting, CAD & AI Training",
   description:
-    "Every course at GIT Education Jalandhar: Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi and English typing, CAD/CAM, Graphic Design, DTP, Digital Marketing and Artificial Intelligence.",
+    "Every course at GIT Education Jalandhar: Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi and English typing, CAD/CAM, Digital Marketing and Artificial Intelligence.",
   alternates: { canonical: "/courses" },
 };
 

@@ -61,19 +61,6 @@ export const ROLES: Role[] = [
     ],
   },
   {
-    id: "design",
-    title: "Graphic Designer",
-    base: [12, 20],
-    courseSlug: "graphic-design-course-in-jalandhar",
-    courseName: "Graphic Design",
-    jobTitles: ["Graphic Designer", "Social Media Designer", "DTP Designer"],
-    skills: [
-      { id: "portfolio", label: "Online portfolio of 15+ pieces" },
-      { id: "motion", label: "Basic video / motion editing" },
-      { id: "print", label: "Print-ready file setup" },
-    ],
-  },
-  {
     id: "marketing",
     title: "Digital Marketing Executive",
     base: [12, 20],

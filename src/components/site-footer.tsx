@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/icon";
@@ -55,11 +56,15 @@ export function SiteFooter() {
         {/* Directory */}
         <div className="relative z-10 grid gap-12 pt-16 pb-14 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] lg:gap-8">
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="group flex items-center gap-2 font-display text-xl font-bold tracking-tight">
-              <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-action to-accent-500 text-sm font-extrabold text-white transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
-                GIT
-              </span>
-              GIT <span className="-ml-1 text-action">Education</span>
+            <Link href="/" aria-label={`${SITE.name} home`} className="group inline-flex items-center">
+              <Image
+                src="/images/logo/tce.png"
+                alt={SITE.name}
+                width={952}
+                height={262}
+                sizes="220px"
+                className="h-11 w-auto transition-transform duration-500 group-hover:scale-105"
+              />
             </Link>
             <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed text-content-muted">Computer Training Institute</p>
             <ul className="mt-7 space-y-3.5 text-sm text-content-muted">

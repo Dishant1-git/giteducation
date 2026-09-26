@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import { openEnquiry } from "@/components/enquiry-modal";
 import { Icon } from "@/components/icon";
 import { GENERAL_FAQS } from "@/lib/faq";
+import { ROLES } from "@/lib/salary-estimator";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 const steps = [
@@ -15,19 +17,16 @@ const steps = [
   ["Completion", "Certificate & jobs", "Take the final test, get your certificate and get help with your CV and job interviews."],
 ];
 
-// [title, blurb, gradient, icon, course slug]
 const categories = [
-  ["Artificial Intelligence", "Python, machine learning and generative AI with four live projects.", "from-violet-600 to-brand-500", "🤖", "artificial-intelligence-course-in-jalandhar"],
-  ["Basic Computer", "Windows, internet, email, typing basics and everyday computer use.", "from-brand-600 to-accent-500", "💻", "basic-computer-course-in-jalandhar"],
-  ["MS Office", "Word, Excel, PowerPoint and Outlook for office and school work.", "from-brand-700 to-brand-500", "📄", "ms-office-course-in-jalandhar"],
-  ["Advance Excel", "Formulas, VLOOKUP/XLOOKUP, pivot tables, dashboards and macros.", "from-emerald-600 to-accent-500", "📊", "advance-excel-course-in-jalandhar"],
-  ["Tally Prime with GST", "Accounting, inventory, GST, TDS and payroll with Tally Prime.", "from-ink to-brand-700", "🧾", "tally-prime-course-in-jalandhar"],
-  ["Punjabi Typing", "Gurmukhi typing in Raavi and Asees fonts for government job tests.", "from-brand-500 to-accent-glow", "⌨️", "punjabi-typing-course-in-jalandhar"],
-  ["CAD / CAM", "AutoCAD, SolidWorks, CATIA, Creo and Revit for engineers and architects.", "from-logo to-brand-600", "📐", "cad-cam-course-in-jalandhar"],
-  ["Graphic Design", "Photoshop, CorelDRAW, Illustrator and InDesign for print and social media.", "from-violet-600 to-brand-500", "🎨", "graphic-design-course-in-jalandhar"],
-  ["English Typing", "Build speed and accuracy for clerk, steno and data-entry exams.", "from-accent-500 to-brand-700", "🔤", "english-typing-course-in-jalandhar"],
-  ["DTP & Printing", "Page layout, visiting cards, flex banners and wedding cards.", "from-brand-700 to-violet-500", "🖨️", "dtp-printing-course-in-jalandhar"],
-  ["Digital Marketing", "SEO, Google Ads, Meta Ads and analytics run on a real business.", "from-brand-700 to-violet-500", "📣", "digital-marketing-course-in-jalandhar"],
+  { title: "Artificial Intelligence", icon: "🤖", image: "/images/courses/ai.jpg", slug: "artificial-intelligence-course-in-jalandhar" },
+  { title: "Basic Computer", icon: "💻", image: "/images/courses/basic.jpg", slug: "basic-computer-course-in-jalandhar" },
+  { title: "MS Office", icon: "📄", image: "/images/courses/msoffice.jpg", slug: "ms-office-course-in-jalandhar" },
+  { title: "Advance Excel", icon: "📊", image: "/images/courses/excel.jpg", slug: "advance-excel-course-in-jalandhar" },
+  { title: "Tally Prime with GST", icon: "🧾", image: "/images/categories/accounts.jpg", slug: "tally-prime-course-in-jalandhar" },
+  { title: "Punjabi Typing", icon: "⌨️", image: "/images/courses/keyboard.jpg", slug: "punjabi-typing-course-in-jalandhar" },
+  { title: "CAD / CAM", icon: "📐", image: "/images/categories/cad.jpg", slug: "cad-cam-course-in-jalandhar" },
+  { title: "English Typing", icon: "🔤", image: "/images/courses/typing.jpg", slug: "english-typing-course-in-jalandhar" },
+  { title: "Digital Marketing", icon: "📣", image: "/images/categories/digital.jpg", slug: "digital-marketing-course-in-jalandhar" },
 ];
 
 // Category panels. `pos` picks which part of the photo the narrow panel shows.
@@ -36,7 +35,6 @@ const categoryPanels = [
   { title: "Accounting & Tally", blurb: "Tally Prime, GST returns, billing and payroll entries", image: "/images/categories/accounts.jpg", href: "/courses/tally-prime-course-in-jalandhar", pos: "object-[38%_50%]" },
   { title: "Web Development", blurb: "Web designing, WordPress and development with Python", image: "/images/categories/web.jpg", href: "/courses", pos: "object-center" },
   { title: "CAD / CAM", blurb: "AutoCAD, SolidWorks and Revit drawings for engineers", image: "/images/categories/cad.jpg", href: "/courses/cad-cam-course-in-jalandhar", pos: "object-[28%_50%]" },
-  { title: "Graphic Design", blurb: "Photoshop, CorelDRAW and Illustrator for print work", image: "/images/categories/design.jpg", href: "/courses/graphic-design-course-in-jalandhar", pos: "object-[45%_60%]" },
   { title: "Digital Marketing", blurb: "SEO, Google Ads and Meta Ads for businesses", image: "/images/categories/digital.jpg", href: "/courses/digital-marketing-course-in-jalandhar", pos: "object-[35%_50%]" },
 ];
 
@@ -51,7 +49,7 @@ const reviews = [
   ["SK", "Simran K.", "Accounts Assistant, Jalandhar", "The Tally with GST course was very practical. I learned billing and returns on real entries and got a job at a CA office.", "from-brand-600 to-brand-400"],
   ["HS", "Harpreet S.", "Clerk (Punjab Govt.)", "Daily Punjabi typing practice in Raavi font helped me clear my typing test easily. Thank you to the whole team!", "from-accent-500 to-accent-400"],
   ["AV", "Arjun V.", "Draughtsman, Phagwara", "AutoCAD and SolidWorks were taught with real drawings. I built a portfolio that got me hired.", "from-ink to-brand-700"],
-  ["NB", "Navneet B.", "Graphic Designer, Ludhiana", "I learned Photoshop and CorelDRAW from scratch. Now I design banners and wedding cards for my own clients.", "from-brand-700 to-accent-500"],
+  ["JS", "Jaspreet S.", "Office Assistant, Jalandhar", "The MS Office batch was small and the trainer checked my work every day. I now handle all the letters and reports at my office.", "from-brand-700 to-accent-500"],
   ["RM", "Rohit M.", "MIS Executive, Mohali", "The Advance Excel pivot tables and dashboards changed my career. My manager noticed the difference in a week.", "from-brand-500 to-accent-400"],
   ["GS", "Gurleen S.", "Student, 12th pass", "I started with the basic computer course and MS Office. The teachers are patient and the lab is always open for practice.", "from-ink to-brand-500"],
 ];
@@ -64,27 +62,19 @@ const modules = [
   ["Interview & job support", "CV making, mock interviews and job leads when you finish your course."],
 ];
 
-const softwareTabs: Record<string, string[]> = {
-  "Basic & Office": ["Windows", "Internet & Email", "MS Word", "MS Excel", "MS PowerPoint", "MS Outlook", "Google Docs", "Google Sheets"],
-  "Advance Excel": ["VLOOKUP / XLOOKUP", "Pivot Tables", "Charts & Dashboards", "Conditional Formatting", "Data Validation", "Power Query", "Macros & VBA", "MIS Reports"],
-  Accounting: ["Tally Prime", "Tally ERP 9", "GST Returns", "TDS", "Payroll", "Inventory", "Busy Accounting", "E-way Bill"],
-  Typing: ["Punjabi (Raavi)", "Punjabi (Asees)", "Gurmukhi Unicode", "English Typing", "Hindi (Mangal)", "Data Entry"],
-  "CAD / CAM": ["AutoCAD 2D", "AutoCAD 3D", "SolidWorks", "CATIA", "Creo", "Revit", "3ds Max", "Fusion 360"],
-  Graphics: ["Photoshop", "CorelDRAW", "Illustrator", "InDesign", "PageMaker", "Canva", "Premiere Pro", "Lightroom"],
+/** Icon per role in the Career Paths section (keys are ROLES ids, values are `lineIcons` keys). */
+const ROLE_ICONS: Record<string, string> = {
+  office: "briefcase",
+  mis: "chart",
+  accounts: "receipt",
+  marketing: "megaphone",
+  cad: "cube",
+  ai: "robot",
 };
-
-const careers = [
-  ["Office & Data Entry", "Computer operator, receptionist, data entry and back-office jobs.", ["Basic Computer", "MS Office", "English Typing", "Internet & Email"]],
-  ["Accounts & GST", "Accountant, billing executive and GST assistant roles at firms and shops.", ["Tally Prime", "GST & TDS", "Advance Excel", "Busy"]],
-  ["Government Jobs", "Clerk, steno and data-entry posts that need a typing test.", ["Punjabi Typing", "English Typing", "Basic Computer", "MS Office"]],
-  ["MIS & Reporting", "MIS executive and analyst roles where Excel is used every day.", ["Advance Excel", "Pivot Tables", "Dashboards", "Macros"]],
-  ["Design Engineering", "Draughtsman, CAD designer and design engineer roles in industry.", ["AutoCAD", "SolidWorks", "CATIA", "Revit"]],
-  ["Graphic Design & DTP", "Designer jobs at print shops, studios and agencies, or freelancing.", ["Photoshop", "CorelDRAW", "Illustrator", "InDesign"]],
-] as const;
 
 const faqs = GENERAL_FAQS;
 
-const marqueeItems = ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime + GST", "Punjabi Typing", "English Typing", "AutoCAD", "SolidWorks", "Photoshop", "CorelDRAW", "DTP & Printing"];
+const marqueeItems = ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime + GST", "Punjabi Typing", "English Typing", "AutoCAD", "SolidWorks", "Digital Marketing", "Web Development", "Artificial Intelligence"];
 
 const heroWords = "Learn the computer skills that turn you into a".split(" ");
 
@@ -158,9 +148,10 @@ function ArrowButton({ href, children, variant = "brand" }: { href: string; chil
 }
 
 export default function Home() {
-  const [softwareTab, setSoftwareTab] = useState("Basic & Office");
   const [career, setCareer] = useState(0);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  // One open answer per FAQ column, so the two columns never disturb each other.
+  const [openFaq, setOpenFaq] = useState<[number | null, number | null]>([0, null]);
+  const [ctaPhone, setCtaPhone] = useState("");
   const heroRef = useRef<HTMLDivElement>(null);
   const heroBgRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
@@ -245,7 +236,7 @@ export default function Home() {
                 </span>
               </h1>
               <p style={delay(6, 150)} className="hero-in mx-auto mt-8 max-w-xl text-base leading-relaxed text-white/70 lg:mx-0 lg:text-lg">
-                Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi typing, CAD/CAM and graphic design, taught hands-on with one computer per student.
+                Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi typing, CAD/CAM and digital marketing, taught hands-on with one computer per student.
               </p>
               <div style={delay(7, 150)} className="hero-in mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
                 <a href="#contact" data-enquiry className="group relative isolate inline-flex h-13 items-center justify-center gap-2 overflow-hidden rounded-full bg-accent-yellow px-8 font-semibold text-ink shadow-xl shadow-accent-yellow/25 transition-transform hover:-translate-y-0.5">
@@ -447,15 +438,35 @@ export default function Home() {
               <ArrowButton href="#contact" variant="white">Enquire now</ArrowButton>
             </div>
             <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {categories.map(([title, text, gradient, icon, slug], i) => (
+              {categories.map(({ title, icon, image, slug }, i) => (
                 <div key={title} style={delay(i % 3, 120)} className="reveal reveal-zoom">
-                  <Link href={`/courses/${slug}`} data-pointer className={`tilt spotlight spotlight-light group flex h-full min-h-56 flex-col justify-end overflow-hidden rounded-[1.75rem] bg-gradient-to-br p-6 ring-1 ring-white/10 ${gradient}`}>
-                    <div className="grid-overlay pointer-events-none absolute inset-0 opacity-50" />
-                    <div className="pointer-events-none absolute -top-16 -right-16 size-48 rounded-full bg-white/15 blur-2xl transition-transform duration-700 group-hover:scale-150" />
-                    <span className="absolute top-5 right-5 grid size-14 place-items-center rounded-2xl border border-white/25 bg-white/15 text-3xl shadow-lg backdrop-blur transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:scale-115 group-hover:-rotate-12">{icon}</span>
-                    <h3 className="relative font-display text-xl font-bold tracking-tight">{title}</h3>
-                    <p className="relative mt-1.5 text-sm leading-relaxed text-white/80">{text}</p>
-                    <span className="relative mt-4 inline-flex items-center gap-2 text-sm font-semibold">View course <span className="grid size-7 place-items-center rounded-full bg-white/20 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-white group-hover:text-ink">→</span></span>
+                  {/* Frosted white card: photo, course name, and the button */}
+                  <Link
+                    href={`/courses/${slug}`}
+                    data-pointer
+                    className="spotlight spotlight-light group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/20 bg-white/10 shadow-xl shadow-black/25 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-white/35 hover:bg-white/[0.16]"
+                  >
+                    <span className="relative block aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={image}
+                        alt=""
+                        width={1200}
+                        height={750}
+                        sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+                        className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                      />
+                      <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-panel/80 via-panel/10 to-transparent" />
+                      <span className="absolute top-4 left-4 grid size-10 place-items-center rounded-xl border border-white/25 bg-white/15 text-lg shadow-lg backdrop-blur-md transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-12 group-hover:scale-110">
+                        {icon}
+                      </span>
+                    </span>
+                    <span className="flex flex-1 flex-col justify-between gap-4 p-5">
+                      <h3 className="font-display text-lg leading-snug font-bold tracking-tight">{title}</h3>
+                      <span className="inline-flex items-center justify-between gap-3 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-300 group-hover:bg-accent-yellow">
+                        View course
+                        <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </span>
+                    </span>
                   </Link>
                 </div>
               ))}
@@ -568,9 +579,9 @@ export default function Home() {
                 </div>
               </article>
               <article data-pointer style={delay(1)} className="reveal reveal-right lift spotlight glow-border rounded-[1.75rem] border border-line bg-white p-6 shadow-sm md:col-span-3">
-                <h3 className="text-center font-display text-xl font-bold tracking-tight">Graphic Design</h3>
+                <h3 className="text-center font-display text-xl font-bold tracking-tight">Digital Marketing</h3>
                 <div className="mx-auto mt-6 max-w-sm space-y-3">
-                  {[["🖼️", "Photoshop", "Photo editing & social media posts"], ["✒️", "CorelDRAW & Illustrator", "Logos, banners & visiting cards"], ["📰", "InDesign & PageMaker", "Magazines, brochures & DTP"]].map(([icon, title, sub]) => (
+                  {[["🔍", "SEO", "Rank a real business on Google search"], ["📣", "Google & Meta Ads", "Run and track live ad campaigns"], ["📊", "Analytics & reporting", "Measure leads, clicks and spending"]].map(([icon, title, sub]) => (
                     <div key={title} className="group/row flex items-center gap-3 rounded-2xl border border-line bg-subtle px-4 py-3 transition-all duration-300 hover:translate-x-1 hover:border-brand-200 hover:bg-brand-50">
                       <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white text-lg shadow-sm transition-transform duration-300 group-hover/row:scale-110 group-hover/row:-rotate-6">{icon}</span>
                       <span className="min-w-0"><span className="block truncate text-sm font-semibold">{title}</span><span className="block text-xs text-muted">{sub}</span></span>
@@ -596,7 +607,7 @@ export default function Home() {
         <section id="difference" className="border-t border-line bg-subtle py-24 lg:py-32">
           <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1fr_1.3fr]">
             <div className="reveal lg:sticky lg:top-28 lg:self-start">
-              <h2 className="scroll-risefont-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]"><span className="text-brand-600">/</span> The GIT Education Difference</h2>
+              <h2 className="scroll-rise font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]"><span className="text-brand-600">/</span> Why techcadd</h2>
               <p className="mt-7 max-w-md text-base leading-relaxed text-muted">
                 Students and parents in Jalandhar choose us for patient teaching, a well-equipped computer lab and courses that lead to real jobs.
               </p>
@@ -622,7 +633,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-5">
             <div className="reveal flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <div>
-                <h2 className="scroll-risemax-w-xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">What our students say about GIT Education</h2>
+                <h2 className="scroll-rise max-w-xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">What our students say about GIT Education</h2>
                 <div className="mt-6 flex flex-wrap gap-3 text-sm">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-subtle px-3.5 py-1.5"><span className="text-amber-500">★</span> <Counter to={4.9} decimals={1} />/5 Rating</span>
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-subtle px-3.5 py-1.5">💬 <Counter to={500} suffix="+" /> Reviews</span>
@@ -672,33 +683,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Software */}
-        <section id="software" className="py-24 lg:py-32">
-          <div className="mx-auto max-w-6xl px-5 text-center">
-            <div className="reveal">
-              <Pill>Software</Pill>
-              <h2 className="scroll-rise mt-5 font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Software We Teach</h2>
-              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:text-lg">From everyday office tools to professional accounting, drafting and design software.</p>
-            </div>
-            <div style={delay(2)} className="reveal mt-10 flex overflow-x-auto pb-2 sm:justify-center">
-              <div className="inline-flex gap-1 rounded-full border border-line bg-white p-1.5 shadow-sm">
-                {Object.keys(softwareTabs).map((tab) => (
-                  <button key={tab} onClick={() => setSoftwareTab(tab)} className={`rounded-full px-5 py-2.5 text-sm font-medium whitespace-nowrap transition-all duration-300 ${softwareTab === tab ? "bg-panel text-white shadow-lg shadow-panel/25" : "text-muted hover:bg-subtle hover:text-foreground"}`}>{tab}</button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {softwareTabs[softwareTab].map((item, i) => (
-                <div key={`${softwareTab}-${item}`} data-pointer style={delay(i, 55)} className="pop-in spotlight group flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-4 text-left transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg hover:shadow-brand-600/10">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 font-display text-sm font-bold text-brand-700 transition-all duration-300 group-hover:rotate-[-8deg] group-hover:bg-gradient-to-br group-hover:from-brand-600 group-hover:to-violet-500 group-hover:text-white">{item[0]}</span>
-                  <span className="truncate text-sm font-medium">{item}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 flex justify-center"><ArrowButton href="#contact">Enquire about a course</ArrowButton></div>
-          </div>
-        </section>
-
         {/* Careers */}
         <section className="scroll-grow relative isolate overflow-hidden rounded-t-[2.5rem] bg-panel py-24 text-white lg:py-32">
           <div className="panel-glow pointer-events-none absolute inset-0 -z-10" />
@@ -708,60 +692,216 @@ export default function Home() {
               <Pill dark>Career Paths</Pill>
               <h2 className="scroll-rise mt-5 max-w-3xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Pick a career, and we&apos;ll show you the courses for it</h2>
             </div>
-            <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.6fr]">
-              <div className="reveal reveal-left flex flex-col gap-1">
-                {careers.map(([title], i) => (
-                  <button key={title} onClick={() => setCareer(i)} className={`group relative flex items-center justify-between overflow-hidden rounded-2xl px-6 py-4 text-left font-medium transition-all duration-300 ${career === i ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"}`}>
-                    <span className={`absolute top-1/2 left-0 w-1 -translate-y-1/2 rounded-full bg-accent-yellow transition-all duration-500 ${career === i ? "h-8 opacity-100" : "h-0 opacity-0"}`} />
-                    <span className={`transition-transform duration-300 ${career === i ? "translate-x-1" : "group-hover:translate-x-1"}`}>{title}</span>
-                    <span className="text-accent-yellow">{career === i ? "→" : ""}</span>
-                  </button>
-                ))}
+            <div className="mt-12 grid gap-5 lg:grid-cols-[minmax(240px,1fr)_1.7fr] lg:gap-8">
+              {/* Role rail: a scrolling strip on phones, a list on desktop */}
+              <div className="reveal reveal-left -mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:mx-0 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:px-0 lg:pb-0">
+                {ROLES.map((role, i) => {
+                  const active = career === i;
+                  return (
+                    <button
+                      key={role.id}
+                      onClick={() => setCareer(i)}
+                      aria-pressed={active}
+                      className={`group relative flex shrink-0 cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all duration-300 lg:w-full lg:shrink ${
+                        active ? "border-white/15 bg-white/10" : "border-transparent hover:bg-white/5"
+                      }`}
+                    >
+                      <span
+                        className={`grid size-9 shrink-0 place-items-center rounded-xl transition-colors duration-300 ${
+                          active ? "bg-accent-yellow text-ink" : "bg-white/10 text-white/70 group-hover:text-white"
+                        }`}
+                      >
+                        <Icon name={ROLE_ICONS[role.id] ?? "briefcase"} className="size-[18px]" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className={`block text-sm font-semibold whitespace-nowrap transition-colors lg:whitespace-normal ${active ? "text-white" : "text-white/70 group-hover:text-white"}`}>
+                          {role.title}
+                        </span>
+                        <span className="mt-0.5 hidden font-mono text-[11px] text-white/45 lg:block">
+                          ₹{role.base[0]}–{role.base[1]}k / month
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
+
+              {/* Detail: pay, the jobs it opens, the course to start with, and what lifts the offer */}
               <div data-pointer style={delay(2)} className="reveal reveal-right spotlight spotlight-light rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur lg:p-8">
                 <div key={career} className="relative">
-                  <h3 className="hero-in font-display text-3xl font-bold tracking-tight">{careers[career][0]}</h3>
-                  <p style={delay(1)} className="hero-in mt-3 mb-7 max-w-2xl text-sm leading-relaxed text-white/70">{careers[career][1]}</p>
-                  <p className="mb-3 font-mono text-xs tracking-[0.16em] text-white/50 uppercase">Recommended courses</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {careers[career][2].map((c, i) => (
-                      <span key={c} style={delay(i + 2, 80)} className="pop-in rounded-2xl bg-white px-4 py-3 text-center text-sm font-semibold text-foreground shadow-lg shadow-black/20 transition-transform hover:-translate-y-0.5">{c}</span>
-                    ))}
+                  <div className="hero-in flex flex-wrap items-start justify-between gap-4">
+                    <h3 className="max-w-md font-display text-2xl leading-tight font-bold tracking-tight lg:text-3xl">{ROLES[career].title}</h3>
+                    <span className="rounded-full border border-accent-yellow/40 bg-accent-yellow/10 px-4 py-1.5 text-sm font-semibold whitespace-nowrap text-accent-yellow">
+                      ₹{ROLES[career].base[0]}–{ROLES[career].base[1]}k / month
+                    </span>
+                  </div>
+                  <p style={delay(1)} className="hero-in mt-2 text-xs text-white/45">Typical starting range for a fresher in Jalandhar — an estimate to plan with, not a guarantee.</p>
+
+                  <div style={delay(2)} className="hero-in mt-7">
+                    <p className="font-mono text-xs tracking-[0.16em] text-white/50 uppercase">Jobs you can apply for</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {ROLES[career].jobTitles.map((job, i) => (
+                        <span key={job} style={delay(i + 3, 70)} className="pop-in rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-sm">
+                          {job}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-7 grid gap-5 sm:grid-cols-2">
+                    <div style={delay(3)} className="hero-in">
+                      <p className="font-mono text-xs tracking-[0.16em] text-white/50 uppercase">Start with</p>
+                      <Link
+                        href={`/courses/${ROLES[career].courseSlug}`}
+                        className="group/course mt-3 flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-3.5 text-sm font-semibold text-foreground shadow-lg shadow-black/20 transition-transform hover:-translate-y-0.5"
+                      >
+                        {ROLES[career].courseName}
+                        <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-action/10 text-action transition-transform group-hover/course:translate-x-0.5">→</span>
+                      </Link>
+                    </div>
+                    <div style={delay(4)} className="hero-in">
+                      <p className="font-mono text-xs tracking-[0.16em] text-white/50 uppercase">What raises the offer</p>
+                      <ul className="mt-3 space-y-2">
+                        {ROLES[career].skills.map((skill) => (
+                          <li key={skill.id} className="flex items-start gap-2 text-sm text-white/75">
+                            <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-accent-yellow/20 text-accent-yellow">
+                              <Icon name="check" className="size-2.5" strokeWidth={3.5} />
+                            </span>
+                            {skill.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-                <div className="relative mt-8"><a href="#contact" className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 py-2 pr-2 pl-7 text-sm font-semibold transition-colors hover:bg-white/15">Get career advice<span className="grid size-9 place-items-center rounded-full bg-accent-yellow text-ink transition-transform duration-500 group-hover:-rotate-45">→</span></a></div>
+
+                <div className="relative mt-8 flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    data-enquiry={ROLES[career].courseName}
+                    className="group inline-flex cursor-pointer items-center gap-3 rounded-full bg-accent-yellow py-2 pr-2 pl-6 text-sm font-semibold text-ink transition-colors hover:bg-white"
+                  >
+                    Get career advice
+                    <span aria-hidden="true" className="grid size-9 place-items-center rounded-full bg-ink text-accent-yellow transition-transform duration-500 group-hover:-rotate-45">→</span>
+                  </button>
+                  <Link href="/tools/salary-estimator" className="group inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition-colors hover:bg-white/10">
+                    Estimate my salary
+                    <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Closing call to action */}
+        <section className="relative z-10 -mt-10 overflow-hidden rounded-t-[2.5rem] bg-surface py-24 lg:py-28">
+          <div className="dot-bg pointer-events-none absolute inset-0" />
+          <div className="pointer-events-none absolute top-0 left-1/2 size-[36rem] -translate-x-1/2 -translate-y-1/3 rounded-full bg-brand-200/35 blur-3xl" />
+          <div className="relative mx-auto max-w-3xl px-5 text-center">
+            <p className="reveal font-mono text-sm font-semibold tracking-[0.18em] text-action uppercase">Ready to get started?</p>
+            <h2 className="reveal scroll-rise mt-4 font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] text-balance lg:text-[3.4rem]">
+              Start building your career today.
+            </h2>
+            <p style={delay(1)} className="reveal mx-auto mt-6 max-w-xl text-base leading-relaxed text-content-muted lg:text-lg">
+              Talk to a counsellor today. One call is usually enough to know which course fits your studies, your timings and the job you want.
+            </p>
+
+            {/* The number carries into the Book Free Demo popup, where the visitor adds their name and course. */}
+            <form
+              style={delay(2)}
+              onSubmit={(event) => {
+                event.preventDefault();
+                openEnquiry({ phone: ctaPhone.replace(/\D/g, "").slice(0, 10) });
+              }}
+              className="reveal mx-auto mt-10 flex max-w-xl flex-col gap-3 sm:flex-row"
+            >
+              <label htmlFor="cta-phone" className="sr-only">
+                Your mobile number
+              </label>
+              <input
+                id="cta-phone"
+                value={ctaPhone}
+                onChange={(event) => setCtaPhone(event.target.value.replace(/\D/g, "").slice(0, 10))}
+                placeholder="Your mobile number"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                className="h-14 flex-1 rounded-full border border-border-subtle bg-surface-raised px-6 text-[15px] shadow-sm outline-none transition-colors placeholder:text-content-muted focus:border-action"
+              />
+              <button
+                type="submit"
+                className="group inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-panel px-8 font-semibold text-white transition-colors hover:bg-action"
+              >
+                Book Demo
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </button>
+            </form>
+
+            <div style={delay(3)} className="reveal mt-8 flex justify-center">
+              <a
+                href={TEL_HREF}
+                className="group inline-flex items-center gap-4 rounded-full bg-gradient-to-r from-action to-brand-500 py-3 pr-8 pl-3 text-white shadow-xl shadow-action/25 transition-transform hover:-translate-y-0.5"
+              >
+                <span className="grid size-12 place-items-center rounded-full bg-white/20 transition-transform duration-500 group-hover:scale-110">
+                  <Icon name="phone" className="size-5" />
+                </span>
+                <span className="text-left">
+                  <span className="block font-mono text-[11px] tracking-[0.18em] text-white/75 uppercase">Call now</span>
+                  <span className="block text-lg font-bold">{SITE.phone}</span>
+                </span>
+              </a>
+            </div>
+
+            <ul style={delay(4)} className="reveal mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-content-muted">
+              {["Free demo class", "Certificate on completion", "Placement assistance"].map((item, i) => (
+                <Fragment key={item}>
+                  {i > 0 && <li aria-hidden="true" className="hidden h-4 w-px bg-border-subtle sm:block" />}
+                  <li className="inline-flex items-center gap-2">
+                    <span className="grid size-5 place-items-center rounded-full bg-action/10 text-action">
+                      <Icon name="check" className="size-3" strokeWidth={3} />
+                    </span>
+                    {item}
+                  </li>
+                </Fragment>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section id="faq" className="relative z-10 -mt-10 rounded-t-[2.5rem] bg-background py-24 lg:py-32">
-          <div className="mx-auto max-w-3xl px-5">
+          <div className="mx-auto max-w-5xl px-5">
             <div className="reveal text-center">
-              <h2 className="scroll-risefont-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Frequently asked questions</h2>
+              <h2 className="scroll-rise font-display text-4xl font-extrabold tracking-[-0.02em] lg:text-[3.4rem]">Frequently asked questions</h2>
               <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted lg:text-lg">Quick answers about our courses, batches, fees and certificates.</p>
             </div>
-            <div className="mt-12 space-y-3">
-              {faqs.map(([q, a], i) => {
-                const open = openFaq === i;
-                return (
-                  <div key={q} style={delay(i, 70)} className="reveal">
-                  <div className={`overflow-hidden rounded-2xl border transition-all duration-300 ${open ? "border-brand-200 bg-white shadow-xl shadow-brand-900/5" : "border-line bg-white/60 hover:border-brand-200 hover:bg-white"}`}>
-                    <button onClick={() => setOpenFaq(open ? null : i)} aria-expanded={open} className="flex w-full items-center gap-4 px-6 py-5 text-left lg:px-7">
-                      <span className={`flex-1 text-base font-semibold tracking-tight transition-colors lg:text-[1.0625rem] ${open ? "text-brand-700" : ""}`}>{q}</span>
-                      <span className={`grid size-8 shrink-0 place-items-center rounded-full font-mono text-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${open ? "rotate-[135deg] bg-panel text-white" : "bg-subtle text-muted"}`}>+</span>
-                    </button>
-                    {/* Smooth height animation via grid-template-rows */}
-                    <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
-                      <div className="overflow-hidden">
-                        <div className={`px-6 pb-6 text-sm leading-relaxed text-muted transition-all duration-500 lg:px-7 ${open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}>{a}</div>
+            {/* Two independent stacks, not a grid of rows: opening an answer in one
+                column changes that column's height only, never the other's. */}
+            <div className="mt-12 grid items-start gap-3 md:grid-cols-2 md:gap-5">
+              {[faqs.slice(0, Math.ceil(faqs.length / 2)), faqs.slice(Math.ceil(faqs.length / 2))].map((column, col) => (
+                <div key={col} className="space-y-3">
+                  {column.map(([q, a], row) => {
+                    const open = openFaq[col] === row;
+                    const toggle = () => setOpenFaq((prev) => (col === 0 ? [open ? null : row, prev[1]] : [prev[0], open ? null : row]));
+                    return (
+                      <div key={q} style={delay(row, 70)} className="reveal">
+                        <div className={`overflow-hidden rounded-2xl border transition-all duration-300 ${open ? "border-brand-200 bg-white shadow-xl shadow-brand-900/5" : "border-line bg-white/60 hover:border-brand-200 hover:bg-white"}`}>
+                          <button onClick={toggle} aria-expanded={open} className="flex w-full cursor-pointer items-center gap-4 px-6 py-5 text-left">
+                            <span className={`flex-1 text-base font-semibold tracking-tight transition-colors ${open ? "text-brand-700" : ""}`}>{q}</span>
+                            <span className={`grid size-8 shrink-0 place-items-center rounded-full font-mono text-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${open ? "rotate-[135deg] bg-panel text-white" : "bg-subtle text-muted"}`}>+</span>
+                          </button>
+                          {/* Smooth height animation via grid-template-rows */}
+                          <div className={`grid transition-[grid-template-rows] duration-500 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                            <div className="overflow-hidden">
+                              <div className={`px-6 pb-6 text-sm leading-relaxed text-muted transition-all duration-500 ${open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}>{a}</div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           </div>
         </section>

@@ -104,15 +104,6 @@ export const courseGroups: { title: string; blurb: string; items: CourseMenuItem
     ],
   },
   {
-    title: "Graphic Design",
-    blurb: "Graphics and print design",
-    items: [
-      { label: "Graphic Design", slug: "graphic-design-course-in-jalandhar" },
-      { label: "Photoshop" },
-      { label: "Illustrator" },
-    ],
-  },
-  {
     title: "CAD / CAM",
     blurb: "Mechanical and civil design",
     items: [
@@ -151,9 +142,7 @@ export const certificatePrograms: CertificateMenuItem[] = [
   { label: "Tally Prime / ERP", icon: "receipt", slug: "tally-prime-erp-certificate-program-in-jalandhar" },
   { label: "Punjabi Typing", icon: "keyboard", slug: "punjabi-typing-certificate-program-in-jalandhar" },
   { label: "CAD / CAM", icon: "cube", slug: "cad-cam-certificate-program-in-jalandhar" },
-  { label: "Graphic Design", icon: "pen", slug: "graphic-design-certificate-program-in-jalandhar" },
   { label: "English Typing", icon: "type", slug: "english-typing-certificate-program-in-jalandhar" },
-  { label: "DTP & Printing", icon: "printer", slug: "dtp-printing-certificate-program-in-jalandhar" },
 ];
 
 export const certificateHref = (slug: string) => `/certificate-programs/${slug}`;
@@ -262,7 +251,7 @@ export const footerCols: [heading: string, links: [label: string, href: string][
       ["Punjabi Typing", "/courses/punjabi-typing-course-in-jalandhar"],
       ["English Typing", "/courses/english-typing-course-in-jalandhar"],
       ["CAD / CAM", "/courses/cad-cam-course-in-jalandhar"],
-      ["Graphic Design", "/courses/graphic-design-course-in-jalandhar"],
+      ["Digital Marketing", "/courses/digital-marketing-course-in-jalandhar"],
     ],
   ],
   [
