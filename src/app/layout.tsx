@@ -26,6 +26,16 @@ export const metadata: Metadata = {
     url: SITE.url,
   },
   robots: { index: true, follow: true },
+  // Files live in public/images/favicons (generated set: .ico, 16/32 png, apple touch, android chrome).
+  icons: {
+    icon: [
+      { url: "/images/favicons/favicon.ico", sizes: "any" },
+      { url: "/images/favicons/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/images/favicons/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+    ],
+    shortcut: ["/images/favicons/favicon.ico"],
+    apple: [{ url: "/images/favicons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

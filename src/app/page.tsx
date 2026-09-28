@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import { BlogSlider } from "@/components/blog-slider";
 import { openEnquiry } from "@/components/enquiry-modal";
 import { Icon } from "@/components/icon";
+import { POSTS } from "@/lib/blog";
 import { GENERAL_FAQS } from "@/lib/faq";
 import { ROLES } from "@/lib/salary-estimator";
 import { SITE, TEL_HREF } from "@/lib/site";
@@ -790,6 +792,27 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Blog */}
+        <section id="blog" className="bg-surface py-24 lg:py-32">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="reveal flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+              <div>
+                <Pill>From the blog</Pill>
+                <h2 className="scroll-rise mt-5 max-w-2xl font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.02em] lg:text-[3.2rem]">
+                  Practical reading before you enrol
+                </h2>
+              </div>
+              <Link href="/blogs" className="group inline-flex items-center gap-2 self-start font-semibold text-action lg:self-auto">
+                Read all posts
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+            <div style={delay(2)} className="reveal mt-12">
+              <BlogSlider posts={POSTS} />
             </div>
           </div>
         </section>
