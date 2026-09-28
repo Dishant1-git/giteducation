@@ -27,6 +27,6 @@ const PICKS = [
 export const REVIEWS: StudentReview[] = PICKS.flatMap((slug) => {
   const course = COURSES.find((c) => c.slug === slug);
   const review = course?.reviews[0];
-  if (!course || !review) return [];
+  if (!course || !review || course.reviewsNote) return [];
   return [{ ...review, course: course.shortTitle, href: `/courses/${course.slug}` }];
 });

@@ -427,7 +427,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                       ))}
                     </div>
                   </Reveal>
-                  <Reveal delay={0.08}>
+                  <Reveal delay={0.08} className="lg:sticky lg:top-24">
                     <div className="print-block rounded-card border border-border-subtle bg-surface-sunken p-5">
                       <h3 className="font-mono text-[11px] font-bold tracking-[0.18em] text-content-muted uppercase">Course details</h3>
                       <dl className="mt-4 divide-y divide-border-subtle text-sm">
@@ -451,8 +451,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   </Reveal>
                 </div>
                 <Stagger className="grid gap-3 sm:grid-cols-2">
-                  {course.highlights.map((highlight) => (
-                    <StaggerItem key={highlight.title}>
+                  {course.highlights.map((highlight, index) => (
+                    <StaggerItem key={`${index}-${highlight.title}`}>
                       <div className="print-block flex h-full gap-4 rounded-card border border-border-subtle bg-surface-raised p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card">
                         <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-accent text-action">
                           <Icon name={highlight.icon} className="size-5" />
@@ -778,6 +778,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   </StaggerItem>
                 ))}
               </Stagger>
+              {course.reviewsNote && <p className="mt-5 text-sm leading-relaxed text-content-muted">{course.reviewsNote}</p>}
             </Section>
 
             <Section id="faqs" index={12} title="Frequently asked questions" lead="Still unsure after reading these? Call the helpline and ask — counselling costs nothing.">
