@@ -758,8 +758,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
             <Section id="reviews" index={11} title="What students say" lead={`${course.rating.value.toFixed(1)} out of 5 from ${course.rating.count} students who finished this course.`}>
               <Stagger className="grid gap-4 sm:grid-cols-2">
-                {course.reviews.map((review) => (
-                  <StaggerItem key={review.name}>
+                {course.reviews.map((review, index) => (
+                  <StaggerItem key={`${index}-${review.name}`}>
                     <figure className="print-block flex h-full flex-col rounded-card border border-border-subtle bg-surface-raised p-6">
                       <p aria-hidden="true" className="text-sm tracking-widest text-amber-500">
                         ★★★★★
