@@ -101,6 +101,8 @@ export const courseGroups: { title: string; blurb: string; items: CourseMenuItem
       { label: "SMO", slug: "smo-course-in-jalandhar" },
       { label: "Google Ads", slug: "google-ads-course-in-jalandhar" },
       { label: "Meta Ads", slug: "meta-ads-course-in-jalandhar" },
+      { label: "Graphic Designing", slug: "graphic-designing-course-in-jalandhar" },
+      { label: "Illustrator", slug: "illustrator-course-in-jalandhar" },
     ],
   },
   {
@@ -126,8 +128,8 @@ export const courseGroups: { title: string; blurb: string; items: CourseMenuItem
       { label: "Core Python", slug: "core-python-course-in-jalandhar" },
       { label: "Generative AI", slug: "generative-ai-course-in-jalandhar" },
       { label: "Web Designing", slug: "web-designing-course-in-jalandhar" },
-      { label: "Web Development with Python" },
-      { label: "WordPress" },
+      { label: "Web Development with Python", slug: "web-development-with-python-course-in-jalandhar" },
+      { label: "WordPress", slug: "wordpress-course-in-jalandhar" },
     ],
   },
 ];
