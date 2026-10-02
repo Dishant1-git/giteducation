@@ -20,6 +20,7 @@ import { formatShortDate } from '../../lib/format'
 import type { EnquiryRecord, EnquiryStatus } from '../../types'
 import { EnquiryDrawer } from './EnquiryDrawer'
 import {
+  COUNSELLING_FORM_TYPE,
   sourceLabel,
   SOURCE_OPTIONS,
   STATUS_OPTIONS,
@@ -42,6 +43,7 @@ const FORM_TYPE_OPTIONS = [
   // As filed by the website's /api/enquiries route.
   { value: 'Book Free Demo', label: 'Book Free Demo' },
   { value: 'Contact form', label: 'Contact form' },
+  { value: COUNSELLING_FORM_TYPE, label: COUNSELLING_FORM_TYPE },
 ]
 
 const CSV_COLUMNS: CsvColumn<EnquiryRecord>[] = [

@@ -21,7 +21,7 @@ export const COUNSELLING_FORM_TYPE = 'Virtual Counselling'
 
 /**
  * The slots the website offers, for moving a booking. Mirrors
- * COUNSELLING_SLOTS in the site's lib/validations/demo-request.ts.
+ * COUNSELLING_SLOTS in the site's src/lib/counselling.ts.
  */
 export const COUNSELLING_SLOT_OPTIONS = [
   '10:00 AM – 10:30 AM',

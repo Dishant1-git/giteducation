@@ -1,5 +1,6 @@
 import type { ResultSetHeader } from "mysql2";
 
+import { COUNSELLING_SLOTS, counsellingDateError, formatCounsellingDate } from "@/lib/counselling";
 import { getPool } from "@/lib/db";
 
 /**
@@ -11,7 +12,11 @@ import { getPool } from "@/lib/db";
  * `form_submissions` table (database/schema.sql) when one is configured, so a
  * lead is not lost to an outage.
  *
- * Body (JSON): { formType, course?, name, phone, email?, message?, pageUrl? }
+ * Body (JSON): { formType, course?, name, phone, email?, message?, pageUrl?, preferredDate?, preferredSlot? }
+ *
+ * A "counselling" submission is a virtual counselling booking: it must carry a
+ * bookable `preferredDate` and one of the slots on offer, and is filed in the
+ * CMS as a "Virtual Counselling" enquiry with both.
  * Replies:     201 { ok: true }  |  400 { ok: false, errors }  |  500 { ok: false, message }
  *
  * Validation mirrors the client form, because the client cannot be trusted.
@@ -22,6 +27,7 @@ const FORM_TYPES: Record<string, string> = {
   "book-demo": "Book Free Demo",
   contact: "Contact form",
   callback: "Callback request",
+  counselling: "Virtual Counselling",
 };
 
 type Payload = {
@@ -32,6 +38,8 @@ type Payload = {
   email?: unknown;
   message?: unknown;
   pageUrl?: unknown;
+  preferredDate?: unknown;
+  preferredSlot?: unknown;
 };
 
 type Enquiry = {
@@ -42,6 +50,9 @@ type Enquiry = {
   email: string;
   message: string;
   pageUrl: string;
+  /** Set on a counselling booking only. */
+  preferredDate: string;
+  preferredSlot: string;
   userAgent: string;
   ip: string;
 };
@@ -71,6 +82,8 @@ async function sendToCms(enquiry: Enquiry): Promise<Response | null> {
         source: "website",
         formType: FORM_TYPES[enquiry.formType],
         sourceUrl: enquiry.pageUrl || undefined,
+        preferredDate: enquiry.preferredDate || undefined,
+        preferredSlot: enquiry.preferredSlot || undefined,
         ip: enquiry.ip || undefined,
         userAgent: enquiry.userAgent.slice(0, 255) || undefined,
       }),
@@ -86,6 +99,10 @@ async function sendToCms(enquiry: Enquiry): Promise<Response | null> {
 }
 
 async function saveLocally(enquiry: Enquiry): Promise<void> {
+  // The local table has no columns for a booking, so the day and slot go at
+  // the top of the message, where whoever reads the row will see them.
+  const booking = enquiry.preferredDate ? `Counselling session: ${formatCounsellingDate(enquiry.preferredDate)}, ${enquiry.preferredSlot}` : "";
+  const message = [booking, enquiry.message].filter(Boolean).join("\n\n");
   await getPool().execute<ResultSetHeader>(
     `INSERT INTO form_submissions (form_type, course, name, phone, email, message, page_url, user_agent, ip_address)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -95,7 +112,7 @@ async function saveLocally(enquiry: Enquiry): Promise<void> {
       enquiry.name,
       enquiry.phone,
       enquiry.email || null,
-      enquiry.message || null,
+      message || null,
       enquiry.pageUrl || null,
       enquiry.userAgent || null,
       enquiry.ip || null,
@@ -119,6 +136,8 @@ export async function POST(request: Request) {
     email: text(body.email, 190),
     message: text(body.message, 2000),
     pageUrl: text(body.pageUrl, 500),
+    preferredDate: text(body.preferredDate, 10),
+    preferredSlot: text(body.preferredSlot, 40),
     userAgent: (request.headers.get("user-agent") ?? "").slice(0, 500),
     ip: (request.headers.get("x-forwarded-for")?.split(",")[0] ?? request.headers.get("x-real-ip") ?? "").trim().slice(0, 45),
   };
@@ -129,6 +148,15 @@ export async function POST(request: Request) {
   if (enquiry.name.length < 2) errors.name = "Please enter your full name.";
   if (!/^\d{10}$/.test(enquiry.phone)) errors.phone = "Enter a 10-digit contact number.";
   if (enquiry.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enquiry.email)) errors.email = "Enter a valid email address.";
+  if (enquiry.formType === "counselling") {
+    const dateError = counsellingDateError(enquiry.preferredDate);
+    if (dateError) errors.preferredDate = dateError;
+    if (!COUNSELLING_SLOTS.includes(enquiry.preferredSlot)) errors.preferredSlot = "Please choose a time slot.";
+  } else {
+    // Only a booking carries a day and slot; ignore them on any other form.
+    enquiry.preferredDate = "";
+    enquiry.preferredSlot = "";
+  }
   if (Object.keys(errors).length) return Response.json({ ok: false, errors }, { status: 400 });
 
   const cms = await sendToCms(enquiry);

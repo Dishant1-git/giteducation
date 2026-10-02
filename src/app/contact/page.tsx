@@ -7,6 +7,7 @@ import { Reveal } from "@/components/motion";
 import { MAIL_HREF, SITE, TEL_HREF, WHATSAPP_HREF } from "@/lib/site";
 
 import { ContactDesks } from "./contact-desks";
+import { CounsellingBooking } from "./counselling-dialog";
 
 export const metadata: Metadata = {
   title: "Contact Us | Batches, Fees & Free Demo Class",
@@ -72,6 +73,7 @@ export default function ContactPage() {
               >
                 Book a free demo class <span aria-hidden="true">→</span>
               </button>
+              <CounsellingBooking className="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-6 font-medium transition-colors hover:border-white/50 hover:bg-white/10" />
               <a
                 href={TEL_HREF}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-6 font-medium transition-colors hover:border-white/50 hover:bg-white/10"

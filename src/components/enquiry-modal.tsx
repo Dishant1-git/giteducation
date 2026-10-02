@@ -107,6 +107,9 @@ export function EnquiryModal() {
     } catch {}
     if (seen) return;
     const timer = setTimeout(() => {
+      // Never on top of another dialog (the counselling booking on /contact):
+      // the visitor is already part-way through a form.
+      if (document.querySelector('[role="dialog"]')) return;
       try {
         sessionStorage.setItem(AUTO_OPEN_KEY, "1");
       } catch {}
