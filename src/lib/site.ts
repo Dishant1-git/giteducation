@@ -9,8 +9,8 @@ export const SITE = {
   legalName: "GIT Education — Computer Training Institute",
   tagline: "Computer Training Institute, Jalandhar",
   url: "https://giteducation.org",
-  phone: "+91 00000 00000",
-  whatsapp: "910000000000",
+  phone: "+91 62833 59550",
+  whatsapp: "916283359550",
   email: "info@techcadd.com",
   address: {
     street: "Opp. All India Radio Station, near Bus Stand, New Jawahar Nagar",

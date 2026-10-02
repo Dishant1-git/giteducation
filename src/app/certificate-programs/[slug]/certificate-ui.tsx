@@ -158,6 +158,8 @@ export function ScrollTimeline({ modules }: { modules: TimelineModule[] }) {
           const isOpen = open.includes(index);
           const headerId = `${baseId}-h-${index}`;
           const panelId = `${baseId}-p-${index}`;
+          // Sentence-length topics read as stacked prose; short ones stay a two-column list.
+          const prose = module.topics.some((topic) => topic.length > 90);
           return (
             <FadeIn as="li" key={module.title} delay={Math.min(index * 0.05, 0.25)} className="relative">
               <span
@@ -185,7 +187,7 @@ export function ScrollTimeline({ modules }: { modules: TimelineModule[] }) {
                     <span className="flex-1">
                       <span className={`block text-[15px] font-semibold tracking-tight text-balance sm:text-base ${isOpen ? "text-action" : "text-content"}`}>{module.title}</span>
                       <span className="mt-1 block text-xs text-content-muted">
-                        {module.hours} · {module.topics.length} topics
+                        {prose ? module.hours : `${module.hours} · ${module.topics.length} topics`}
                       </span>
                     </span>
                     <span
@@ -209,7 +211,7 @@ export function ScrollTimeline({ modules }: { modules: TimelineModule[] }) {
                   transition={reduce ? { duration: 0 } : { duration: 0.28, ease: EASE }}
                   className="overflow-hidden"
                 >
-                  <ul className="grid gap-2.5 border-t border-border-subtle px-5 py-5 sm:grid-cols-2 sm:px-6">
+                  <ul className={`grid border-t border-border-subtle px-5 py-5 sm:px-6 ${prose ? "max-w-3xl gap-3" : "gap-2.5 sm:grid-cols-2"}`}>
                     {module.topics.map((topic) => (
                       <li key={topic} className="flex items-start gap-2.5 text-sm leading-relaxed text-content-muted">
                         <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-action" />

@@ -139,7 +139,7 @@ export default async function CertificateProgramPage({ params }: { params: Promi
   const others = getOtherCertificatePrograms(program);
   const totalHours = course.curriculum.reduce((sum, module) => sum + (parseFloat(module.hours) || 0), 0);
   const months = parseFloat(course.duration) || 0;
-  const toolRows = [course.tools.flatMap((g) => g.items), program.skills.map((s) => s.split(" ").slice(0, 4).join(" "))];
+  const toolRows = [course.tools.flatMap((g) => g.items), course.curriculum.map((module) => module.title)];
 
   return (
     // data-enquiry-course pre-selects this program's course whenever the enquiry popup opens here.
@@ -312,7 +312,7 @@ export default async function CertificateProgramPage({ params }: { params: Promi
 
           <div className="min-w-0">
             <Section id="overview" index={1} title={`About the ${program.label} certificate program`} lead={`${course.category} · ${course.duration} · ${SITE.address.locality}, ${SITE.address.region}`}>
-              <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-start">
                 <FadeIn className="space-y-4 text-[15px] leading-relaxed text-content-muted sm:text-base">
                   {program.summary.map((paragraph) => (
                     <p key={paragraph.slice(0, 32)}>{paragraph}</p>
@@ -325,20 +325,44 @@ export default async function CertificateProgramPage({ params }: { params: Promi
                     .
                   </p>
                 </FadeIn>
-                <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                  {course.highlights.map((highlight, index) => (
-                    <FadeIn as="li" key={highlight.title} delay={index * 0.07}>
-                      <div className={CARD}>
-                        <span className="grid size-10 place-items-center rounded-xl bg-surface-accent text-action">
-                          <Icon name={highlight.icon} className="size-5" />
-                        </span>
-                        <h3 className="mt-4 text-[15px] font-bold tracking-tight">{highlight.title}</h3>
+                <FadeIn delay={0.08}>
+                  <div className="print-block rounded-card border border-border-subtle bg-surface-sunken p-5">
+                    <h3 className="font-mono text-[11px] font-bold tracking-[0.18em] text-content-muted uppercase">Program details</h3>
+                    <dl className="mt-4 divide-y divide-border-subtle text-sm">
+                      {[
+                        ["Credential", program.credential],
+                        ["Delivery", course.modes.join(" · ")],
+                        ["Languages", course.languages.join(", ")],
+                        ["Batch size", `Max ${course.seats} students`],
+                        ["Modules", `${course.curriculum.length} modules`],
+                        ["Next batch", course.nextBatch],
+                      ].map(([term, value]) => (
+                        <div key={term} className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0">
+                          <dt className="shrink-0 text-content-muted">{term}</dt>
+                          <dd className="text-right font-semibold">{value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </FadeIn>
+              </div>
+
+              <h3 className="mt-10 font-display text-lg font-bold tracking-tight sm:text-xl">Why choose this program</h3>
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {course.highlights.map((highlight, index) => (
+                  <FadeIn as="li" key={`${index}-${highlight.title}`} delay={Math.min((index % 2) * 0.07, 0.14)}>
+                    <div className="print-block flex h-full gap-4 rounded-card border border-border-subtle bg-surface-raised p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-card sm:p-5">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-accent text-action">
+                        <Icon name={highlight.icon} className="size-5" />
+                      </span>
+                      <div className="min-w-0">
+                        <h4 className="text-[15px] font-bold tracking-tight text-balance">{highlight.title}</h4>
                         <p className="mt-1.5 text-sm leading-relaxed text-content-muted">{highlight.text}</p>
                       </div>
-                    </FadeIn>
-                  ))}
-                </ul>
-              </div>
+                    </div>
+                  </FadeIn>
+                ))}
+              </ul>
             </Section>
 
             <Section id="skills" index={2} title="What this certificate says you can do" lead="Every skill below is printed on your certificate and tested in the final assessment.">
@@ -620,6 +644,7 @@ export default async function CertificateProgramPage({ params }: { params: Promi
                   </FadeIn>
                 ))}
               </ul>
+              {course.reviewsNote && <p className="mt-5 text-sm leading-relaxed text-content-muted">{course.reviewsNote}</p>}
             </Section>
 
             <Section id="faqs" index={12} title="Frequently asked questions" lead="Still unsure after reading these? Call the helpline and ask — counselling costs nothing.">
