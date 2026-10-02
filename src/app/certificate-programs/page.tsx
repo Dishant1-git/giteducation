@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { CERTIFICATE_PROGRAMS } from "@/lib/certificate-programs";
-import { formatFee } from "@/lib/courses";
 import { SITE, TEL_HREF, certificateHref } from "@/lib/site";
 
 import { EnquireButton, FadeIn } from "./[slug]/certificate-ui";
@@ -92,11 +91,7 @@ export default function CertificateProgramsIndexPage() {
                 <span className="mt-1 text-xs font-medium text-action">{program.credential}</span>
                 <span className="mt-2 flex-1 text-sm leading-relaxed text-content-muted">{program.tagline}</span>
 
-                <span className="mt-5 flex items-end justify-between gap-3 border-t border-border-subtle pt-4">
-                  <span>
-                    <span className="block text-[11px] tracking-[0.12em] text-content-muted uppercase">Program fee</span>
-                    <span className="mt-0.5 block font-display text-lg font-bold tracking-tight">{formatFee(program.course.fee.amount)}</span>
-                  </span>
+                <span className="mt-5 flex items-end justify-end gap-3 border-t border-border-subtle pt-4">
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
                     View program
                     <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">

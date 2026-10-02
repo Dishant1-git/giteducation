@@ -226,7 +226,7 @@ function MegaMenuPanel({ menu, label }: { menu: MegaMenuData; label: string }) {
 function CoursesPanel() {
   return (
     <>
-      <div className="grid gap-6 p-6 font-normal sm:grid-cols-2 lg:grid-cols-5 lg:gap-7 lg:p-8">
+      <div className="grid gap-6 p-6 font-normal sm:grid-cols-2 lg:grid-cols-4 lg:gap-7 lg:p-8">
         {courseGroups.map((group, index) => (
           <div key={group.title}>
             <div className="mb-4 border-b border-foreground/10 pb-3">
@@ -432,10 +432,6 @@ export function SiteHeader() {
           <NavDropdown label="About" openId={openId} setOpenId={setOpenId}>
             <MegaMenuPanel menu={megaMenus.About} label="About" />
           </NavDropdown>
-
-          <Link href="/courses" className="shine-sweep rounded-full bg-accent-yellow px-3.5 py-1 font-semibold text-ink">
-            New Batches
-          </Link>
 
           <NavDropdown label="Courses" openId={openId} setOpenId={setOpenId}>
             <CoursesPanel />

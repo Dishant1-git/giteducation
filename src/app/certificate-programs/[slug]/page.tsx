@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Icon } from "@/components/icon";
 import { CERTIFICATE_PROGRAMS, getCertificateProgram, getOtherCertificatePrograms, type CertificateProgram } from "@/lib/certificate-programs";
-import { FEE_NOTE, PLACEMENT_STEPS, formatFee } from "@/lib/courses";
+import { PLACEMENT_STEPS } from "@/lib/courses";
 import { SITE, TEL_HREF, WHATSAPP_HREF, certificateHref, courseEnquiryEmail } from "@/lib/site";
 
 import {
@@ -41,7 +41,7 @@ const SECTIONS = [
   { id: "certificate", label: "Your certificate" },
   { id: "careers", label: "Career outcomes" },
   { id: "placement", label: "Placement support" },
-  { id: "fees", label: "Batches & fees" },
+  { id: "batches", label: "Batches" },
   { id: "reviews", label: "Student reviews" },
   { id: "faqs", label: "FAQs" },
 ];
@@ -107,7 +107,6 @@ function StructuredData({ program }: { program: CertificateProgram }) {
       teaches: program.skills,
       provider: { "@type": "EducationalOrganization", name: SITE.legalName, url: SITE.url, telephone: SITE.phone },
       aggregateRating: { "@type": "AggregateRating", ratingValue: program.course.rating.value, reviewCount: program.course.rating.count, bestRating: 5 },
-      offers: { "@type": "Offer", price: program.course.fee.amount, priceCurrency: "INR", category: "Paid", url },
     },
     {
       "@context": "https://schema.org",
@@ -230,12 +229,6 @@ export default async function CertificateProgramPage({ params }: { params: Promi
                 </h2>
                 <p className="mt-3 font-display text-xl leading-snug font-bold tracking-tight">{program.credential}</p>
                 <p className="mt-1 font-mono text-xs text-accent-yellow">Reg. No. format · {program.code}/YYYY/NNNN</p>
-
-                <p className="mt-5 flex items-baseline gap-2">
-                  <span className="font-display text-4xl font-extrabold tracking-tight">{formatFee(course.fee.amount)}</span>
-                  <span className="text-sm text-white/60">program fee</span>
-                </p>
-                <p className="mt-1 text-sm text-white/65">or {course.fee.installments}</p>
 
                 <dl className="mt-6 space-y-4 border-t border-white/15 pt-6">
                   {[
@@ -555,7 +548,7 @@ export default async function CertificateProgramPage({ params }: { params: Promi
               </FadeIn>
             </Section>
 
-            <Section id="fees" index={10} title="Batches and fees" lead="Batch timings are fixed at admission. Changing your batch later is free, subject to seats.">
+            <Section id="batches" index={10} title="Batches" lead="Batch timings are fixed at admission. Changing your batch later is free, subject to seats.">
               <FadeIn>
                 {course.batches.length === 0 ? (
                   <p className="rounded-card border border-border-strong bg-surface-accent p-5 text-sm leading-relaxed">
@@ -599,10 +592,8 @@ export default async function CertificateProgramPage({ params }: { params: Promi
               <FadeIn delay={0.06}>
                 <div className="mt-5 grid gap-4 rounded-card border border-border-strong bg-surface-accent p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
                   <div>
-                    <p className="font-display text-xl font-bold tracking-tight">
-                      {formatFee(course.fee.amount)} <span className="text-sm font-medium text-content-muted">· or {course.fee.installments}</span>
-                    </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-content-muted">{FEE_NOTE}</p>
+                    <p className="font-display text-xl font-bold tracking-tight">Ready to join the {program.label} certificate program?</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-content-muted">Pick a batch that fits your week and a counsellor will confirm your seat.</p>
                   </div>
                   <EnquireButton variant="primary">Confirm my seat</EnquireButton>
                 </div>

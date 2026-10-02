@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
-import { COURSES, formatFee, getCoursesByCategory } from "@/lib/courses";
+import { COURSES, getCoursesByCategory } from "@/lib/courses";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -47,8 +47,8 @@ export default function CoursesIndexPage() {
               Every course we run in {SITE.address.locality}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 lg:text-lg">
-              One computer per student, practical assignments in every class and placement support on every course. Pick a course to see its full syllabus, batch
-              timings and fees.
+              One computer per student, practical assignments in every class and placement support on every course. Pick a course to see its full syllabus and batch
+              timings.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/#contact" data-enquiry className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-yellow px-7 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white">
@@ -91,11 +91,7 @@ export default function CoursesIndexPage() {
                     <span className="mt-4 font-display text-lg leading-snug font-bold tracking-tight text-balance">{course.shortTitle}</span>
                     <span className="mt-2 flex-1 text-sm leading-relaxed text-content-muted">{course.tagline}</span>
 
-                    <span className="mt-5 flex items-end justify-between gap-3 border-t border-border-subtle pt-4">
-                      <span>
-                        <span className="block text-[11px] tracking-[0.12em] text-content-muted uppercase">Course fee</span>
-                        <span className="mt-0.5 block font-display text-lg font-bold tracking-tight">{formatFee(course.fee.amount)}</span>
-                      </span>
+                    <span className="mt-5 flex items-end justify-end gap-3 border-t border-border-subtle pt-4">
                       <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
                         View course
                         <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">

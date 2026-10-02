@@ -7,7 +7,7 @@ import { Icon } from "@/components/icon";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { buildPlan, QUESTIONS, type Answers, type Plan } from "@/lib/career-tracks";
 
-export type CourseSummary = { title: string; duration: string; fee: string };
+export type CourseSummary = { title: string; duration: string };
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -289,7 +289,7 @@ function Result({ plan, course, onRestart }: { plan: Plan; course?: CourseSummar
             <p className="font-display text-lg font-bold tracking-tight">{course?.title ?? track.name}</p>
             {course && (
               <p className="mt-1 text-sm text-content-muted">
-                {course.duration} · {course.fee}
+                {course.duration}
               </p>
             )}
             {plan.alternate && (

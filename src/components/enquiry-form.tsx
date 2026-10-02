@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, useSyncExternalStore } from "react";
 
 import { Icon } from "@/components/icon";
 import { courseGroups } from "@/lib/site";
@@ -46,6 +46,8 @@ const newSum = (previous?: { a: number; b: number }) => {
   return { a, b };
 };
 
+const noopSubscribe = () => () => {};
+
 const MENU_COURSES = new Set(courseGroups.flatMap((group) => group.items.map((item) => item.label)));
 
 export function EnquiryForm({
@@ -69,6 +71,8 @@ export function EnquiryForm({
 }) {
   const id = useId();
   const [sum, setSum] = useState(newSum);
+  // The sum is random, so server and browser pick different ones: show it only once hydrated.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const [form, setForm] = useState({ course: initialCourse, name: "", phone: initialPhone, answer: "" });
   const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -243,7 +247,7 @@ export function EnquiryForm({
           {/* Question and refresh wrap together, never apart */}
           <span className="flex items-center gap-2.5">
             <span className="shrink-0 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[13px] font-bold tracking-wide whitespace-nowrap" aria-live="polite">
-              {sum.a} + {sum.b} = ?
+              {hydrated ? `${sum.a} + ${sum.b} = ?` : "… + … = ?"}
             </span>
             <button
               type="button"

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
 import { TRACKS } from "@/lib/career-tracks";
-import { formatFee, getCourse } from "@/lib/courses";
+import { getCourse } from "@/lib/courses";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 import { CareerTrackFinder, type CourseSummary } from "./career-track-finder";
@@ -20,7 +20,7 @@ export default function CareerTrackFinderPage() {
   const courses: Record<string, CourseSummary> = {};
   for (const track of Object.values(TRACKS)) {
     const course = getCourse(track.courseSlug);
-    if (course) courses[course.slug] = { title: course.shortTitle, duration: course.duration, fee: formatFee(course.fee.amount) };
+    if (course) courses[course.slug] = { title: course.shortTitle, duration: course.duration };
   }
 
   return (

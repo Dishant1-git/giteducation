@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
-import { COURSES, FEE_NOTE, PLACEMENT_STEPS, formatFee, getCourse, getRelatedCourses, type Course } from "@/lib/courses";
+import { COURSES, PLACEMENT_STEPS, getCourse, getRelatedCourses, type Course } from "@/lib/courses";
 import { SITE, TEL_HREF, WHATSAPP_HREF, courseEnquiryEmail } from "@/lib/site";
 
 import { Accordion, CourseActionBar, PrintButton, SectionNav } from "./course-ui";
@@ -19,7 +19,7 @@ const SECTIONS = [
   { id: "careers", label: "Career outcomes" },
   { id: "placement", label: "Placement support" },
   { id: "eligibility", label: "Eligibility" },
-  { id: "batches", label: "Batches & fees" },
+  { id: "batches", label: "Batches" },
   { id: "certification", label: "Certification" },
   { id: "reviews", label: "Student reviews" },
   { id: "faqs", label: "FAQs" },
@@ -145,14 +145,6 @@ function StructuredData({ course }: { course: Course }) {
         ratingValue: course.rating.value,
         reviewCount: course.rating.count,
         bestRating: 5,
-      },
-      offers: {
-        "@type": "Offer",
-        price: course.fee.amount,
-        priceCurrency: "INR",
-        category: "Paid",
-        availability: "https://schema.org/InStock",
-        url,
       },
       hasCourseInstance: course.batches.map((batch) => ({
         "@type": "CourseInstance",
@@ -665,7 +657,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               </div>
             </Section>
 
-            <Section id="batches" index={9} title="Batches and fees" lead="Batch timings are fixed at admission. Changing your batch later is free, subject to seats.">
+            <Section id="batches" index={9} title="Batches" lead="Batch timings are fixed at admission. Changing your batch later is free, subject to seats.">
               <Reveal>
                 {course.batches.length === 0 ? (
                   <p className="rounded-card border border-border-strong bg-surface-accent p-5 text-sm leading-relaxed">
@@ -709,10 +701,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               <Reveal delay={0.06}>
                 <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center rounded-card border border-border-strong bg-surface-accent p-5">
                   <div>
-                    <p className="font-display text-xl font-bold tracking-tight">
-                      {formatFee(course.fee.amount)} <span className="text-sm font-medium text-content-muted">· or {course.fee.installments}</span>
-                    </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-content-muted">{FEE_NOTE}</p>
+                    <p className="font-display text-xl font-bold tracking-tight">Ready to join the {course.shortTitle} course?</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-content-muted">Pick a batch that fits your week and a counsellor will confirm your seat.</p>
                   </div>
                   <Link
                     href="/#contact"

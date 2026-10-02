@@ -4,9 +4,6 @@
  * Every course page at /courses/[slug] is rendered from one entry in this file —
  * the page component holds no course copy of its own. Adding a course here adds a
  * fully-formed, statically generated page; no template changes are needed.
- *
- * Fees are indicative and confirmed at counselling; `feeNote` carries that caveat
- * on every page so no page states a price as final.
  */
 
 export type CourseModule = {
@@ -34,7 +31,6 @@ export type Course = {
   modes: string[];
   languages: string[];
   certification: string;
-  fee: { amount: number; installments: string };
   seats: number;
   rating: { value: number; count: number };
   nextBatch: string;
@@ -74,9 +70,6 @@ export const PLACEMENT_STEPS: { title: string; text: string }[] = [
     text: "We share openings from the local employers we work with — offices, CA firms, design studios, manufacturing units and online-marketing agencies in Jalandhar and nearby cities.",
   },
 ];
-
-export const FEE_NOTE =
-  "Fees shown are indicative for the standard batch and are confirmed in writing at counselling. Instalment plans, sibling concessions and student-ID concessions are available.";
 
 /** FAQs appended to every course. Course-specific FAQs come first. */
 export const COMMON_FAQS: [string, string][] = [
@@ -125,7 +118,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Applied Artificial Intelligence",
-    fee: { amount: 42000, installments: "3 instalments of ₹14,000" },
     seats: 18,
     rating: { value: 4.9, count: 128 },
     nextBatch: "First Monday of every month",
@@ -336,7 +328,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Core Python",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 86 },
     nextBatch: "1st of every month",
@@ -701,7 +692,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Generative AI",
-    fee: { amount: 20000, installments: "3 instalments of ₹6,667" },
     seats: 18,
     rating: { value: 4.8, count: 54 },
     nextBatch: "1st of every month",
@@ -1019,7 +1009,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Web Designing",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 18,
     rating: { value: 4.8, count: 72 },
     nextBatch: "1st of every month",
@@ -1347,7 +1336,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in Computer Fundamentals",
-    fee: { amount: 5500, installments: "2 instalments of ₹2,750" },
     seats: 20,
     rating: { value: 4.8, count: 214 },
     nextBatch: "New batch every Monday",
@@ -1524,7 +1512,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in Microsoft Office Applications",
-    fee: { amount: 8500, installments: "2 instalments of ₹4,250" },
     seats: 20,
     rating: { value: 4.8, count: 186 },
     nextBatch: "1st and 15th of every month",
@@ -1698,7 +1685,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Advanced Excel & MIS Reporting",
-    fee: { amount: 11000, installments: "2 instalments of ₹5,500" },
     seats: 16,
     rating: { value: 4.9, count: 162 },
     nextBatch: "1st of every month",
@@ -1888,7 +1874,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in Google Workspace",
-    fee: { amount: 6000, installments: "2 instalments of ₹3,000" },
     seats: 20,
     rating: { value: 4.8, count: 11 },
     nextBatch: "New batch every Monday",
@@ -2076,7 +2061,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in CAT Pro Computer Applications",
-    fee: { amount: 7000, installments: "2 instalments of ₹3,500" },
     seats: 20,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st and 15th of every month",
@@ -2251,7 +2235,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in Tally ERP9 & GST Accounting",
-    fee: { amount: 10000, installments: "2 instalments of ₹5,000" },
     seats: 18,
     rating: { value: 4.8, count: 11 },
     nextBatch: "1st and 15th of every month",
@@ -2445,7 +2428,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in Computerised Accounting & GST",
-    fee: { amount: 12000, installments: "3 instalments of ₹4,000" },
     seats: 18,
     rating: { value: 4.9, count: 241 },
     nextBatch: "1st and 15th of every month",
@@ -2650,7 +2632,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["Punjabi", "Hindi", "English"],
     certification: "GIT Education Certificate in QuickBooks Accounting",
-    fee: { amount: 9000, installments: "2 instalments of ₹4,500" },
     seats: 18,
     rating: { value: 4.8, count: 11 },
     nextBatch: "1st and 15th of every month",
@@ -2853,7 +2834,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Extra practice hours"],
     languages: ["Punjabi", "Hindi"],
     certification: "GIT Education Certificate in Punjabi Typing (with speed record)",
-    fee: { amount: 4500, installments: "2 instalments of ₹2,250" },
     seats: 20,
     rating: { value: 4.9, count: 198 },
     nextBatch: "New batch every Monday",
@@ -3049,7 +3029,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Extra practice hours"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in English Typing (with speed record)",
-    fee: { amount: 4000, installments: "2 instalments of ₹2,000" },
     seats: 20,
     rating: { value: 4.8, count: 154 },
     nextBatch: "New batch every Monday",
@@ -3235,7 +3214,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Diploma in CAD / CAM Design",
-    fee: { amount: 28000, installments: "3 instalments of ₹9,334" },
     seats: 16,
     rating: { value: 4.8, count: 137 },
     nextBatch: "1st of every month",
@@ -3329,7 +3307,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch", "Online, if available"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in SolidWorks",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 16,
     rating: { value: 4.8, count: 64 },
     nextBatch: "1st of every month",
@@ -3541,7 +3518,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Practical / simulation sessions", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in CNC Programming",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 16,
     rating: { value: 4.8, count: 58 },
     nextBatch: "1st of every month",
@@ -3769,7 +3745,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in WorkNC (CAM)",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 14,
     rating: { value: 4.8, count: 41 },
     nextBatch: "1st of every month",
@@ -3987,7 +3962,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in SolidCAM",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 14,
     rating: { value: 4.8, count: 39 },
     nextBatch: "1st of every month",
@@ -4230,7 +4204,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in 3ds Max",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 16,
     rating: { value: 4.8, count: 47 },
     nextBatch: "1st of every month",
@@ -4492,7 +4465,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Revit (BIM)",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 16,
     rating: { value: 4.8, count: 52 },
     nextBatch: "1st of every month",
@@ -4782,7 +4754,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in SketchUp",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 16,
     rating: { value: 4.8, count: 49 },
     nextBatch: "1st of every month",
@@ -5077,7 +5048,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in STAAD Pro",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 16,
     rating: { value: 4.8, count: 44 },
     nextBatch: "1st of every month",
@@ -5356,7 +5326,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in ETABS",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 16,
     rating: { value: 4.8, count: 38 },
     nextBatch: "1st of every month",
@@ -5671,7 +5640,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch", "Online, if available"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Digital Marketing",
-    fee: { amount: 18000, installments: "3 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 112 },
     nextBatch: "1st of every month",
@@ -5895,7 +5863,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Search Engine Optimization",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st of every month",
@@ -6141,7 +6108,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Social Media Optimization",
-    fee: { amount: 10000, installments: "2 instalments of ₹5,000" },
     seats: 18,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st of every month",
@@ -6373,7 +6339,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Google Ads & PPC",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 11 },
     nextBatch: "1st of every month",
@@ -6587,7 +6552,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Meta Ads",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 11 },
     nextBatch: "1st of every month",
@@ -6865,7 +6829,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in WordPress",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st of every month",
@@ -7164,7 +7127,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Adobe Illustrator",
-    fee: { amount: 12000, installments: "2 instalments of ₹6,000" },
     seats: 18,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st of every month",
@@ -7440,7 +7402,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Web Development with Python",
-    fee: { amount: 30000, installments: "3 instalments of ₹10,000" },
     seats: 18,
     rating: { value: 4.8, count: 10 },
     nextBatch: "1st of every month",
@@ -7720,7 +7681,6 @@ const courses: Course[] = [
     modes: ["Classroom — Jalandhar", "Weekend batch"],
     languages: ["English", "Hindi", "Punjabi"],
     certification: "GIT Education Certificate in Graphic Designing",
-    fee: { amount: 15000, installments: "3 instalments of ₹5,000" },
     seats: 18,
     rating: { value: 4.8, count: 12 },
     nextBatch: "1st of every month",
@@ -7973,5 +7933,3 @@ export function getCoursesByCategory(): { category: string; courses: Course[] }[
   }
   return groups;
 }
-
-export const formatFee = (amount: number) => `₹${amount.toLocaleString("en-IN")}`;
