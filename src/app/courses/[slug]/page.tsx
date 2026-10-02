@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
-import { COURSES, PLACEMENT_STEPS, getCourse, getRelatedCourses, type Course } from "@/lib/courses";
+import { getCourse, getCourses, getRelatedCourses } from "@/lib/cms";
+import { PLACEMENT_STEPS, type Course } from "@/lib/courses";
 import { SITE, TEL_HREF, WHATSAPP_HREF, courseEnquiryEmail } from "@/lib/site";
 
 import { Accordion, CourseActionBar, PrintButton, SectionNav } from "./course-ui";
@@ -25,13 +26,13 @@ const SECTIONS = [
   { id: "faqs", label: "FAQs" },
 ];
 
-export function generateStaticParams() {
-  return COURSES.map((course) => ({ slug: course.slug }));
+export async function generateStaticParams() {
+  return (await getCourses()).map((course) => ({ slug: course.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = await getCourse(slug);
   if (!course) return { title: "Course not found" };
 
   const path = `/courses/${course.slug}`;
@@ -140,12 +141,14 @@ function StructuredData({ course }: { course: Course }) {
           addressCountry: SITE.address.country,
         },
       },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: course.rating.value,
-        reviewCount: course.rating.count,
-        bestRating: 5,
-      },
+      ...(course.rating.count > 0 && {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: course.rating.value,
+          reviewCount: course.rating.count,
+          bestRating: 5,
+        },
+      }),
       hasCourseInstance: course.batches.map((batch) => ({
         "@type": "CourseInstance",
         name: `${course.shortTitle} — ${batch.name} batch`,
@@ -188,10 +191,16 @@ function StructuredData({ course }: { course: Course }) {
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = await getCourse(slug);
   if (!course) notFound();
 
-  const related = getRelatedCourses(course);
+  const related = await getRelatedCourses(course);
+
+  // A course added in the CMS may not state every figure yet. Each of these
+  // drops its line from the page rather than printing a zero.
+  const hasRating = course.rating.count > 0;
+  const hasSeats = course.seats > 0;
+  const hasReviews = course.reviews.length > 0;
 
   return (
     // data-enquiry-course pre-selects this course whenever the enquiry popup opens on this page.
@@ -233,7 +242,7 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <p className="flex flex-wrap items-center gap-2 text-xs">
                   <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 font-semibold tracking-wide">{course.category}</span>
                   <span className="rounded-full bg-accent-yellow px-3 py-1 font-semibold text-ink">Admissions open</span>
-                  <span className="rounded-full border border-white/20 px-3 py-1 text-white/75">{course.level}</span>
+                  {course.level && <span className="rounded-full border border-white/20 px-3 py-1 text-white/75">{course.level}</span>}
                 </p>
 
                 <h1 className="mt-5 font-display text-[clamp(2rem,5.2vw,3.5rem)] leading-[1.05] font-extrabold tracking-[-0.03em] text-balance">
@@ -243,16 +252,18 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 lg:text-lg">{course.tagline}</p>
 
                 <p className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70">
-                  <span className="inline-flex items-center gap-2">
-                    <span aria-hidden="true" className="text-accent-yellow">
-                      ★★★★★
+                  {hasRating && (
+                    <span className="inline-flex items-center gap-2">
+                      <span aria-hidden="true" className="text-accent-yellow">
+                        ★★★★★
+                      </span>
+                      <span>
+                        {course.rating.value.toFixed(1)} / 5 from {course.rating.count} students
+                      </span>
                     </span>
-                    <span>
-                      {course.rating.value.toFixed(1)} / 5 from {course.rating.count} students
-                    </span>
-                  </span>
-                  <span aria-hidden="true" className="h-4 w-px bg-white/20" />
-                  <span>Next batch: {course.nextBatch}</span>
+                  )}
+                  {hasRating && course.nextBatch && <span aria-hidden="true" className="h-4 w-px bg-white/20" />}
+                  {course.nextBatch && <span>Next batch: {course.nextBatch}</span>}
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -326,11 +337,11 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                 <div className="mt-5 grid grid-cols-2 gap-2.5 border-t border-white/15 pt-4">
                   <div className="rounded-xl bg-white/5 p-3">
                     <p className="text-[11px] tracking-wide text-white/55 uppercase">Next batch</p>
-                    <p className="mt-1 text-sm font-semibold">{course.nextBatch}</p>
+                    <p className="mt-1 text-sm font-semibold">{course.nextBatch || "Ask at counselling"}</p>
                   </div>
                   <div className="rounded-xl bg-white/5 p-3">
                     <p className="text-[11px] tracking-wide text-white/55 uppercase">Batch size</p>
-                    <p className="mt-1 text-sm font-semibold">Max {course.seats} students</p>
+                    <p className="mt-1 text-sm font-semibold">{hasSeats ? `Max ${course.seats} students` : "Small batches"}</p>
                   </div>
                 </div>
 
@@ -367,10 +378,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               <Fact icon="clock" label="Duration" value={course.duration} />
             </StaggerItem>
             <StaggerItem>
-              <Fact icon="users" label="Delivery" value={course.modes.join(" · ")} />
+              <Fact icon="users" label="Delivery" value={course.modes.join(" · ") || "Classroom"} />
             </StaggerItem>
             <StaggerItem>
-              <Fact icon="target" label="Level" value={course.level} />
+              <Fact icon="target" label="Level" value={course.level || "All levels"} />
             </StaggerItem>
             <StaggerItem>
               <Fact icon="certificate" label="Certification" value={course.certification} />
@@ -386,8 +397,14 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             Notice
           </span>
           <p className="min-w-0 flex-1 text-content">
-            Admissions for the <strong className="font-semibold">{course.nextBatch.toLowerCase()}</strong> intake are open. Seats are limited to{" "}
-            {course.seats} per batch.{" "}
+            {course.nextBatch ? (
+              <>
+                Admissions for the <strong className="font-semibold">{course.nextBatch.toLowerCase()}</strong> intake are open.
+              </>
+            ) : (
+              "Admissions are open."
+            )}{" "}
+            {hasSeats && `Seats are limited to ${course.seats} per batch.`}{" "}
             <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="font-semibold text-action underline underline-offset-2 hover:text-action-hover">
               Message us on WhatsApp
               <span className="sr-only"> (opens in a new tab)</span>
@@ -429,10 +446,10 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                             ["Class load", course.weeklyHours],
                             ["Delivery", course.modes.join(" · ")],
                             ["Languages", course.languages.join(", ")],
-                            ["Batch size", `Max ${course.seats} students`],
+                            ["Batch size", hasSeats ? `Max ${course.seats} students` : ""],
                             ["Modules", `${course.curriculum.length} modules`],
                           ] as const
-                        ).map(([label, value]) => (
+                        ).filter(([, value]) => value).map(([label, value]) => (
                           <div key={label} className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0">
                             <dt className="shrink-0 text-content-muted">{label}</dt>
                             <dd className="text-right font-semibold">{value}</dd>
@@ -746,7 +763,18 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
               </Reveal>
             </Section>
 
-            <Section id="reviews" index={11} title="What students say" lead={`${course.rating.value.toFixed(1)} out of 5 from ${course.rating.count} students who finished this course.`}>
+            <Section
+              id="reviews"
+              index={11}
+              title="What students say"
+              lead={
+                hasRating
+                  ? `${course.rating.value.toFixed(1)} out of 5 from ${course.rating.count} students who finished this course.`
+                  : hasReviews
+                    ? undefined
+                    : "Reviews for this course will appear here as students finish it."
+              }
+            >
               <Stagger className="grid gap-4 sm:grid-cols-2">
                 {course.reviews.map((review, index) => (
                   <StaggerItem key={`${index}-${review.name}`}>

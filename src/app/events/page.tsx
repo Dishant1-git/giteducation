@@ -4,7 +4,8 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
-import { EVENTS, formatEventDate } from "@/lib/events";
+import { getEvents } from "@/lib/cms";
+import { formatEventDate } from "@/lib/events";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/events" },
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events = await getEvents();
+
   return (
     <div>
       <header className="on-inverse hero-surface relative isolate overflow-hidden px-5 pt-28 pb-14 text-white sm:pt-32 lg:px-8 lg:pb-16">
@@ -51,11 +54,18 @@ export default function EventsPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="flex items-baseline justify-between gap-4 border-b border-border-subtle pb-4">
             <p className="font-mono text-xs font-bold tracking-[0.22em] text-action uppercase">Upcoming events</p>
-            <p className="font-mono text-xs text-content-muted">{EVENTS.length} events</p>
+            <p className="font-mono text-xs text-content-muted">{events.length} {events.length === 1 ? "event" : "events"}</p>
           </div>
 
+          {events.length === 0 && (
+            <p className="mt-8 rounded-card border border-border-subtle bg-surface-sunken p-6 text-sm leading-relaxed text-content-muted lg:mt-10">
+              No events are scheduled right now. New workshops and demo classes are added here as soon as their dates are fixed, and a free demo class can be
+              booked for any day that suits you.
+            </p>
+          )}
+
           <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {EVENTS.map((event, i) => (
+            {events.map((event, i) => (
               <Reveal as="li" key={event.id} delay={i * 0.08} className="flex">
                 <article className="group flex flex-1 flex-col overflow-hidden rounded-card border border-border-subtle bg-surface-raised shadow-card transition-colors hover:border-action/40">
                   <div className="relative aspect-[16/10] overflow-hidden bg-surface-sunken">

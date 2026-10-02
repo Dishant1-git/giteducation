@@ -21,6 +21,8 @@ export type BlogPost = {
   courseSlug: string;
   courseName: string;
   sections: BlogSection[];
+  /** Body written in the CMS editor, already cleaned. Rendered instead of `sections` when present. */
+  html?: string;
 };
 
 export const POSTS: BlogPost[] = [

@@ -9,7 +9,8 @@
 export type EventItem = {
   id: string;
   title: string;
-  kind: "Workshop" | "Demo class" | "Seminar";
+  /** "Workshop", "Demo class", "Seminar" — or any other kind set in the CMS. */
+  kind: string;
   /** ISO date, yyyy-mm-dd. */
   date: string;
   time: string;

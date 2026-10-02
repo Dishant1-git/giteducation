@@ -5,16 +5,17 @@ import { notFound } from "next/navigation";
 
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
-import { POSTS, formatPostDate, getPost } from "@/lib/blog";
+import { formatPostDate } from "@/lib/blog";
+import { getPost, getPosts } from "@/lib/cms";
 import { SITE } from "@/lib/site";
 
-export function generateStaticParams() {
-  return POSTS.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  return (await getPosts()).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return { title: "Article not found" };
 
   const path = `/blogs/${post.slug}`;
@@ -28,24 +29,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
-  const others = POSTS.filter((p) => p.slug !== post.slug);
+  const others = (await getPosts()).filter((p) => p.slug !== post.slug).slice(0, 4);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    image: `${SITE.url}${post.image}`,
+    // Covers uploaded in the CMS are already absolute.
+    image: post.image.startsWith("http") ? post.image : `${SITE.url}${post.image}`,
     author: { "@type": "Organization", name: SITE.name },
     publisher: { "@type": "Organization", name: SITE.name },
     mainEntityOfPage: `${SITE.url}/blogs/${post.slug}`,
   };
 
   return (
-    <article data-enquiry-course={post.courseName}>
+    <article data-enquiry-course={post.courseName || undefined}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       <header className="on-inverse hero-surface relative isolate overflow-hidden px-5 pt-28 pb-14 text-white sm:pt-32 lg:px-8 lg:pb-16">
@@ -95,6 +97,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <p className="mt-10 text-lg leading-relaxed text-content-muted">{post.excerpt}</p>
 
+          {/* Written in the CMS editor: its own HTML, styled by .cms-prose in globals.css. */}
+          {post.html && <div className="cms-prose mt-10" dangerouslySetInnerHTML={{ __html: post.html }} />}
+
           {post.sections.map((section) => (
             <section key={section.heading} className="mt-10">
               <h2 className="font-display text-2xl font-bold tracking-tight">{section.heading}</h2>
@@ -119,14 +124,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <aside className="mt-14 flex flex-col items-start justify-between gap-5 rounded-panel border border-border-subtle bg-surface-raised p-6 shadow-card sm:flex-row sm:items-center sm:p-7">
             <div>
               <p className="font-display text-lg font-bold tracking-tight">Want to learn this hands-on?</p>
-              <p className="mt-1 text-sm text-content-muted">Our {post.courseName} course covers it with practice on real sheets and files.</p>
+              <p className="mt-1 text-sm text-content-muted">
+                {post.courseName
+                  ? `Our ${post.courseName} course covers it with practice on real sheets and files.`
+                  : "Our courses cover it with practice on real sheets and files."}
+              </p>
             </div>
             <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row">
               <Link
-                href={`/courses/${post.courseSlug}`}
+                href={post.courseSlug ? `/courses/${post.courseSlug}` : "/courses"}
                 className="inline-flex h-11 items-center justify-center rounded-full border border-border-strong px-5 text-sm font-semibold transition-colors hover:border-action hover:text-action"
               >
-                See the course
+                {post.courseSlug ? "See the course" : "See all courses"}
               </Link>
               <button
                 type="button"

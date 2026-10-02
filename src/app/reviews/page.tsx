@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
-import { REVIEWS } from "@/lib/reviews";
+import { getReviews } from "@/lib/cms";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 /** Avatar gradients, cycled so neighbouring cards differ. */
 const AVATARS = ["from-brand-600 to-brand-400", "from-accent-500 to-accent-400", "from-ink to-brand-700", "from-brand-700 to-accent-500"];
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const reviews = await getReviews();
+
   return (
     <div>
       <header className="on-inverse hero-surface relative isolate overflow-hidden px-5 pt-28 pb-14 text-white sm:pt-32 lg:px-8 lg:pb-16">
@@ -53,12 +55,12 @@ export default function ReviewsPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="flex items-baseline justify-between gap-4">
             <p className="font-mono text-xs font-bold tracking-[0.22em] text-action uppercase">Student reviews</p>
-            <p className="font-mono text-xs text-content-muted">{REVIEWS.length} shown</p>
+            <p className="font-mono text-xs text-content-muted">{reviews.length} shown</p>
           </div>
 
           <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:mt-10 xl:grid-cols-4">
-            {REVIEWS.map((review, i) => (
-              <li key={`${review.course}-${review.name}`}>
+            {reviews.map((review, i) => (
+              <li key={`${i}-${review.name}`}>
                 <Reveal className="h-full" delay={(i % 4) * 0.06}>
                   <figure className="flex h-full flex-col rounded-card border border-border-subtle bg-surface-raised p-6 transition-shadow duration-500 hover:shadow-card">
                     <figcaption className="flex items-center gap-3">

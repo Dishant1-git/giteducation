@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 import { Icon } from "@/components/icon";
-import { COURSES } from "@/lib/courses";
+import { getCourses } from "@/lib/cms";
 import { TEL_HREF } from "@/lib/site";
 
-export default function CourseNotFound() {
+export default async function CourseNotFound() {
+  const courses = await getCourses();
+
   return (
     <div className="hero-surface on-inverse relative isolate overflow-hidden px-5 pt-32 pb-20 text-white">
       <div className="panel-glow pointer-events-none absolute inset-0 -z-10" />
@@ -18,7 +20,7 @@ export default function CourseNotFound() {
         </p>
 
         <ul className="mx-auto mt-10 grid max-w-2xl gap-2 text-left sm:grid-cols-2">
-          {COURSES.map((course) => (
+          {courses.map((course) => (
             <li key={course.slug}>
               <Link
                 href={`/courses/${course.slug}`}

@@ -1,0 +1,11 @@
+-- "Full description" removed from the course form.
+--
+-- It was two fields for one outcome. The site resolves a course's long-form
+-- copy as `overview ?? description`, and `overview` — which the form calls
+-- "Hero description" — is always filled, so `description` never reached a
+-- page. An editor typing into a box labelled "Full description" and seeing
+-- nothing change is worse than not having the box.
+--
+-- Nothing is lost: every one of the 39 rows held a byte-for-byte copy of
+-- `overview`, checked before this ran.
+ALTER TABLE courses DROP COLUMN description;
