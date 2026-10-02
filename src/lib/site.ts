@@ -11,7 +11,7 @@ export const SITE = {
   url: "https://giteducation.org",
   phone: "+91 00000 00000",
   whatsapp: "910000000000",
-  email: "info@giteducation.org",
+  email: "info@techcadd.com",
   address: {
     street: "Opp. All India Radio Station, near Bus Stand, New Jawahar Nagar",
     area: "New Jawahar Nagar",
