@@ -3,7 +3,8 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
-import { COURSES, formatFee, getCoursesByCategory } from "@/lib/courses";
+import { getCoursesByCategory } from "@/lib/cms";
+import { formatFee } from "@/lib/courses";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,8 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/courses" },
 };
 
-export default function CoursesIndexPage() {
-  const groups = getCoursesByCategory();
+export default async function CoursesIndexPage() {
+  const groups = await getCoursesByCategory();
+  const total = groups.reduce((sum, group) => sum + group.courses.length, 0);
 
   return (
     <div>
@@ -41,7 +43,7 @@ export default function CoursesIndexPage() {
           <Reveal>
             <p className="mt-8 flex flex-wrap items-center gap-2 text-xs">
               <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 font-semibold tracking-wide">Course directory</span>
-              <span className="rounded-full bg-accent-yellow px-3 py-1 font-semibold text-ink">{COURSES.length} courses running</span>
+              <span className="rounded-full bg-accent-yellow px-3 py-1 font-semibold text-ink">{total} courses running</span>
             </p>
             <h1 className="mt-5 max-w-3xl font-display text-[clamp(2rem,5vw,3.4rem)] leading-[1.05] font-extrabold tracking-[-0.03em] text-balance">
               Every course we run in {SITE.address.locality}
@@ -94,7 +96,7 @@ export default function CoursesIndexPage() {
                     <span className="mt-5 flex items-end justify-between gap-3 border-t border-border-subtle pt-4">
                       <span>
                         <span className="block text-[11px] tracking-[0.12em] text-content-muted uppercase">Course fee</span>
-                        <span className="mt-0.5 block font-display text-lg font-bold tracking-tight">{formatFee(course.fee.amount)}</span>
+                        <span className="mt-0.5 block font-display text-lg font-bold tracking-tight">{course.fee.amount > 0 ? formatFee(course.fee.amount) : "On request"}</span>
                       </span>
                       <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
                         View course

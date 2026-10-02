@@ -1,0 +1,15 @@
+# Dependencies, builds and local state — never committed.
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+# Files uploaded through the media library.
+uploads/
+
+# Leftovers of an older build of this CMS (compiled output, its node_modules
+# and its .env). The source lives in cms-api/ and cms-admin/.
+/backend/
+/frontend/
+.claude/

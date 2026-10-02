@@ -4,7 +4,8 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
-import { POSTS, formatPostDate } from "@/lib/blog";
+import { formatPostDate } from "@/lib/blog";
+import { getPosts } from "@/lib/cms";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blogs" },
 };
 
-export default function BlogsPage() {
+export default async function BlogsPage() {
+  const posts = await getPosts();
+
   return (
     <div>
       <header className="on-inverse hero-surface relative isolate overflow-hidden px-5 pt-28 pb-14 text-white sm:pt-32 lg:px-8 lg:pb-16">
@@ -51,11 +54,11 @@ export default function BlogsPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="flex items-baseline justify-between gap-4 border-b border-border-subtle pb-4">
             <p className="font-mono text-xs font-bold tracking-[0.22em] text-action uppercase">Latest posts</p>
-            <p className="font-mono text-xs text-content-muted">{POSTS.length} articles</p>
+            <p className="font-mono text-xs text-content-muted">{posts.length} articles</p>
           </div>
 
           <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {POSTS.map((post, i) => (
+            {posts.map((post, i) => (
               <Reveal as="li" key={post.slug} delay={i * 0.08} className="flex">
                 <article className="group relative flex flex-1 flex-col overflow-hidden rounded-card border border-border-subtle bg-surface-raised shadow-card transition-colors hover:border-action/40">
                   <div className="relative aspect-video overflow-hidden bg-surface-sunken">

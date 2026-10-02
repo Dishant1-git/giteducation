@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
-import { PHOTOS } from "@/lib/gallery";
+import { getPhotos } from "@/lib/cms";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 import { GalleryWall } from "./gallery-wall";
@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const photos = await getPhotos();
+
   return (
     <div>
       <header className="on-inverse hero-surface relative isolate overflow-hidden px-5 pt-28 pb-14 text-white sm:pt-32 lg:px-8 lg:pb-16">
@@ -54,7 +56,7 @@ export default function GalleryPage() {
           <h2 className="mt-4 font-display text-[clamp(1.8rem,4vw,2.8rem)] leading-[1.1] font-extrabold tracking-tight">Our gallery</h2>
         </div>
         <div className="mt-10 lg:mt-14">
-          <GalleryWall photos={PHOTOS} />
+          <GalleryWall photos={photos} />
         </div>
       </section>
 

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Icon } from "@/components/icon";
 import { Reveal } from "@/components/motion";
 import { COMMON_FAQS as CERTIFICATE_FAQS } from "@/lib/certificate-programs";
-import { COMMON_FAQS as COURSE_FAQS, COURSES, PLACEMENT_STEPS } from "@/lib/courses";
-import { GENERAL_FAQS } from "@/lib/faq";
+import { COMMON_FAQS as COURSE_FAQS, PLACEMENT_STEPS } from "@/lib/courses";
+import { getCourses, getFaqGroups } from "@/lib/cms";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 import { FaqBrowser, type FaqGroup } from "./faq-browser";
@@ -21,23 +21,30 @@ const placementAnswer = `Yes. ${PLACEMENT_STEPS.map((step) => `${step.title}: ${
 const courseCommon = new Set(COURSE_FAQS.map(([q]) => q));
 const missedClasses = COURSE_FAQS.filter(([q]) => q === "What happens if I miss classes?");
 
-/** General first, then certificates, then one tab per course in catalogue order. */
-const GROUPS: FaqGroup[] = [
-  {
-    id: "general",
-    label: "General",
-    items: [...GENERAL_FAQS, ...missedClasses, ["Do you help with placement?", placementAnswer]],
-  },
-  { id: "certificates", label: "Certificates", items: CERTIFICATE_FAQS },
-  ...COURSES.map((course) => ({
-    id: course.slug,
-    label: course.shortTitle,
-    href: `/courses/${course.slug}`,
-    items: course.faqs.filter(([q]) => !courseCommon.has(q)),
-  })).filter((group) => group.items.length > 0),
-];
+/** The CMS's FAQ categories first (General leads), then certificates, then one tab per course in catalogue order. */
+async function getGroups(): Promise<FaqGroup[]> {
+  const [cmsGroups, courses] = await Promise.all([getFaqGroups(), getCourses()]);
 
-export default function FaqPage() {
+  // Two standing answers, derived from the course data, close the General tab.
+  const general = cmsGroups.find((group) => group.id === "general") ?? cmsGroups[0];
+  const extras: FaqGroup["items"] = [...missedClasses, ["Do you help with placement?", placementAnswer]];
+
+  return [
+    ...cmsGroups.map((group) => (group === general ? { ...group, items: [...group.items, ...extras] } : group)),
+    { id: "certificates", label: "Certificates", items: CERTIFICATE_FAQS },
+    ...courses
+      .map((course) => ({
+        id: course.slug,
+        label: course.shortTitle,
+        href: `/courses/${course.slug}`,
+        items: course.faqs.filter(([q]) => !courseCommon.has(q)),
+      }))
+      .filter((group) => group.items.length > 0),
+  ];
+}
+
+export default async function FaqPage() {
+  const GROUPS = await getGroups();
   const seen = new Set<string>();
   const jsonLd = {
     "@context": "https://schema.org",
