@@ -13,7 +13,8 @@ export const SITE = {
   whatsapp: "910000000000",
   email: "info@giteducation.org",
   address: {
-    street: "Model Town Road",
+    street: "Opp. All India Radio Station, near Bus Stand, New Jawahar Nagar",
+    area: "New Jawahar Nagar",
     locality: "Jalandhar",
     region: "Punjab",
     postalCode: "144001",

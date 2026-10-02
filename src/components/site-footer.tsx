@@ -70,7 +70,9 @@ export function SiteFooter() {
             <ul className="mt-7 space-y-3.5 text-sm text-content-muted">
               <li className="flex gap-3">
                 <Icon name="location" className="mt-0.5 size-[18px] shrink-0 text-action" />
-                <span>Jalandhar, Punjab, India</span>
+                <span>
+                  {SITE.address.street}, {SITE.address.locality}, {SITE.address.region} {SITE.address.postalCode}
+                </span>
               </li>
               <li>
                 <a href={TEL_HREF} className="flex gap-3 transition-colors hover:text-action">

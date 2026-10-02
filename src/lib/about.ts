@@ -88,7 +88,7 @@ export const CREDENTIALS: Credential[] = [
     title: "Registered institute",
     issuer: SITE.registration,
     since: String(SITE.established),
-    text: `${SITE.name} is a registered computer training institute in ${SITE.address.locality}, teaching from its centre on ${SITE.address.street} since ${SITE.established}.`,
+    text: `${SITE.name} is a registered computer training institute in ${SITE.address.locality}, teaching from its centre in ${SITE.address.area} since ${SITE.established}.`,
     points: ["Registration number shown on every certificate", "Fixed address you can visit before enrolling", "Written fee receipt for every payment"],
   },
 ];

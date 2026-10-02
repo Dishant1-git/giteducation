@@ -73,7 +73,7 @@ export default function AboutPage() {
             <Reveal>
               <div className="space-y-5 text-base leading-relaxed text-content-muted lg:text-[17px]">
                 <p>
-                  {SITE.name} is a computer training institute on {SITE.address.street}, {SITE.address.locality}. It opened in {SITE.established} with one aim:
+                  {SITE.name} is a computer training institute in {SITE.address.area}, {SITE.address.locality}. It opened in {SITE.established} with one aim:
                   that a student should leave able to do the work, not just describe it.
                 </p>
                 <p>
