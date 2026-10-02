@@ -389,7 +389,6 @@ html:not(.reveal-ready) .scribble path {
   transition:
     opacity 0.9s var(--ease-out-expo),
     transform 0.9s var(--ease-out-expo),
-    filter 0.9s var(--ease-out-expo),
     clip-path 1.1s cubic-bezier(0.77, 0, 0.18, 1),
     translate 0.45s var(--ease-out-expo),
     box-shadow 0.4s ease,
@@ -398,12 +397,14 @@ html:not(.reveal-ready) .scribble path {
   transition-delay: var(--d, 0ms);
 }
 
-.reveal-ready .reveal:not(.is-visible) { opacity: 0; transform: translateY(36px); filter: blur(6px); }
+/* Opacity and transform only: a blur filter here is repainted every frame for
+   every revealing element, which is what made long pages stutter on scroll. */
+.reveal-ready .reveal:not(.is-visible) { opacity: 0; transform: translateY(36px); }
 
 /* Slide in from the side. Deliberately not clip-path: clipping to zero width makes
    the element invisible to IntersectionObserver, so it would never be revealed. */
-.reveal-ready .reveal-left:not(.is-visible) { transform: translateX(-40px); filter: none; }
-.reveal-ready .reveal-right:not(.is-visible) { transform: translateX(40px); filter: none; }
+.reveal-ready .reveal-left:not(.is-visible) { transform: translateX(-40px); }
+.reveal-ready .reveal-right:not(.is-visible) { transform: translateX(40px); }
 
 /* Tip forward in 3D */
 .reveal-ready .reveal-zoom:not(.is-visible) {
@@ -413,7 +414,7 @@ html:not(.reveal-ready) .scribble path {
 
 /* Connector line draws across */
 .line-draw { transform-origin: left; }
-.reveal-ready .line-draw:not(.is-visible) { transform: scaleX(0); filter: none; opacity: 1; }
+.reveal-ready .line-draw:not(.is-visible) { transform: scaleX(0); opacity: 1; }
 
 .bar-grow {
   transform: scaleY(0);

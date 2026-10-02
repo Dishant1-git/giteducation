@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
     // only while the CMS itself is on localhost; with the CMS on a public host
     // this stays off.
     dangerouslyAllowLocalIP: cmsIsLocal,
+    // Keep an optimised image for 30 days. An upload gets a new file name when
+    // it is replaced, so a long window never serves a stale picture.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
 };
 
