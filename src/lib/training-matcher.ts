@@ -28,13 +28,13 @@ export type BranchId = "cse" | "bca" | "mca" | "aids" | "mech" | "civil" | "ece"
 export type Branch = { id: BranchId; name: string; icon: string; tracks: string[] };
 
 export const BRANCHES: Branch[] = [
-  { id: "cse", name: "CSE / IT", icon: "code", tracks: ["python-ai", "web-python", "excel-data"] },
-  { id: "bca", name: "BCA / B.Sc IT", icon: "monitor", tracks: ["python-ai", "web-python", "digital-marketing"] },
-  { id: "mca", name: "MCA / M.Sc IT", icon: "code", tracks: ["python-ai", "web-python", "excel-data"] },
-  { id: "aids", name: "AI & Data Science", icon: "robot", tracks: ["python-ai", "excel-data", "web-python"] },
+  { id: "cse", name: "CSE / IT", icon: "code", tracks: ["web-design", "excel-data", "digital-marketing"] },
+  { id: "bca", name: "BCA / B.Sc IT", icon: "monitor", tracks: ["web-design", "digital-marketing", "excel-data"] },
+  { id: "mca", name: "MCA / M.Sc IT", icon: "code", tracks: ["web-design", "excel-data", "digital-marketing"] },
+  { id: "aids", name: "AI & Data Science", icon: "chart", tracks: ["excel-data", "web-design", "digital-marketing"] },
   { id: "mech", name: "Mechanical & Automobile", icon: "cube", tracks: ["cad-mech", "cnc", "excel-data"] },
   { id: "civil", name: "Civil & Architecture", icon: "building", tracks: ["cad-civil", "structural", "excel-data"] },
-  { id: "ece", name: "ECE / EE / Electronics", icon: "chip", tracks: ["python-ai", "cad-mech", "excel-data"] },
+  { id: "ece", name: "ECE / EE / Electronics", icon: "chip", tracks: ["cad-mech", "excel-data", "web-design"] },
   { id: "commerce", name: "MBA / BBA / B.Com", icon: "briefcase", tracks: ["tally-gst", "excel-data", "digital-marketing"] },
 ];
 
@@ -51,24 +51,15 @@ export type Track = {
 };
 
 export const TRACKS: Record<string, Track> = {
-  "python-ai": {
-    id: "python-ai",
-    title: "Python & AI Live Project",
-    tag: "High demand",
-    text: "Core Python, data handling and AI tools, ending in one working project that automates or predicts something real.",
-    stack: ["Python 3", "Pandas", "Jupyter", "ChatGPT / Gemini APIs", "Streamlit"],
-    outcome: "One working AI project with source code",
-    courseSlug: "artificial-intelligence-course-in-jalandhar",
-    enquiryName: "Artificial Intelligence",
-  },
-  "web-python": {
-    id: "web-python",
-    title: "Web Development with Python",
+  "web-design": {
+    id: "web-design",
+    title: "Web Designing Live Project",
     tag: "Most popular",
-    text: "HTML, CSS and JavaScript for the front end, Python for the back end, and a database behind it, deployed online.",
-    stack: ["HTML5", "CSS", "JavaScript", "Python", "Django", "MySQL"],
-    outcome: "One deployed website with a GitHub repository",
-    enquiryName: "Web Development with Python",
+    text: "HTML, CSS and JavaScript for a responsive, multi-page website, tested across screen sizes and published online.",
+    stack: ["HTML5", "CSS3", "JavaScript", "Git", "GitHub"],
+    outcome: "One published website with a GitHub repository",
+    courseSlug: "web-designing-course-in-jalandhar",
+    enquiryName: "Web Designing",
   },
   "excel-data": {
     id: "excel-data",

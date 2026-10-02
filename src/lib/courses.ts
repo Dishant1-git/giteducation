@@ -6,6 +6,8 @@
  * fully-formed, statically generated page; no template changes are needed.
  */
 
+import { CATALOGUE } from "./catalogue";
+
 export type CourseModule = {
   title: string;
   hours: string;
@@ -18,7 +20,9 @@ export type Course = {
   title: string;
   /** Used in cards, breadcrumbs and the related-courses rail. */
   shortTitle: string;
+  /** Main category and sub-category titles, as set in src/lib/catalogue.ts. */
   category: string;
+  subCategory: string;
   /** Key in `lineIcons` (src/lib/site.ts). */
   icon: string;
   tagline: string;
@@ -89,901 +93,11 @@ export const COMMON_FAQS: [string, string][] = [
 
 const courses: Course[] = [
   {
-    slug: "artificial-intelligence-course-in-jalandhar",
-    title: "Artificial Intelligence Certificate Program in Jalandhar",
-    shortTitle: "Artificial Intelligence",
-    category: "Future Skills",
-    icon: "brain",
-    tagline: "Live projects, placement support and a portfolio you can show an employer.",
-    summary: [
-      "This certificate program takes you from Python basics to working AI applications in six months, taught in a classroom in Jalandhar with one computer per student. You write code in every class; there are no lecture-only sessions.",
-      "The syllabus covers the three things employers actually ask for: data handling with Python, machine learning that you can explain, and applied AI built on today's language and vision models. You finish with four live projects, a GitHub profile and a CV built around that work.",
-      "No prior programming experience is required. The first module starts from installing Python and writing your first script, and the pace is set so that a graduate from any stream can follow it.",
-    ],
-    seo: {
-      title: "Artificial Intelligence Course in Jalandhar | Live Projects & Placement Support",
-      description:
-        "Six-month Artificial Intelligence certificate program in Jalandhar. Python, machine learning, deep learning and generative AI with live projects, one computer per student and placement support.",
-      keywords: [
-        "artificial intelligence course in jalandhar",
-        "ai training institute jalandhar",
-        "machine learning course jalandhar",
-        "python ai course punjab",
-        "generative ai course jalandhar",
-      ],
-    },
-    level: "Beginner to Advanced",
-    duration: "6 months",
-    weeklyHours: "10 hours per week (5 classes)",
-    modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
-    languages: ["English", "Hindi", "Punjabi"],
-    certification: "GIT Education Certificate in Applied Artificial Intelligence",
-    seats: 18,
-    rating: { value: 4.9, count: 128 },
-    nextBatch: "First Monday of every month",
-    highlights: [
-      { icon: "code", title: "Code from day one", text: "Every class ends with working code on your own machine, reviewed by the trainer before you leave." },
-      { icon: "briefcase", title: "Four live projects", text: "A sales forecast, a document chatbot, an image classifier and a full capstone, all built on real datasets." },
-      { icon: "users", title: "Batches of 18", text: "One computer per student and a trainer who can reach every desk in a single class." },
-      { icon: "certificate", title: "Portfolio and CV", text: "You leave with a GitHub profile, a project portfolio and a CV written around what you built." },
-    ],
-    outcomes: [
-      "Write Python programs that read, clean and analyse real datasets using pandas and NumPy.",
-      "Build, evaluate and explain supervised machine-learning models for classification and regression problems.",
-      "Train and fine-tune neural networks for image and text tasks using TensorFlow and Keras.",
-      "Build retrieval-augmented chatbots and automation on top of large language models, with prompt design and API integration.",
-      "Deploy a model as a working web application and hand over documentation an employer can read.",
-      "Explain your model's decisions, limitations and bias risks in plain language during an interview.",
-    ],
-    audience: [
-      "Graduates and final-year students from any stream who want an AI role",
-      "Working IT and support staff moving into data and AI teams",
-      "Commerce and science graduates with no coding background",
-      "Business owners who want to automate reporting and customer replies",
-    ],
-    eligibility: [
-      "10+2 or above in any stream",
-      "Comfortable using a computer and the internet",
-      "No prior programming knowledge required",
-      "Basic English reading ability (class discussion is in Hindi, Punjabi or English)",
-    ],
-    curriculum: [
-      {
-        title: "Python for AI",
-        hours: "24 hours",
-        topics: [
-          "Installing Python, VS Code and Jupyter; running your first script",
-          "Variables, data types, conditions and loops",
-          "Functions, modules and error handling",
-          "Lists, dictionaries, sets and file handling",
-          "Working with CSV and Excel files in Python",
-        ],
-      },
-      {
-        title: "Data handling and statistics",
-        hours: "28 hours",
-        topics: [
-          "NumPy arrays and vectorised operations",
-          "pandas: loading, filtering, grouping and joining datasets",
-          "Cleaning messy data: missing values, duplicates, outliers",
-          "Descriptive statistics, distributions and correlation",
-          "Charts with Matplotlib and Seaborn for data storytelling",
-        ],
-      },
-      {
-        title: "Machine learning foundations",
-        hours: "36 hours",
-        topics: [
-          "Supervised vs unsupervised learning, and when each applies",
-          "Linear and logistic regression, decision trees, random forests",
-          "Train/test splits, cross-validation and overfitting",
-          "Accuracy, precision, recall, F1 and the confusion matrix",
-          "Feature engineering and scikit-learn pipelines",
-        ],
-      },
-      {
-        title: "Deep learning",
-        hours: "32 hours",
-        topics: [
-          "Neural network structure, activation functions and backpropagation",
-          "TensorFlow and Keras model building",
-          "Convolutional networks for image classification",
-          "Transfer learning with pre-trained models",
-          "Sequence models and an introduction to transformers",
-        ],
-      },
-      {
-        title: "Generative AI and LLM applications",
-        hours: "30 hours",
-        topics: [
-          "How large language models work, and where they fail",
-          "Prompt design, system prompts and structured outputs",
-          "Embeddings, vector databases and retrieval-augmented generation",
-          "Building a document chatbot over your own PDFs",
-          "Responsible AI: bias, privacy, hallucination and human review",
-        ],
-      },
-      {
-        title: "Deployment and capstone project",
-        hours: "30 hours",
-        topics: [
-          "Packaging a model with Flask or FastAPI",
-          "Building a front end with Streamlit",
-          "Version control with Git and GitHub",
-          "Capstone project: problem selection, build, review and presentation",
-          "Portfolio, CV and interview preparation",
-        ],
-      },
-    ],
-    tools: [
-      { group: "Languages & libraries", items: ["Python", "NumPy", "pandas", "scikit-learn", "Matplotlib", "Seaborn"] },
-      { group: "Deep learning", items: ["TensorFlow", "Keras", "OpenCV", "Hugging Face Transformers"] },
-      { group: "Generative AI", items: ["LLM APIs", "LangChain", "Vector databases", "Prompt engineering"] },
-      { group: "Delivery", items: ["Jupyter", "VS Code", "Git & GitHub", "Streamlit", "FastAPI"] },
-    ],
-    projects: [
-      {
-        title: "Retail sales forecasting",
-        text: "Clean two years of shop sales data, engineer seasonal features and forecast next month's demand, then present the numbers to the class as you would to an owner.",
-        tags: ["pandas", "Regression", "Time series"],
-      },
-      {
-        title: "Document chatbot",
-        text: "Build a retrieval-augmented assistant that answers questions from a set of PDFs — fee rules, product manuals or policy documents — with citations back to the source page.",
-        tags: ["LLM", "Embeddings", "RAG"],
-      },
-      {
-        title: "Image classifier",
-        text: "Train a convolutional network to sort product photographs into categories, then improve it with transfer learning and report the accuracy gain.",
-        tags: ["CNN", "Transfer learning", "OpenCV"],
-      },
-      {
-        title: "Capstone: deployed AI application",
-        text: "Pick a problem, build the model, deploy it as a web app and write the handover documentation. This is the project that goes at the top of your CV.",
-        tags: ["End to end", "Deployment", "Portfolio"],
-      },
-    ],
-    careers: [
-      { role: "Junior Data Analyst", salary: "₹2.4 – 4.2 LPA", demand: "Very high" },
-      { role: "Machine Learning Engineer (Trainee)", salary: "₹3.0 – 6.0 LPA", demand: "High" },
-      { role: "AI Application Developer", salary: "₹3.6 – 7.2 LPA", demand: "High" },
-      { role: "Automation / Prompt Engineer", salary: "₹3.0 – 5.4 LPA", demand: "High" },
-      { role: "Business Intelligence Executive", salary: "₹2.4 – 4.8 LPA", demand: "Moderate" },
-    ],
-    batches: [
-      { name: "Morning", days: "Mon – Fri", time: "8:00 AM – 10:00 AM", mode: "Classroom", seats: "6 of 18 left" },
-      { name: "Evening", days: "Mon – Fri", time: "5:30 PM – 7:30 PM", mode: "Classroom", seats: "9 of 18 left" },
-      { name: "Weekend", days: "Sat – Sun", time: "10:00 AM – 3:00 PM", mode: "Classroom / Online", seats: "11 of 18 left" },
-    ],
-    faqs: [
-      [
-        "I have never written code. Can I still join this AI course?",
-        "Yes. The first month is Python from the very beginning — installing it, writing your first script, then loops and functions. Around half of each batch starts with no coding background, and the trainer checks your practice files every class.",
-      ],
-      [
-        "Do I need an expensive laptop with a graphics card?",
-        "No. All classroom systems are provided, and the heavier deep-learning exercises run on free cloud notebooks. A basic laptop is enough for home practice; we set it up with you in the first week.",
-      ],
-      [
-        "What kind of placement support is included?",
-        "Skill assessment, a CV built around your projects, two mock interview rounds and referrals to employers hiring in Jalandhar, Ludhiana, Mohali and the wider NCR. We do not guarantee a job — no honest institute can — but every student gets the full support process.",
-      ],
-      [
-        "Are the projects real, or practice exercises?",
-        "They use real datasets and real problem statements, and you build them yourself over the course rather than copying a finished notebook. The capstone is chosen with your trainer so it fits the job you are aiming for.",
-      ],
-      [
-        "Can I attend online if I live outside Jalandhar?",
-        "Yes. The weekend batch runs in the classroom and live online at the same time, with the same trainer and the same project reviews. Recordings are available for the sessions you miss.",
-      ],
-    ],
-    reviews: [
-      {
-        initials: "RK",
-        name: "Ravneet K.",
-        role: "Data Analyst, Mohali",
-        text: "I came from a B.Com background and was scared of coding. By the third month I was cleaning data in pandas on my own. The document chatbot project is what got me through my interview.",
-      },
-      {
-        initials: "HS",
-        name: "Harman S.",
-        role: "AI Developer, Jalandhar",
-        text: "What helped most was that the trainer made us explain our models out loud. In the interview they asked exactly that — why this algorithm and not another one.",
-      },
-    ],
-    related: [
-      "advance-excel-course-in-jalandhar",
-      "digital-marketing-course-in-jalandhar",
-      "ms-office-course-in-jalandhar",
-    ],
-  },
-
-  {
-    slug: "core-python-course-in-jalandhar",
-    title: "Core Python Course in Jalandhar",
-    shortTitle: "Core Python",
-    category: "Future Skills",
-    icon: "code",
-    tagline: "Build Strong Python Programming Foundations",
-    summary: [
-      "A Core Python course in Jalandhar can help students, beginners, graduates, and working professionals develop a strong foundation in Python programming. Python is widely used across software development, automation, data analysis, testing, artificial intelligence, machine learning, and other technology-related fields.",
-      "A structured Core Python course in Jalandhar can begin with programming fundamentals and gradually introduce learners to Python syntax, variables, data types, operators, conditional statements, loops, functions, collections, modules, file handling, exception handling, and object-oriented programming.",
-      "For beginners, Python can provide an accessible way to understand programming logic because its syntax is relatively readable and allows learners to focus on problem-solving concepts. Students can practise writing small programs before progressing to more structured applications.",
-      "The course can be suitable for 12th-pass students, college students, diploma holders, graduates, job seekers, beginners from non-technical backgrounds, and working professionals who want to build programming skills. Learners with previous programming experience can also use Core Python training to strengthen their understanding of Python-specific concepts.",
-      "Depending on the syllabus, students may also explore topics such as lists, tuples, dictionaries, sets, string manipulation, comprehensions, functions, recursion, classes and objects, inheritance, polymorphism, packages, file operations, exception handling, and basic database or API connectivity.",
-      "Practical exercises and programming assignments can help learners improve logical thinking and apply Python concepts to real problems. Students should ideally practise regularly outside class because programming proficiency develops through repeated problem-solving rather than theoretical learning alone.",
-      "Before enrolling, learners should check the current syllabus, Python version, practical assignments, project work, course duration, trainer experience, learning format, and support available to ensure the program matches their learning objectives.",
-      "Looking for a Core Python course in Jalandhar? Explore structured training focused on Python fundamentals, programming logic, data types, conditions, loops, functions, data structures, file handling, exception handling, object-oriented programming, and practical coding projects.",
-      "Submit your enquiry to learn about the latest Core Python course in Jalandhar, available batches, syllabus, duration, practical coding training, projects, and learning format.",
-    ],
-    seo: {
-      title: "Core Python Course in Jalandhar | Python Programming for Beginners",
-      description:
-        "Core Python course in Jalandhar covering syntax, data types, conditions, loops, strings, lists, dictionaries, functions, modules, file and exception handling, OOP and practical coding projects.",
-      keywords: ["core python course in jalandhar", "python training in jalandhar", "python course for beginners jalandhar", "python programming classes punjab", "learn python after 12th jalandhar"],
-    },
-    level: "Beginner to Advanced",
-    duration: "2 months",
-    weeklyHours: "7.5 hours per week (5 classes)",
-    modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
-    languages: ["English", "Hindi", "Punjabi"],
-    certification: "GIT Education Certificate in Core Python",
-    seats: 18,
-    rating: { value: 4.8, count: 86 },
-    nextBatch: "1st of every month",
-    highlights: [
-      // Why This Program?
-      { icon: "book", title: "From Basics to Practical Python", text: "A Core Python course in Jalandhar can provide a structured pathway from basic programming concepts to practical Python development. Instead of learning isolated syntax, students can gradually understand how different programming concepts work together to solve problems." },
-      { icon: "code", title: "Build Strong Programming Fundamentals", text: "Python training can introduce fundamental concepts such as variables, data types, operators, conditions, loops, functions, and data structures. These concepts are useful beyond Python because they form part of the foundation of programming in many languages." },
-      { icon: "brain", title: "Develop Logical Problem-Solving Skills", text: "Programming requires learners to break a problem into smaller steps and convert those steps into instructions that a computer can execute. Regular Python exercises can help students practise logical thinking, problem decomposition, algorithmic thinking, debugging, code organisation, and error identification." },
-      { icon: "monitor", title: "Learn Python Through Practice", text: "Programming becomes easier to understand when learners write and test code themselves. Practical assignments can provide opportunities to create calculators, menu-driven programs, data-processing scripts, file utilities, and other beginner-friendly applications." },
-      { icon: "cube", title: "Understand Object-Oriented Programming", text: "Core Python training can introduce classes, objects, constructors, inheritance, encapsulation, polymorphism, and other object-oriented programming concepts. Understanding these concepts can help learners progress toward larger Python applications." },
-      { icon: "chart", title: "Work With Python Data Structures", text: "Lists, tuples, sets, dictionaries, and strings are central to everyday Python programming. Learning how to select and manipulate appropriate data structures can make programs more organised and efficient." },
-      { icon: "document", title: "Learn File and Exception Handling", text: "Practical programs often need to read or write files and handle unexpected situations. Students can learn file opening and closing, reading and writing data, working with different file modes, exception handling, custom error handling, and debugging common problems." },
-      { icon: "robot", title: "Create a Foundation for Advanced Python", text: "Core Python can act as a foundation for later learning in areas such as Django or Flask, data analysis, machine learning, artificial intelligence, automation, API development, testing, and scripting. The additional technologies required depend on the learner's career direction." },
-      { icon: "briefcase", title: "Develop a Portfolio Through Projects", text: "Small Python projects can help learners demonstrate that they can apply programming concepts rather than only recall syntax. Students can gradually build projects that demonstrate functions, data structures, object-oriented programming, file handling, exception handling, and modular programming." },
-      { icon: "target", title: "Prepare for Further Learning", text: "A strong Core Python foundation can make it easier to move into specialised Python fields later. Students should first become comfortable with programming fundamentals before attempting advanced frameworks or AI/ML libraries. Before enrolling in a Core Python course in Jalandhar, learners should compare the syllabus, Python version, practical coding hours, assignments, projects, trainer experience, class format, and learner support to ensure the program matches their goals." },
-      // Why Choose Techcadd
-      { icon: "check", title: "More Than Memorising Syntax", text: "Learning Python effectively requires more than memorising syntax. A good Core Python course in Jalandhar should help learners understand programming logic, practise coding regularly, debug errors, and gradually apply concepts through practical exercises." },
-      { icon: "calendar", title: "Structured Learning From Basics to Advanced Concepts", text: "Techcadd can provide a structured learning environment where beginners can progress from fundamental Python concepts toward more advanced programming topics. The learning path can cover areas such as Python syntax, variables and data types, operators, conditional statements, loops, functions, data structures, object-oriented programming, file handling, exception handling, and modules and packages. The exact topics should be confirmed from the current course syllabus." },
-      { icon: "users", title: "Beginner-Friendly Python Training", text: "Students with no previous programming experience can begin with basic concepts and gradually develop their coding skills. Instead of immediately moving into complex programs, learners can practise smaller problems first. This can make it easier to understand how Python statements work together to produce a desired result." },
-      { icon: "keyboard", title: "Practical Coding Exercises", text: "Regular coding practice is an important part of learning Python. Students can work on exercises involving calculations, conditions, loops, strings, collections, functions, and other programming concepts. Practical learning can help students identify common coding mistakes and become more comfortable with debugging." },
-      { icon: "brain", title: "Focus on Programming Logic", text: "Learning Python is not only about remembering commands. Students also need to understand how to approach a problem and design a logical solution. Training can encourage learners to practise breaking problems into steps, writing algorithms, creating reusable functions, selecting appropriate data structures, testing programs, and finding and correcting errors." },
-      { icon: "cube", title: "Object-Oriented Programming Practice", text: "As students progress, they can learn object-oriented programming concepts using Python. Depending on the syllabus, this may include classes, objects, constructors, instance attributes, methods, inheritance, encapsulation, and polymorphism. Practical examples can make these concepts easier to understand than learning definitions alone." },
-      { icon: "pen", title: "Project-Oriented Learning", text: "Small projects can help learners combine multiple Python concepts into a single application. Possible beginner-level projects may include calculator applications, student record systems, number or text utilities, file-processing programs, simple inventory applications, and menu-driven applications. Projects should be selected according to the learner's level and the course syllabus." },
-      { icon: "shield", title: "Support While Learning", text: "Programming beginners commonly encounter syntax errors, logical errors, incorrect outputs, and runtime exceptions. Access to guidance while practising can help learners understand why an error occurs instead of simply copying a corrected solution." },
-      { icon: "sparkle", title: "Foundation for Advanced Technologies", text: "Core Python can provide a foundation for learning technologies such as data science, machine learning, AI, web development, automation, and API development. However, these fields require additional tools and concepts beyond Core Python. Students should choose their next learning path according to their career interests." },
-      { icon: "location", title: "Suitable for Jalandhar Learners", text: "For students looking for a Core Python course in Jalandhar, a local training environment can provide structured classes and opportunities for guided coding practice. Learners should evaluate a program based on its actual teaching approach rather than choosing only on the basis of course title or promotional claims." },
-      { icon: "certificate", title: "Check Before Enrolling", text: "Before joining a Core Python program, students should verify: current Python version, complete syllabus, practical coding hours, assignments and exercises, projects included, object-oriented programming coverage, file and exception handling, modules and packages, trainer experience, batch timings, learning mode, and doubt-solving or learner support. The exact curriculum, duration, projects, and learning format may vary. Students should confirm the latest details with Techcadd before enrolment." },
-    ],
-    outcomes: [
-      "Install Python, set up an editor, and write and run programs with correct indentation and syntax.",
-      "Work with variables, data types, operators, user input and formatted output.",
-      "Control program flow with conditions, for and while loops, break, continue and pass.",
-      "Manipulate strings, lists, tuples, sets and dictionaries, including comprehensions.",
-      "Write reusable functions with parameters, default and keyword arguments, return values and lambdas.",
-      "Organise code into modules and packages, and read, write and process text and CSV files.",
-      "Handle exceptions and debug syntax, runtime and logical errors.",
-      "Design programs with classes, objects, inheritance, encapsulation and polymorphism, and complete small projects.",
-    ],
-    audience: [
-      "12th-Pass Students — Students who have completed 12th can start learning Python to build an early foundation in programming. Beginners can start with variables, data types, conditions, loops, and simple problem-solving exercises before moving to more advanced concepts.",
-      "College Students — Students pursuing computer science, IT, engineering, mathematics, or other technical programs can use Core Python to strengthen their programming skills alongside their academic studies.",
-      "Diploma Students — Diploma students can learn Python as an additional technical skill and practise programming logic through small applications and coding exercises.",
-      "Graduates — Graduates who want to enter the technology field can use Core Python training to develop programming fundamentals. Learners from non-computer backgrounds can also start with beginner-level programming if the course is designed accordingly.",
-      "Job Seekers — Freshers and job seekers can use Python practice to develop coding skills and create small projects for their portfolios. However, completing a Python course alone does not guarantee employment; employers may also evaluate problem-solving ability, projects, communication, technical knowledge, and role-specific skills.",
-      "Beginners From Non-Technical Backgrounds — Python's relatively readable syntax can make it a practical starting point for people who have never programmed before. A structured course can introduce programming concepts gradually without assuming extensive prior coding knowledge.",
-      "Existing Programmers — Learners who already know languages such as C, C++, Java, or JavaScript can use Core Python training to understand Python syntax, built-in data structures, functions, object-oriented programming, modules, and Python-specific programming practices.",
-      "Working Professionals — Professionals can learn Python to strengthen their technical skills or explore applications such as scripting, automation, data processing, testing, and other Python-based workflows relevant to their roles.",
-    ],
-    eligibility: [
-      "A Core Python course in Jalandhar can be suitable for learners at different stages who want to develop programming fundamentals and practical Python skills. Because Python is used across multiple technology domains, students can begin with core programming concepts and later choose a specialization such as web development, automation, data analysis, or AI.",
-      "The program can be suitable for beginners, 12th-pass students, college students, diploma holders, graduates, job seekers, and working professionals who want to develop a foundation in Python programming.",
-      "Enquire about: current Core Python syllabus, Python version used in training, course duration, batch timings, available learning modes, practical coding exercises, assignments and projects, object-oriented programming coverage, file and exception handling, tools and development environment, and further learning pathways.",
-      "Course duration, schedule, Python version, modules, projects, tools, and learning options may change. Confirm the latest details with Techcadd before enrolment.",
-    ],
-    curriculum: [
-      {
-        title: "Python Introduction and Development Environment",
-        hours: "2 hours",
-        topics: [
-          "Students can begin by understanding Python, its uses, installation, development environments, and the basic structure of a Python program.",
-          "Topics may include: Python installation, Python interpreter, IDEs and code editors, running Python programs, comments, indentation, basic syntax, and writing the first Python program.",
-          "Understanding indentation and Python's syntax rules is particularly important for beginners.",
-        ],
-      },
-      {
-        title: "Variables and Data Types",
-        hours: "2 hours",
-        topics: [
-          "Learners can understand how information is stored and manipulated in Python programs.",
-          "Topics include: variables, naming conventions, integers, floating-point numbers, complex numbers, strings, Boolean values, None, type checking, and type conversion.",
-          "Students can practise creating programs that accept and process different types of data.",
-        ],
-      },
-      {
-        title: "Operators",
-        hours: "2 hours",
-        topics: [
-          "Python provides different operators for performing calculations and making logical decisions.",
-          "Students can learn: arithmetic operators, assignment operators, comparison operators, logical operators, identity operators, membership operators, and bitwise operators.",
-          "Practical exercises can help learners understand when each type of operator is appropriate.",
-        ],
-      },
-      {
-        title: "Input and Output",
-        hours: "1 hour",
-        topics: [
-          "Learners can practise accepting information from users and displaying results.",
-          "Topics may include: input(), print(), string formatting, formatted string literals, basic output formatting, and converting user input into appropriate data types.",
-          "These concepts are useful for creating interactive beginner-level programs.",
-        ],
-      },
-      {
-        title: "Conditional Statements",
-        hours: "2 hours",
-        topics: [
-          "Students can learn how programs make decisions based on conditions.",
-          "Topics include: if, if-else, if-elif-else, nested conditions, and conditional expressions.",
-          "Example applications can include grading systems, eligibility checks, menu selections, and simple decision-making programs.",
-        ],
-      },
-      {
-        title: "Loops and Iteration",
-        hours: "3 hours",
-        topics: [
-          "Loops allow programmers to repeat instructions efficiently.",
-          "Learners can work with: for loops, while loops, range(), nested loops, break, continue, and pass.",
-          "Practice problems can include patterns, number calculations, searching, and repeated data processing.",
-        ],
-      },
-      {
-        title: "Strings",
-        hours: "2 hours",
-        topics: [
-          "String manipulation is an important part of everyday Python programming.",
-          "Students can learn: string indexing, slicing, string methods, searching, replacing text, splitting and joining, formatting, and escape characters.",
-          "These skills can be applied to text-processing and data-handling programs.",
-        ],
-      },
-      {
-        title: "Lists",
-        hours: "3 hours",
-        topics: [
-          "Lists are one of Python's most commonly used data structures.",
-          "Learners can practise: creating lists, indexing, slicing, adding elements, removing elements, updating values, sorting, searching, iterating through lists, and nested lists.",
-          "Students can use lists to store and process collections of related information.",
-        ],
-      },
-      {
-        title: "Tuples",
-        hours: "1 hour",
-        topics: [
-          "Students can learn how tuples differ from lists and when an immutable sequence can be useful.",
-          "Topics may include: creating tuples, indexing, slicing, tuple unpacking, iteration, and tuple methods.",
-          "Understanding mutable and immutable objects is an important Python concept.",
-        ],
-      },
-      {
-        title: "Sets",
-        hours: "1 hour",
-        topics: [
-          "Sets can be used when learners need collections of unique values.",
-          "Training may cover: creating sets, adding and removing values, set operations, union, intersection, difference, and membership testing.",
-          "Practical examples can demonstrate how sets can simplify duplicate removal and membership-related tasks.",
-        ],
-      },
-      {
-        title: "Dictionaries",
-        hours: "2 hours",
-        topics: [
-          "Dictionaries allow data to be represented using key-value relationships.",
-          "Students can learn: creating dictionaries, adding and updating values, accessing keys, dictionary methods, iterating through dictionaries, and nested dictionaries.",
-          "Dictionary-based exercises can help learners work with structured information.",
-        ],
-      },
-      {
-        title: "Functions",
-        hours: "3 hours",
-        topics: [
-          "Functions help programmers organise reusable logic.",
-          "Learners can understand: defining functions, calling functions, parameters, arguments, return values, default arguments, keyword arguments, variable-length arguments, and scope.",
-          "Students can practise converting repeated code into reusable functions.",
-        ],
-      },
-      {
-        title: "Lambda Functions and Functional Concepts",
-        hours: "1 hour",
-        topics: [
-          "Depending on the syllabus, learners may be introduced to lambda functions and related concepts.",
-          "Topics can include: anonymous functions, map(), filter(), reduce(), and function-based data processing.",
-          "These concepts can be introduced after students understand regular functions.",
-        ],
-      },
-      {
-        title: "List, Dictionary and Set Comprehensions",
-        hours: "1 hour",
-        topics: [
-          "Comprehensions provide concise ways to create collections.",
-          "Students can practise: list comprehensions, dictionary comprehensions, set comprehensions, and conditional comprehensions.",
-          "Understanding comprehensions can help learners write more expressive Python code.",
-        ],
-      },
-      {
-        title: "Modules and Packages",
-        hours: "2 hours",
-        topics: [
-          "As programs become larger, separating functionality into modules becomes useful.",
-          "Learners can explore: importing modules, creating custom modules, standard library modules, packages, different import styles, __name__, and basic package organisation.",
-          "This provides a foundation for structuring larger Python applications.",
-        ],
-      },
-      {
-        title: "File Handling",
-        hours: "2 hours",
-        topics: [
-          "Students can learn how Python programs interact with files.",
-          "Topics may include: opening files, reading files, writing files, appending data, file modes, with statements, text files, and basic CSV handling.",
-          "Practical exercises can include reading records, processing text, and generating output files.",
-        ],
-      },
-      {
-        title: "Exception Handling",
-        hours: "2 hours",
-        topics: [
-          "Programs can encounter unexpected situations during execution. Python provides exception-handling mechanisms for managing such situations.",
-          "Learners can study: try, except, else, finally, common exceptions, raising exceptions, and creating appropriate error messages.",
-          "This can help students write more robust programs.",
-        ],
-      },
-      {
-        title: "Object-Oriented Programming",
-        hours: "5 hours",
-        topics: [
-          "Object-oriented programming is an important part of Core Python.",
-          "Students can learn: classes, objects, attributes, methods, constructors, instance variables, class variables, encapsulation, inheritance, polymorphism, and method overriding.",
-          "Practical examples can help learners understand how OOP is used to organise larger programs.",
-        ],
-      },
-      {
-        title: "Iterators and Generators",
-        hours: "1 hour",
-        topics: [
-          "Depending on the course level, learners may explore Python's iteration mechanisms.",
-          "Topics may include: iterables, iterators, iter(), next(), generators, and yield.",
-          "These concepts can help students understand how Python processes sequences and produces values efficiently.",
-        ],
-      },
-      {
-        title: "Regular Expressions",
-        hours: "1 hour",
-        topics: [
-          "A more comprehensive Core Python syllabus may introduce regular expressions for pattern matching and text processing.",
-          "Students may learn: basic patterns, character classes, quantifiers, searching, matching, and replacing text.",
-          "The re module can be used for practical text-processing exercises.",
-        ],
-      },
-      {
-        title: "Debugging and Error Identification",
-        hours: "1 hour",
-        topics: [
-          "Programming practice should also include learning how to identify and correct problems.",
-          "Students can practise distinguishing between: syntax errors, runtime errors, logical errors, and exceptions.",
-          "They can also learn to read error messages and use debugging techniques to locate problems.",
-        ],
-      },
-      {
-        title: "Basic Database Connectivity",
-        hours: "2 hours",
-        topics: [
-          "Some Core Python programs may introduce database connectivity as an additional module.",
-          "Depending on the syllabus, learners may work with: SQLite, SQL queries, connecting Python with a database, creating records, reading records, updating records, and deleting records.",
-          "Database coverage should be confirmed with the training provider because it is not part of every Core Python program.",
-        ],
-      },
-      {
-        title: "API and JSON Fundamentals",
-        hours: "1 hour",
-        topics: [
-          "Some programs may also introduce basic API concepts and JSON data handling.",
-          "Students may learn: JSON structure, reading JSON data, converting Python objects to JSON, HTTP request concepts, and basic API interaction.",
-          "Advanced API development generally requires additional learning beyond Core Python.",
-        ],
-      },
-      {
-        title: "Practical Python Projects",
-        hours: "4 hours",
-        topics: [
-          "Projects allow learners to combine multiple concepts into complete programs.",
-          "Possible beginner-to-intermediate projects include: student management system, inventory management program, calculator, expense tracker, contact management system, file-processing utility, quiz application, and simple billing system.",
-          "The actual projects should depend on the course syllabus and learner level.",
-        ],
-      },
-    ],
-    tools: [
-      { group: "Language & editors", items: ["Python", "Python IDLE", "Visual Studio Code", "PyCharm", "Jupyter Notebook"] },
-      { group: "Version control & data", items: ["Git and GitHub", "SQLite"] },
-    ],
-    projects: [
-      { title: "Menu-driven calculator", text: "Build a calculator with user input, operators, conditions, loops and functions, handling invalid input with exceptions.", tags: ["Functions", "Exceptions"] },
-      { title: "Student management system", text: "Store and update student records using dictionaries and classes, and save them to a file.", tags: ["OOP", "File handling"] },
-      { title: "Expense tracker", text: "Record expenses to a CSV file, then read and summarise them by category using lists, dictionaries and comprehensions.", tags: ["CSV", "Data structures"] },
-      { title: "Quiz application", text: "Create a multiple-choice quiz that loads questions from a JSON file, scores answers and shows the result.", tags: ["JSON", "Loops"] },
-      { title: "Inventory with SQLite", text: "Build a simple inventory program that creates, reads, updates and deletes items in an SQLite database.", tags: ["SQLite", "Modules"] },
-    ],
-    careers: [
-      { role: "Python Developer (Trainee)", salary: "₹2.0 – 4.0 LPA", demand: "High" },
-      { role: "Junior Software Developer", salary: "₹2.4 – 4.5 LPA", demand: "High" },
-      { role: "Automation / Scripting Assistant", salary: "₹2.0 – 3.8 LPA", demand: "Moderate" },
-      { role: "Software Testing Trainee", salary: "₹1.8 – 3.6 LPA", demand: "Moderate" },
-      { role: "Data Analyst Trainee (with further learning)", salary: "₹2.4 – 4.2 LPA", demand: "High" },
-    ],
-    batches: [
-      { name: "Morning", days: "Mon – Fri", time: "10:00 AM – 11:30 AM", mode: "Classroom", seats: "Open" },
-      { name: "Evening", days: "Mon – Fri", time: "6:00 PM – 7:30 PM", mode: "Classroom / Online", seats: "Open" },
-      { name: "Weekend", days: "Sat – Sun", time: "11:00 AM – 2:30 PM", mode: "Classroom", seats: "Open" },
-    ],
-    faqs: [
-      ["What is a Core Python course?", "A Core Python course focuses on Python programming fundamentals such as syntax, variables, data types, operators, conditions, loops, functions, data structures, modules, file handling, exception handling, and object-oriented programming."],
-      ["Who can join a Core Python course in Jalandhar?", "12th-pass students, college students, diploma holders, graduates, beginners, job seekers, and working professionals can consider Core Python training. The required background depends on the course level."],
-      ["Is Python suitable for beginners?", "Yes. Python has relatively readable syntax and can be used to teach fundamental programming concepts. Beginners can start with simple programs and gradually move toward functions, data structures, and object-oriented programming."],
-      ["Can I learn Python after 12th?", "Yes. Students can start learning Python after 12th, including learners who are beginning programming for the first time."],
-      ["Do I need prior programming knowledge?", "Not necessarily. A beginner-focused Core Python course can start with programming fundamentals. Previous knowledge of another programming language can make some concepts easier to understand but is not always required."],
-      ["What topics are covered in Core Python?", "Depending on the syllabus, topics may include Python syntax, variables, data types, operators, conditions, loops, strings, lists, tuples, sets, dictionaries, functions, modules, file handling, exception handling, OOP, and practical projects."],
-      ["Is object-oriented programming included in Core Python?", "Yes, OOP is commonly included in comprehensive Core Python training. Students may learn classes, objects, constructors, inheritance, encapsulation, and polymorphism."],
-      ["Can I learn Python without learning C or C++ first?", "Yes. Python can be learned as a first programming language. Students do not necessarily need to learn C or C++ before starting Python."],
-      ["Is Core Python useful for job seekers?", "Core Python can provide a programming foundation that may support further learning and technical preparation. However, employment requirements vary, and learners may need additional skills, projects, qualifications, and interview preparation depending on the role."],
-      ["What projects can I create while learning Core Python?", "Beginner projects can include calculators, quiz applications, student-management programs, inventory systems, expense trackers, contact managers, billing programs, and file-processing utilities."],
-      ["Can Core Python lead to Data Science or AI?", "Core Python provides an important programming foundation for areas such as data science, machine learning, and AI. Additional learning is required, including relevant libraries, mathematics, statistics, algorithms, and domain-specific concepts."],
-      ["Can Core Python be used for web development?", "Yes. Python can be used for web development through frameworks such as Django and Flask. These frameworks require additional learning beyond Core Python."],
-      ["Can Python be used for automation?", "Yes. Python is commonly used for scripting and automation. The specific libraries and techniques required depend on the type of task being automated."],
-      ["What is the difference between Core Python and Advanced Python?", "Core Python generally focuses on programming fundamentals and essential language features. Advanced Python may involve more specialised concepts, frameworks, APIs, concurrency, advanced data processing, testing, or application development."],
-      ["How long does it take to learn Core Python?", "The time required depends on previous programming experience, course depth, practice frequency, and individual learning pace. Basic syntax can be learned relatively quickly, while becoming comfortable with problem-solving and OOP requires consistent practice."],
-      ["Which Python version should I learn?", "Learners should generally use a currently supported Python version suitable for their learning goals and course environment. The exact version used in training should be confirmed with the institute before enrolment."],
-      ["Can I learn Python online or in a classroom?", "Python can be learned through both online and classroom-based training. The better format depends on the learner's preferred learning style, schedule, access to guidance, and opportunities for practical coding."],
-      ["What tools are used for Python programming?", "Common tools include Python IDLE, Visual Studio Code, PyCharm, and Jupyter Notebook. Git and GitHub may also be introduced for version control and project management."],
-      ["Is Core Python useful for college students?", "Yes. College students can use Core Python to strengthen programming fundamentals, practise problem-solving, develop projects, and prepare for further technical learning."],
-      ["Where can I learn Core Python in Jalandhar?", "Students looking for a Core Python course in Jalandhar can compare providers based on syllabus, practical coding hours, projects, Python version, trainer experience, batch timings, learning format, and student support."],
-      ["What should I check before joining a Core Python course?", "Check the current syllabus, Python version, practical coding hours, assignments, projects, OOP coverage, file and exception handling, tools used, trainer experience, class format, and learner support before enrolling."],
-    ],
-    reviews: [
-      { initials: "A", name: "Aman", role: "Jalandhar", text: "I was completely new to programming, so starting with variables, conditions and loops helped me understand the basics of Python step by step." },
-      { initials: "H", name: "Harpreet", role: "Jalandhar", text: "I liked the practical coding exercises because I could immediately practise the concepts covered during the sessions." },
-      { initials: "S", name: "Simran", role: "Punjab", text: "The course helped me understand Python data structures such as lists, dictionaries and tuples. Writing small programs made the concepts easier to remember." },
-      { initials: "R", name: "Rohit", role: "Jalandhar", text: "I already had some programming knowledge, but the Python course helped me understand Python-specific syntax, functions and object-oriented programming more clearly." },
-      { initials: "M", name: "Manpreet", role: "Jalandhar", text: "Exception handling and debugging were useful topics for me because I started understanding why my programs were producing errors instead of just correcting them." },
-      { initials: "N", name: "Neha", role: "Punjab", text: "I wanted to start programming from scratch. The gradual approach from basic syntax to functions and OOP made Python feel manageable." },
-      { initials: "G", name: "Gurpreet", role: "Jalandhar", text: "Working on small projects helped me combine different Python concepts instead of learning each topic separately." },
-      { initials: "K", name: "Karan", role: "Jalandhar", text: "I joined to strengthen my programming skills before exploring advanced areas such as data science. The Core Python concepts gave me a useful starting point." },
-      { initials: "P", name: "Priya", role: "Punjab", text: "I found file handling and data structures particularly interesting because they showed me how Python can be used for practical programs." },
-      { initials: "J", name: "Jaspreet", role: "Jalandhar", text: "The regular coding practice helped me become more comfortable writing programs independently and identifying common programming errors." },
-    ],
-    reviewsNote: "Note: These are sample testimonial-style entries. They are not verified reviews from actual students.",
-    related: ["artificial-intelligence-course-in-jalandhar", "advance-excel-course-in-jalandhar", "basic-computer-course-in-jalandhar"],
-  },
-
-  {
-    slug: "generative-ai-course-in-jalandhar",
-    title: "Generative AI Course in Jalandhar",
-    shortTitle: "Generative AI",
-    category: "Future Skills",
-    icon: "sparkle",
-    tagline: "Start Building Practical Generative AI Skills",
-    summary: [
-      "A Generative AI course in Jalandhar can help students, graduates, working professionals, developers, and beginners understand how modern artificial intelligence systems can generate text, images, code, documents, and other digital content. As Generative AI becomes increasingly relevant across software development, marketing, education, design, business, research, and automation, learning how these technologies work and how to use them responsibly can be a valuable technical skill.",
-      "A structured Generative AI course in Jalandhar can begin with the fundamentals of artificial intelligence and machine learning before introducing learners to concepts such as generative models, large language models, prompt engineering, AI-assisted coding, text generation, image generation, embeddings, vector databases, retrieval-augmented generation (RAG), and AI application development.",
-      "For beginners, the course can provide a practical introduction to Generative AI without requiring them to start with advanced mathematical concepts. Learners can gradually understand how AI models process information, how prompts influence outputs, how AI tools can be integrated into workflows, and how to evaluate generated content for accuracy, relevance, privacy, and reliability.",
-      "The program can be suitable for 12th-pass students, college students, diploma holders, graduates, developers, job seekers, entrepreneurs, content professionals, and working professionals who want to understand and apply Generative AI technologies. Learners with programming experience can explore deeper topics such as APIs, Python-based AI applications, model integration, embeddings, RAG pipelines, and AI-powered projects.",
-      "Depending on the current syllabus, practical learning may include working with AI assistants, prompt design, structured prompting, document-based question answering, AI automation workflows, chatbot development, API integration, and portfolio-oriented projects. Learners may also explore the responsible use of AI, including fact-checking, data privacy, hallucination awareness, and human oversight.",
-      "Regular hands-on practice is important because Generative AI skills involve more than knowing how to write prompts. Learners should practise analysing AI outputs, refining instructions, connecting AI models with applications, and solving practical problems.",
-      "Before enrolling, students should check the current syllabus, tools and platforms covered, programming requirements, project work, practical training hours, course duration, trainer experience, and available learning format to ensure the program matches their goals.",
-      "Interested in learning Generative AI in Jalandhar? Explore a structured program covering AI fundamentals, prompt engineering, large language models, AI-assisted coding, APIs, Python-based AI applications, RAG concepts, embeddings, automation, and practical AI projects, depending on the current syllabus.",
-      "Submit your enquiry to learn about the latest Generative AI course in Jalandhar, available batches, syllabus, tools, practical projects, duration, and learning format.",
-    ],
-    seo: {
-      title: "Generative AI Course in Jalandhar | Prompt Engineering, LLMs & RAG",
-      description:
-        "Generative AI course in Jalandhar covering AI fundamentals, large language models, prompt engineering, AI-assisted coding, LLM APIs with Python, embeddings, vector databases, RAG, chatbots and AI projects.",
-      keywords: ["generative ai course in jalandhar", "gen ai training jalandhar", "prompt engineering course jalandhar", "llm and rag course punjab", "ai course in jalandhar"],
-    },
-    level: "Beginner to Advanced",
-    duration: "3 months",
-    weeklyHours: "7.5 hours per week (5 classes)",
-    modes: ["Classroom — Jalandhar", "Live online", "Weekend batch"],
-    languages: ["English", "Hindi", "Punjabi"],
-    certification: "GIT Education Certificate in Generative AI",
-    seats: 18,
-    rating: { value: 4.8, count: 54 },
-    nextBatch: "1st of every month",
-    highlights: [
-      // Why Choose a Generative AI Program?
-      { icon: "sparkle", title: "Broader Than an AI Chatbot", text: "Generative AI is broader than simply using an AI chatbot. A structured learning program can help learners understand the concepts behind AI-generated content and develop practical skills for using and integrating these technologies." },
-      { icon: "book", title: "Build a Foundation in Generative AI", text: "A structured course can introduce learners to artificial intelligence, machine learning concepts, generative models, large language models, and modern AI applications. This gives beginners a foundation before they move toward more specialised topics." },
-      { icon: "pen", title: "Learn Prompt Engineering", text: "Prompt engineering involves designing clear and effective instructions for AI systems. Learners can practise techniques such as role-based prompting, structured prompts, contextual instructions, few-shot examples, output formatting, and iterative prompt refinement." },
-      { icon: "brain", title: "Understand Large Language Models", text: "Learners can explore the basic working principles and applications of large language models (LLMs). Understanding their capabilities and limitations can help students use AI systems more effectively rather than treating generated responses as automatically correct." },
-      { icon: "robot", title: "Explore AI-Powered Applications", text: "Depending on the syllabus, learners may work on applications such as AI chatbots, document assistants, question-answering systems, content tools, coding assistants, and other AI-enabled applications." },
-      { icon: "target", title: "Learn Through Practical Projects", text: "Practical projects can help learners move from theory to implementation. Instead of only learning terminology, students can practise building small AI solutions and understand the workflow involved in creating an AI-powered application." },
-      { icon: "code", title: "Develop AI-Assisted Programming Skills", text: "Learners with programming knowledge can explore how AI models can be connected to applications through APIs. Python may also be used for AI application development, data processing, automation, and integration work." },
-      { icon: "document", title: "Explore RAG and Knowledge-Based AI", text: "More advanced Generative AI programs may introduce Retrieval-Augmented Generation (RAG). This approach allows AI applications to retrieve relevant information from an external knowledge source before generating a response. It is commonly explored when building document-based assistants and knowledge systems." },
-      { icon: "shield", title: "Understand AI Limitations and Responsible Use", text: "Generative AI can produce incorrect, incomplete, biased, or misleading information. A good learning program should therefore include awareness of hallucinations, data privacy, copyright considerations, verification, security, and human oversight." },
-      { icon: "briefcase", title: "Create a Practical Portfolio", text: "AI-related projects can help learners demonstrate what they have actually built or implemented. Depending on their level, projects may include prompt-based applications, AI chatbots, document assistants, automation workflows, or API-based applications." },
-      { icon: "chip", title: "Build a Foundation for Advanced Learning", text: "Generative AI can connect with several technology areas, including Python, machine learning, natural language processing, cloud platforms, APIs, databases, data science, and software development. A foundational course can therefore act as a starting point for more specialised learning. Before joining a Generative AI course in Jalandhar, learners should compare the current syllabus, tools, AI platforms, practical training hours, projects, programming requirements, trainer experience, batch schedule, and learning support rather than selecting a program only by its title." },
-      // Why Choose Techcadd
-      { icon: "check", title: "More Than a Program That Mentions AI Tools", text: "Choosing the right Generative AI course in Jalandhar involves more than finding a program that mentions AI tools. Learners should look for structured concepts, practical exposure, relevant tools, project work, and guidance that matches their current skill level and career objectives. Techcadd can provide a structured learning environment for students and professionals who want to explore Generative AI from foundational concepts to practical applications." },
-      { icon: "calendar", title: "Structured Generative AI Learning", text: "A structured approach can help learners progress from basic AI concepts to more practical Generative AI applications. Instead of approaching individual AI tools randomly, students can develop an understanding of how prompting, AI models, APIs, data, applications, and automation can work together." },
-      { icon: "users", title: "Beginner-Friendly Approach", text: "Generative AI can initially appear complex because it combines concepts from artificial intelligence, natural language processing, software development, and data. A progressive learning approach can make these concepts easier to understand for beginners while allowing technically experienced learners to explore deeper applications." },
-      { icon: "keyboard", title: "Practical Prompt Engineering", text: "Prompt engineering is an important part of working effectively with Generative AI systems. Learners can practise creating clear instructions, providing context, defining output formats, refining prompts, and evaluating AI-generated responses. Practical exercises can help students understand why the quality and structure of an instruction can affect an AI system's output." },
-      { icon: "monitor", title: "Hands-On AI Tools", text: "Generative AI training can involve working with different AI platforms and development tools. Depending on the current syllabus, learners may explore AI assistants, text-generation systems, image-generation tools, coding assistants, APIs, development environments, and other AI technologies. Because AI platforms change quickly, learners should confirm which tools and platforms are included in the current batch before enrolling." },
-      { icon: "code", title: "AI Application Development", text: "For learners with programming knowledge, a Generative AI course can go beyond tool usage and introduce AI application development. Topics may include API integration, Python-based applications, model interaction, structured outputs, embeddings, vector databases, and retrieval-based systems. This can help developers understand how Generative AI can become part of an actual software application." },
-      { icon: "target", title: "Project-Oriented Learning", text: "Practical projects can help learners apply concepts in a realistic setting. Depending on the course syllabus, projects may include AI chatbots, document assistants, content-generation applications, question-answering systems, productivity tools, or AI-powered automation workflows. Building projects also gives learners an opportunity to practise debugging, testing, refining prompts, handling user inputs, and evaluating AI-generated results." },
-      { icon: "chart", title: "Foundation for Advanced AI Learning", text: "Generative AI connects with several areas of technology, including Python, machine learning, natural language processing, databases, cloud computing, APIs, and software development. A well-structured foundation can make it easier for learners to decide whether they want to progress toward AI application development, machine learning, data science, automation, or another specialised technology area." },
-      { icon: "location", title: "Learning Support", text: "Students may need guidance when working with new AI concepts, APIs, coding exercises, or projects. Access to appropriate learning support can help learners identify mistakes, understand difficult topics, and improve their implementation skills. The exact support available should be confirmed with Techcadd before enrolment." },
-      { icon: "briefcase", title: "Suitable for Different Learner Profiles", text: "A Generative AI program can be relevant to learners with different objectives. Beginners may focus on understanding AI concepts and practical tools, while programmers can explore APIs and AI application development. Students and working professionals can also investigate how Generative AI applies to their respective fields." },
-      { icon: "shield", title: "Focus on Responsible AI Usage", text: "Effective Generative AI training should also cover the limitations of AI systems. Learners should understand that generated content may contain inaccurate information and should be reviewed before being used. Topics such as data privacy, verification, responsible prompting, human oversight, and appropriate use of AI can help learners develop more practical and responsible AI habits." },
-      { icon: "certificate", title: "What to Check Before Enrolling", text: "Before joining a Generative AI course in Jalandhar, learners should verify: current Generative AI syllabus, AI tools and platforms covered, prompt engineering topics, programming requirements, Python and API integration, if applicable, RAG and vector database coverage, if included, practical coding or AI exercises, project work, training duration, batch timings, classroom or online learning options, trainer experience, and learning and project support. The Generative AI field changes rapidly, so the specific tools, platforms, models, and modules included in training can change over time. Students should confirm the latest course details with Techcadd before making an enrolment decision." },
-    ],
-    outcomes: [
-      "Explain how AI, machine learning, deep learning and Generative AI differ, including models, tokens, context and limitations.",
-      "Write, structure and refine prompts with roles, context, examples and defined output formats.",
-      "Use AI assistants for coding, content, summarisation and document processing while reviewing and fact-checking the output.",
-      "Call LLM APIs from Python, handle responses and errors, and request structured JSON outputs.",
-      "Create embeddings, store them in a vector database, and build a basic RAG pipeline for document question answering.",
-      "Build an AI chatbot and an AI automation workflow using APIs and conversation history.",
-      "Evaluate AI responses for relevance, accuracy, consistency and failure cases.",
-      "Apply responsible AI practices covering hallucinations, privacy, bias, copyright and human oversight.",
-    ],
-    audience: [
-      "12th-Pass Students — Students who have completed Class 12 and want to explore emerging technology can use a Generative AI course to understand how modern AI systems work and where they are being used. Learning basic programming alongside Generative AI can also provide a useful foundation for future technical studies.",
-      "College Students — Engineering, computer science, IT, commerce, management, design, and other college students can explore Generative AI to understand its applications in their respective fields. Students can also use AI tools for research, coding assistance, content development, data analysis, presentations, and project work while learning responsible AI usage.",
-      "Diploma Students — Diploma holders interested in technology and digital tools can learn practical Generative AI concepts and explore how AI can support technical workflows, documentation, automation, programming, and problem-solving.",
-      "Graduates — Graduates who want to add an emerging technology skill to their existing qualification can explore Generative AI for applications across business, technology, marketing, education, design, research, and automation.",
-      "Developers and Programmers — Developers with Python or another programming background can explore the technical side of Generative AI, including APIs, AI application development, prompt engineering, embeddings, vector databases, RAG systems, and AI-powered applications, depending on the syllabus.",
-      "Job Seekers — Job seekers can use Generative AI training to understand current AI-assisted workflows and develop practical projects that demonstrate their ability to work with AI technologies. However, completing a course alone does not guarantee employment; skills, projects, communication, experience, and other job requirements also matter.",
-      "Working Professionals — Professionals can explore Generative AI to improve productivity and understand how AI can be incorporated into existing workflows. Depending on their field, applications may include document analysis, research assistance, content generation, coding support, customer-service workflows, data processing, and automation.",
-      "Entrepreneurs and Freelancers — Business owners and freelancers can learn how Generative AI can support tasks such as content creation, idea development, customer communication, research, workflow automation, and prototyping while maintaining appropriate human review.",
-    ],
-    eligibility: [
-      "A Generative AI course in Jalandhar can be suitable for learners from different educational and professional backgrounds. You do not necessarily need to be an AI expert to begin. The right entry level depends on the current syllabus and whether you want to focus on AI tools, prompt engineering, application development, automation, or more technical AI concepts.",
-      "The program can be suitable for 12th-pass students, college students, diploma holders, graduates, developers, job seekers, beginners, entrepreneurs, and working professionals who want to understand and apply Generative AI technologies.",
-      "Enquire about: current Generative AI syllabus, AI tools and platforms covered, prompt engineering modules, Python and programming requirements, LLM and API integration, RAG and embeddings, if included, practical exercises and projects, AI automation topics, course duration, batch timings, available learning modes, and trainer and learner support.",
-      "Generative AI tools, models, platforms, syllabus modules, course duration, projects, and learning options can change over time. Confirm the latest details with Techcadd before enrolment.",
-    ],
-    curriculum: [
-      {
-        title: "Introduction to Artificial Intelligence",
-        hours: "3 hours",
-        topics: [
-          "Learners can begin by understanding artificial intelligence, machine learning, deep learning, and Generative AI.",
-          "The training can explain how traditional AI systems differ from generative systems and where AI is being used across software, business, education, design, marketing, research, and automation.",
-        ],
-      },
-      {
-        title: "Understanding Generative AI",
-        hours: "3 hours",
-        topics: [
-          "Students can explore how Generative AI systems produce new content such as text, images, code, audio, and other digital outputs.",
-          "The course can introduce important concepts such as models, training data, inference, context, tokens, and model limitations.",
-        ],
-      },
-      {
-        title: "Large Language Models",
-        hours: "3 hours",
-        topics: [
-          "Large Language Models (LLMs) are an important part of modern Generative AI applications. Learners can understand the basic concepts behind language models, their capabilities, common use cases, and limitations.",
-          "The focus should be on practical understanding rather than treating AI-generated responses as automatically accurate.",
-        ],
-      },
-      {
-        title: "Prompt Engineering",
-        hours: "8 hours",
-        topics: [
-          "Prompt engineering can help learners communicate more effectively with AI systems.",
-          "Students can practise: writing clear instructions, providing context, defining roles and objectives, giving examples, specifying output formats, breaking complex tasks into steps, refining prompts, and evaluating generated responses.",
-          "Prompting exercises can help learners understand how different instructions can produce different results.",
-        ],
-      },
-      {
-        title: "Structured AI Outputs",
-        hours: "3 hours",
-        topics: [
-          "Learners may explore how AI responses can be structured for practical applications.",
-          "Depending on the tools and APIs used, this can include formatted text, JSON outputs, tables, summaries, classifications, and other application-ready responses.",
-        ],
-      },
-      {
-        title: "AI-Assisted Coding",
-        hours: "4 hours",
-        topics: [
-          "Generative AI can assist developers with code generation, explanation, debugging, documentation, refactoring, and learning.",
-          "Students can learn how to use AI coding assistants responsibly while still understanding and reviewing the code they generate.",
-        ],
-      },
-      {
-        title: "Generative AI for Content Creation",
-        hours: "4 hours",
-        topics: [
-          "Learners can explore how AI can assist with content-related tasks such as: content ideation, summarisation, rewriting, classification, information extraction, draft generation, translation assistance, and document processing.",
-          "The training can also cover the importance of human review and fact-checking.",
-        ],
-      },
-      {
-        title: "AI Image Generation",
-        hours: "3 hours",
-        topics: [
-          "Depending on the current syllabus, learners may explore AI-based image generation and understand concepts such as text-to-image prompting, prompt refinement, image variations, and creative workflows.",
-          "Students should also understand that generated images may require human review and that platform-specific usage rights and terms should be checked before commercial use.",
-        ],
-      },
-      {
-        title: "Generative AI APIs",
-        hours: "5 hours",
-        topics: [
-          "Learners with programming knowledge can explore how AI models can be connected to applications through APIs.",
-          "Topics may include API requests, authentication, input handling, response processing, error handling, and integrating AI capabilities into Python or other applications.",
-        ],
-      },
-      {
-        title: "Python for Generative AI",
-        hours: "8 hours",
-        topics: [
-          "Python can be useful for building AI-powered applications.",
-          "Depending on the course level, learners may use Python for: API integration, data processing, prompt-based applications, AI workflows, document processing, chatbot development, automation, and AI application prototypes.",
-          "Students without programming experience may first need to develop basic Python knowledge before moving into technical AI application development.",
-        ],
-      },
-      {
-        title: "Embeddings",
-        hours: "3 hours",
-        topics: [
-          "Embeddings can be introduced as a way of representing information in a numerical form that allows applications to compare semantic relationships between pieces of content.",
-          "This concept becomes particularly useful when building search, recommendation, and document-based AI applications.",
-        ],
-      },
-      {
-        title: "Vector Databases",
-        hours: "3 hours",
-        topics: [
-          "Advanced Generative AI training may introduce vector databases or vector search systems. Learners can understand how embeddings can be stored and retrieved to help AI applications find relevant information.",
-          "The exact database technology used depends on the current syllabus.",
-        ],
-      },
-      {
-        title: "Retrieval-Augmented Generation (RAG)",
-        hours: "6 hours",
-        topics: [
-          "RAG is an important concept for building AI systems that need to work with external or organisation-specific information.",
-          "Learners can explore a basic RAG workflow: User Question → Retrieve Relevant Information → Provide Context to AI Model → Generate Response.",
-          "This approach can be used for applications such as document assistants, knowledge bases, and question-answering systems.",
-        ],
-      },
-      {
-        title: "AI Chatbot Development",
-        hours: "5 hours",
-        topics: [
-          "Students may build conversational AI applications that accept user questions and generate responses.",
-          "Depending on the course level, projects can include simple prompt-based chatbots or more advanced applications using APIs, conversation history, databases, and RAG.",
-        ],
-      },
-      {
-        title: "Document-Based AI Applications",
-        hours: "4 hours",
-        topics: [
-          "Learners can explore how AI can work with documents and other information sources.",
-          "Possible applications include document summarisation, question answering, information extraction, and knowledge assistants.",
-        ],
-      },
-      {
-        title: "AI Automation Workflows",
-        hours: "4 hours",
-        topics: [
-          "Generative AI can be connected with other software and services to automate repetitive workflows.",
-          "Students may explore concepts such as triggers, AI processing, structured outputs, API calls, and automated actions.",
-        ],
-      },
-      {
-        title: "AI Agents and Tool Use",
-        hours: "4 hours",
-        topics: [
-          "More advanced programs may introduce AI agents that can use tools, access information, execute defined actions, or complete multi-step tasks.",
-          "Learners can understand the difference between a simple chatbot and an AI system designed to perform tasks through tools.",
-        ],
-      },
-      {
-        title: "Model Evaluation",
-        hours: "3 hours",
-        topics: [
-          "AI applications need evaluation because generated responses are not always correct.",
-          "Learners can explore basic evaluation approaches such as checking relevance, factual accuracy, consistency, formatting, response quality, and failure cases.",
-        ],
-      },
-      {
-        title: "AI Safety and Responsible Usage",
-        hours: "3 hours",
-        topics: [
-          "A practical course should also address limitations and responsible use.",
-          "Topics may include: AI hallucinations, data privacy, sensitive information, bias, human verification, copyright considerations, security, and responsible automation.",
-          "These concepts help learners understand where human judgement remains important.",
-        ],
-      },
-      {
-        title: "Practical Generative AI Projects",
-        hours: "10 hours",
-        topics: [
-          "Project-based learning can help students combine the concepts they have studied.",
-          "Depending on the current syllabus, projects may include: AI chatbot, document question-answering assistant, AI content assistant, AI-powered coding assistant, resume or document analysis tool, knowledge-base assistant, AI automation workflow, RAG-based application, and AI-powered productivity tool.",
-          "The actual projects should be confirmed with Techcadd before enrolment.",
-        ],
-      },
-    ],
-    tools: [
-      { group: "Development", items: ["Python", "Jupyter Notebook", "Visual Studio Code", "Git and GitHub", "JSON and REST APIs"] },
-      { group: "AI platforms", items: ["Large Language Model APIs", "AI Chat Assistants", "Image Generation Platforms", "Cloud AI Services"] },
-      { group: "Retrieval", items: ["Embeddings and Vector Search", "Vector Databases", "RAG Frameworks"] },
-    ],
-    projects: [
-      { title: "Prompt library and evaluation sheet", text: "Design prompts for summarisation, extraction and classification tasks, then compare and score the outputs for accuracy and format.", tags: ["Prompt engineering", "Evaluation"] },
-      { title: "AI chatbot with Python", text: "Build a chatbot that calls an LLM API from Python, keeps conversation history and returns structured responses.", tags: ["Python", "LLM API"] },
-      { title: "Document question-answering assistant", text: "Split documents into chunks, create embeddings, store them in a vector database, and answer questions with a RAG pipeline.", tags: ["RAG", "Embeddings"] },
-      { title: "Resume or document analysis tool", text: "Extract key information from uploaded documents into JSON and summarise it, with human review of the results.", tags: ["Structured outputs", "Documents"] },
-      { title: "AI automation workflow", text: "Connect a trigger, an AI processing step and an automated action to handle a repetitive task end to end.", tags: ["Automation", "APIs"] },
-    ],
-    careers: [
-      { role: "Generative AI Developer (Trainee)", salary: "₹3.0 – 6.0 LPA", demand: "High" },
-      { role: "Prompt Engineer / AI Content Specialist", salary: "₹2.4 – 5.0 LPA", demand: "High" },
-      { role: "AI Application Developer (Python)", salary: "₹3.0 – 6.0 LPA", demand: "Very high" },
-      { role: "AI Automation Associate", salary: "₹2.4 – 4.8 LPA", demand: "High" },
-      { role: "AI-Assisted Operations / Productivity Executive", salary: "₹2.0 – 4.0 LPA", demand: "Moderate" },
-    ],
-    batches: [
-      { name: "Morning", days: "Mon – Fri", time: "10:00 AM – 11:30 AM", mode: "Classroom", seats: "Open" },
-      { name: "Evening", days: "Mon – Fri", time: "6:00 PM – 7:30 PM", mode: "Classroom / Online", seats: "Open" },
-      { name: "Weekend", days: "Sat – Sun", time: "11:00 AM – 2:30 PM", mode: "Classroom", seats: "Open" },
-    ],
-    faqs: [
-      ["What is a Generative AI course?", "A Generative AI course teaches learners how modern AI systems can generate content such as text, images, code, and other outputs. Depending on the syllabus, it may cover prompt engineering, large language models, APIs, AI applications, RAG, embeddings, automation, and AI projects."],
-      ["Who can join a Generative AI course in Jalandhar?", "The course can be suitable for 12th-pass students, college students, diploma holders, graduates, developers, job seekers, working professionals, entrepreneurs, and beginners interested in learning about Generative AI."],
-      ["Is Generative AI suitable for beginners?", "Yes, beginners can start with foundational Generative AI concepts and practical AI tools. However, advanced topics such as APIs, Python development, RAG, vector databases, and AI agents may require some programming knowledge."],
-      ["Do I need programming knowledge to learn Generative AI?", "Not necessarily. Basic Generative AI tools and prompt engineering can be learned without programming. However, programming knowledge—particularly Python—can be useful if you want to build AI-powered applications."],
-      ["Can I learn Generative AI after 12th?", "Yes. Students who have completed Class 12 can explore introductory Generative AI training. Learners interested in technical AI development may benefit from building programming fundamentals alongside their Generative AI skills."],
-      ["What topics are covered in a Generative AI course?", "Depending on the program, topics may include artificial intelligence fundamentals, Generative AI, large language models, prompt engineering, AI-assisted coding, APIs, Python, embeddings, vector databases, RAG, chatbots, AI automation, AI agents, and practical projects."],
-      ["What is prompt engineering?", "Prompt engineering involves designing and refining instructions given to an AI system to obtain useful and appropriately structured results. It can involve providing context, defining objectives, giving examples, specifying output formats, and refining instructions."],
-      ["What are Large Language Models?", "Large Language Models, or LLMs, are AI models designed to process and generate human-language content. They are commonly used in applications such as conversational assistants, summarisation, content generation, coding assistance, and question answering."],
-      ["Can I learn Python and Generative AI together?", "Some programs may combine Python with Generative AI application development. Python can be used for API integration, automation, data processing, and building AI-powered applications. Beginners should check whether Python fundamentals are included in the current syllabus."],
-      ["What projects can I build after learning Generative AI?", "Depending on your skill level and syllabus, projects may include AI chatbots, document assistants, content-generation tools, question-answering applications, AI-powered productivity tools, RAG applications, and API-based AI solutions."],
-      ["What is RAG in Generative AI?", "RAG stands for Retrieval-Augmented Generation. It allows an AI application to retrieve relevant information from an external knowledge source and provide that information as context to a generative model before producing a response."],
-      ["What are embeddings?", "Embeddings represent information as numerical vectors that capture relationships or semantic meaning. They can be used for semantic search, document retrieval, recommendations, and RAG-based applications."],
-      ["Do Generative AI courses teach AI image generation?", "Some programs may include AI image-generation tools and techniques. Coverage depends on the current syllabus, so students should check which image-generation platforms and creative workflows are included."],
-      ["Can Generative AI help with software development?", "Yes. Generative AI can assist with code generation, explanation, debugging, documentation, testing ideas, and refactoring. Developers should review and test AI-generated code rather than using it without verification."],
-      ["Can Generative AI be used for automation?", "Yes. Generative AI can be integrated into workflows for tasks such as content processing, information extraction, document analysis, customer-support assistance, classification, and other repetitive processes. The exact automation methods depend on the tools and integrations used."],
-      ["What is the difference between Generative AI and traditional AI?", "Traditional AI systems are often designed for specific tasks such as classification, prediction, or recommendation. Generative AI focuses on producing new outputs such as text, images, code, audio, or other content based on learned patterns and user input."],
-      ["What tools are used in Generative AI training?", "Depending on the current syllabus, learners may work with Python, Visual Studio Code, Jupyter Notebook, AI assistants, LLM APIs, image-generation platforms, Git/GitHub, vector databases, RAG frameworks, and other AI development tools."],
-      ["Is a Generative AI course useful for job seekers?", "Generative AI skills can help job seekers understand AI-assisted workflows and develop relevant practical projects. However, completing a course alone does not guarantee employment. Job opportunities also depend on technical skills, projects, experience, communication, and employer requirements."],
-      ["Can Generative AI lead to advanced AI or machine learning?", "Yes. Generative AI can provide an entry point into broader AI technologies. Learners with programming and mathematics foundations can later explore machine learning, deep learning, natural language processing, computer vision, LLM application development, or other specialised areas."],
-      ["Where can I learn Generative AI in Jalandhar?", "Learners can explore Generative AI training options at Techcadd in Jalandhar and compare the current syllabus, tools, practical projects, trainer experience, duration, learning mode, and support before enrolling."],
-      ["How long does it take to learn Generative AI?", "The learning time depends on the learner's starting level and the depth of the program. Basic AI tools and prompting can be introduced relatively quickly, while technical topics such as APIs, Python, RAG, embeddings, and AI application development require more practice."],
-      ["What should I check before joining a Generative AI course?", "Before enrolling, check the current syllabus, AI tools and platforms covered, programming requirements, practical training, projects, Python/API coverage, RAG and vector database modules if relevant, course duration, batch schedule, trainer experience, learning mode, and learner support."],
-    ],
-    reviews: [
-      { initials: "A", name: "Aman", role: "Jalandhar", text: "I was completely new to Generative AI. The basic concepts and prompt engineering exercises helped me understand how AI tools can be used more effectively." },
-      { initials: "H", name: "Harpreet", role: "Jalandhar", text: "I wanted to understand more than just using AI chat tools. Learning about APIs, prompts, and AI application concepts gave me a better technical perspective." },
-      { initials: "S", name: "Simran", role: "Punjab", text: "The practical exercises were useful because I could experiment with different prompts and compare the responses. It helped me understand why clear instructions matter." },
-      { initials: "R", name: "Rohit", role: "Jalandhar", text: "I already had programming experience and wanted to explore AI development. The topics around Python, APIs, and AI-powered applications were particularly relevant to my goals." },
-      { initials: "N", name: "Neha", role: "Jalandhar", text: "I joined as a beginner and initially found some AI terminology confusing. Breaking the concepts into smaller topics made the learning process easier to follow." },
-      { initials: "K", name: "Karan", role: "Punjab", text: "I wanted to explore Generative AI before moving toward more advanced AI and machine learning topics. The course helped me understand the basic concepts and possible learning paths." },
-      { initials: "G", name: "Gurpreet", role: "Jalandhar", text: "The project-based exercises helped me connect different concepts instead of learning everything only through theory. I especially enjoyed working with AI prompts and application ideas." },
-      { initials: "P", name: "Priya", role: "Jalandhar", text: "I was interested in how AI could be used for everyday professional tasks. The course gave me a better understanding of AI-assisted workflows and the importance of checking generated information." },
-      { initials: "M", name: "Manpreet", role: "Punjab", text: "I had some Python knowledge and wanted to understand how AI APIs could be used in applications. The technical topics gave me a starting point for experimenting with AI projects." },
-      { initials: "J", name: "Jaspreet", role: "Jalandhar", text: "The course introduced me to several areas of Generative AI, including prompt engineering and AI application development. It also helped me understand that AI outputs still need human review." },
-    ],
-    reviewsNote: "Note: The following are sample testimonial-style entries. They are not verified reviews from actual students.",
-    related: ["artificial-intelligence-course-in-jalandhar", "core-python-course-in-jalandhar", "digital-marketing-course-in-jalandhar"],
-  },
-
-  {
     slug: "web-designing-course-in-jalandhar",
     title: "Web Designing Course in Jalandhar",
     shortTitle: "Web Designing",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Web Designing",
     icon: "monitor",
     tagline: "Learn Practical Website Design and Front-End Skills",
     summary: [
@@ -1304,14 +418,15 @@ const courses: Course[] = [
       { initials: "J", name: "Jaspreet", role: "Jalandhar", text: "I joined as a beginner and gradually moved from simple webpages to responsive layouts and interactive components. The hands-on practice was helpful for understanding the concepts." },
     ],
     reviewsNote: "Note: The following are sample testimonial-style entries. They are not verified student reviews.",
-    related: ["core-python-course-in-jalandhar", "seo-course-in-jalandhar", "generative-ai-course-in-jalandhar"],
+    related: ["seo-course-in-jalandhar"],
   },
 
   {
     slug: "basic-computer-course-in-jalandhar",
     title: "Basic Computer Course in Jalandhar",
     shortTitle: "Basic Computer",
-    category: "Office & Basics",
+    category: "Basic Computer Courses",
+    subCategory: "Computer Basics & Office",
     icon: "monitor",
     tagline: "Start Your Government-Recognized Computer Literacy Journey Today",
     summary: [
@@ -1490,7 +605,8 @@ const courses: Course[] = [
     slug: "ms-office-course-in-jalandhar",
     title: "MS Office Course in Jalandhar",
     shortTitle: "MS Office",
-    category: "Office & Basics",
+    category: "Basic Computer Courses",
+    subCategory: "Computer Basics & Office",
     icon: "document",
     tagline: "Start your MS Office certification with practical, job-ready training — right here in Jalandhar.",
     summary: [
@@ -1664,7 +780,8 @@ const courses: Course[] = [
     slug: "advance-excel-course-in-jalandhar",
     title: "Advance Excel Course in Jalandhar",
     shortTitle: "Advance Excel",
-    category: "Office & Basics",
+    category: "Basic Computer Courses",
+    subCategory: "Computer Basics & Office",
     icon: "chart",
     tagline: "Start Your Advanced Excel Course in Jalandhar Today",
     summary: [
@@ -1841,14 +958,15 @@ const courses: Course[] = [
       { initials: "MK", name: "Manpreet Kaur", role: "Working Professional, HR Department", text: "Even though I've worked for a few years, I realised I was only using basic Excel functions. This course opened my eyes to how much more efficient my daily tasks could be with the right formulas." },
       { initials: "RC", name: "Rohit Chopra", role: "Graduate", text: "The trainers focused a lot on doubt-clearing, which really helped since I used to hesitate asking questions in bigger classes. Here it felt more comfortable to ask again if I didn't understand something." },
     ],
-    related: ["ms-office-course-in-jalandhar", "tally-prime-course-in-jalandhar", "artificial-intelligence-course-in-jalandhar"],
+    related: ["ms-office-course-in-jalandhar", "tally-prime-course-in-jalandhar"],
   },
 
   {
     slug: "google-workspace-course-in-jalandhar",
     title: "Google Workspace Course in Jalandhar",
     shortTitle: "Google Workspace",
-    category: "Office & Basics",
+    category: "Basic Computer Courses",
+    subCategory: "Computer Basics & Office",
     icon: "mail",
     tagline: "Ready to build practical digital skills that employers, colleges, and everyday work demand?",
     summary: [
@@ -2035,7 +1153,8 @@ const courses: Course[] = [
     slug: "cat-pro-course-in-jalandhar",
     title: "CAT Pro Course in Jalandhar",
     shortTitle: "CAT Pro",
-    category: "Office & Basics",
+    category: "Basic Computer Courses",
+    subCategory: "Computer Basics & Office",
     icon: "briefcase",
     tagline: "Ready to Build Real, Job-Ready Computer Skills?",
     summary: [
@@ -2209,7 +1328,8 @@ const courses: Course[] = [
     slug: "tally-erp9-course-in-jalandhar",
     title: "Tally ERP9 Course in Jalandhar",
     shortTitle: "Tally ERP-9",
-    category: "Accounts & Typing",
+    category: "Tally & Accounting",
+    subCategory: "Tally",
     icon: "receipt",
     tagline: "Start Your Tally ERP9 Journey in Jalandhar",
     summary: [
@@ -2407,7 +1527,8 @@ const courses: Course[] = [
     slug: "tally-prime-course-in-jalandhar",
     title: "Tally Prime with GST Course in Jalandhar",
     shortTitle: "Tally Prime with GST",
-    category: "Accounts & Typing",
+    category: "Tally & Accounting",
+    subCategory: "Tally",
     icon: "receipt",
     tagline: "Start Your Tally Prime Journey in Jalandhar Today",
     summary: [
@@ -2606,7 +1727,8 @@ const courses: Course[] = [
     slug: "quickbooks-course-in-jalandhar",
     title: "QuickBooks Course in Jalandhar",
     shortTitle: "QuickBooks",
-    category: "Accounts & Typing",
+    category: "Tally & Accounting",
+    subCategory: "Accounting Software",
     icon: "rupee",
     tagline: "Start Your QuickBooks Journey in Jalandhar Today",
     summary: [
@@ -2813,7 +1935,8 @@ const courses: Course[] = [
     slug: "punjabi-typing-course-in-jalandhar",
     title: "Punjabi Typing Course in Jalandhar",
     shortTitle: "Punjabi Typing",
-    category: "Accounts & Typing",
+    category: "Basic Computer Courses",
+    subCategory: "Typing",
     icon: "keyboard",
     tagline: "Start Your Punjabi Typing Journey Today",
     summary: [
@@ -3008,7 +2131,8 @@ const courses: Course[] = [
     slug: "english-typing-course-in-jalandhar",
     title: "English Typing Course in Jalandhar",
     shortTitle: "English Typing",
-    category: "Accounts & Typing",
+    category: "Basic Computer Courses",
+    subCategory: "Typing",
     icon: "type",
     tagline: "Start Your Journey Toward a Faster, More Accurate Typing Skill",
     summary: [
@@ -3195,7 +2319,8 @@ const courses: Course[] = [
     slug: "cad-cam-course-in-jalandhar",
     title: "CAD / CAM Course in Jalandhar",
     shortTitle: "CAD / CAM",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Mechanical CAD / CAM",
     icon: "cube",
     tagline: "Start Your CAD / CAM Design Journey in Jalandhar Today",
     summary: [
@@ -3415,12 +2540,12 @@ const courses: Course[] = [
     related: ["solidworks-course-in-jalandhar", "cnc-programming-course-in-jalandhar", "revit-course-in-jalandhar"],
   },
 
-
   {
     slug: "solidworks-course-in-jalandhar",
     title: "SolidWorks Course in Jalandhar",
     shortTitle: "SolidWorks",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Mechanical CAD / CAM",
     icon: "cube",
     tagline: "Enquire About the SolidWorks Course in Jalandhar",
     summary: [
@@ -3630,7 +2755,8 @@ const courses: Course[] = [
     slug: "cnc-programming-course-in-jalandhar",
     title: "CNC Programming Course in Jalandhar",
     shortTitle: "CNC Programming",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Mechanical CAD / CAM",
     icon: "chip",
     tagline: "Build Practical CNC Programming Skills With Structured Training",
     summary: [
@@ -3858,7 +2984,8 @@ const courses: Course[] = [
     slug: "worknc-course-in-jalandhar",
     title: "WorkNC Course in Jalandhar",
     shortTitle: "WorkNC",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Mechanical CAD / CAM",
     icon: "cube",
     tagline: "Build Practical CAM Skills for CNC and Manufacturing",
     summary: [
@@ -4075,7 +3202,8 @@ const courses: Course[] = [
     slug: "solidcam-course-in-jalandhar",
     title: "SolidCAM Course in Jalandhar",
     shortTitle: "SolidCAM",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Mechanical CAD / CAM",
     icon: "cube",
     tagline: "Learn Practical CAM Skills for CNC Manufacturing",
     summary: [
@@ -4316,7 +3444,8 @@ const courses: Course[] = [
     slug: "3ds-max-course-in-jalandhar",
     title: "3ds Max Course in Jalandhar",
     shortTitle: "3ds Max",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Architecture & Interior",
     icon: "cube",
     tagline: "Build Practical 3D Visualization Skills",
     summary: [
@@ -4577,7 +3706,8 @@ const courses: Course[] = [
     slug: "revit-course-in-jalandhar",
     title: "Revit Course in Jalandhar",
     shortTitle: "Revit",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Architecture & Interior",
     icon: "building",
     tagline: "Develop Practical BIM and Revit Skills",
     summary: [
@@ -4866,7 +3996,8 @@ const courses: Course[] = [
     slug: "sketchup-course-in-jalandhar",
     title: "SketchUp Course in Jalandhar",
     shortTitle: "SketchUp",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Architecture & Interior",
     icon: "cube",
     tagline: "Learn Practical 3D Modelling and Visualization",
     summary: [
@@ -5159,7 +4290,8 @@ const courses: Course[] = [
     slug: "staad-pro-course-in-jalandhar",
     title: "STAAD Pro Course in Jalandhar",
     shortTitle: "STAAD Pro",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Civil & Structural",
     icon: "building",
     tagline: "Build Practical Structural Analysis and Design Software Skills",
     summary: [
@@ -5437,7 +4569,8 @@ const courses: Course[] = [
     slug: "etabs-course-in-jalandhar",
     title: "ETABS Course in Jalandhar",
     shortTitle: "ETABS",
-    category: "Design & CAD",
+    category: "CADD & Design",
+    subCategory: "Civil & Structural",
     icon: "building",
     tagline: "Build Practical Building Analysis and Design Skills",
     summary: [
@@ -5753,7 +4886,8 @@ const courses: Course[] = [
     slug: "digital-marketing-course-in-jalandhar",
     title: "Digital Marketing Course in Jalandhar",
     shortTitle: "Digital Marketing",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Digital Marketing",
     icon: "megaphone",
     tagline: "Start Your Digital Marketing Journey in Jalandhar",
     summary: [
@@ -5962,14 +5096,15 @@ const courses: Course[] = [
       { initials: "KP", name: "Karan P.", role: "Kartarpur, Punjab · Career changer", text: "I wanted to explore a career outside my previous field. Digital marketing introduced me to several areas, including SEO, paid advertising and content strategy. Practising with marketing tools helped me understand which skills I would need to develop further." },
     ],
     reviewsNote: "Illustrative testimonials – not verified student reviews. These are fictional examples, not statements from actual students or evidence of course outcomes.",
-    related: ["seo-course-in-jalandhar", "artificial-intelligence-course-in-jalandhar", "advance-excel-course-in-jalandhar"],
+    related: ["seo-course-in-jalandhar", "advance-excel-course-in-jalandhar"],
   },
 
   {
     slug: "seo-course-in-jalandhar",
     title: "SEO Course in Jalandhar",
     shortTitle: "SEO",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Digital Marketing",
     icon: "target",
     tagline: "Start Building Practical SEO Skills in Jalandhar",
     summary: [
@@ -6214,7 +5349,8 @@ const courses: Course[] = [
     slug: "smo-course-in-jalandhar",
     title: "SMO Course in Jalandhar",
     shortTitle: "SMO",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Digital Marketing",
     icon: "users",
     tagline: "Start Your Social Media Marketing Career in Jalandhar",
     summary: [
@@ -6448,7 +5584,8 @@ const courses: Course[] = [
     slug: "google-ads-course-in-jalandhar",
     title: "Google Ads Course in Jalandhar",
     shortTitle: "Google Ads",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Digital Marketing",
     icon: "megaphone",
     tagline: "Start Your Digital Marketing Career with Practical Google Ads Training",
     summary: [
@@ -6659,7 +5796,8 @@ const courses: Course[] = [
     slug: "meta-ads-course-in-jalandhar",
     title: "Meta Ads Course in Jalandhar",
     shortTitle: "Meta Ads",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Digital Marketing",
     icon: "megaphone",
     tagline: "Build Practical Meta Advertising Skills",
     summary: [
@@ -6935,7 +6073,8 @@ const courses: Course[] = [
     slug: "wordpress-course-in-jalandhar",
     title: "WordPress Course in Jalandhar",
     shortTitle: "WordPress",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Web Designing",
     icon: "monitor",
     tagline: "Learn WordPress Through Practical Training",
     summary: [
@@ -7232,7 +6371,8 @@ const courses: Course[] = [
     slug: "illustrator-course-in-jalandhar",
     title: "Illustrator Course in Jalandhar",
     shortTitle: "Illustrator",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Graphic Designing",
     icon: "pen",
     tagline: "Start Your Illustrator Learning Journey",
     summary: [
@@ -7504,291 +6644,11 @@ const courses: Course[] = [
   },
 
   {
-    slug: "web-development-with-python-course-in-jalandhar",
-    title: "Web Development with Python Course in Jalandhar",
-    shortTitle: "Web Development with Python",
-    category: "Future Skills",
-    icon: "code",
-    tagline: "Build Practical Python and Web Development Skills",
-    summary: [
-      "A Web Development with Python course in Jalandhar helps students, graduates, job seekers and working professionals develop practical skills in building and managing websites and web applications. The program introduces essential concepts such as Python programming, HTML, CSS, JavaScript, databases, backend development and web application development.",
-      "Students can learn how Python is used to create dynamic and functional websites using popular frameworks such as Django and Flask. Practical activities such as developing web pages, creating database-driven applications, building forms, working with APIs and developing complete web projects help learners gain job-relevant skills.",
-      "Techcadd is an option for students exploring web development training in Jalandhar. Learners should verify the course syllabus, practical training opportunities, project work and certification details before enrolling.",
-      "This course can help beginners prepare for opportunities in web development, Python development, backend development, software development and freelancing. Students seeking government-recognized training should independently verify the specific program and training provider through official Skill India or NSDC resources.",
-      "Interested in learning Python and using it to build web applications? Explore the Web Development with Python course in Jalandhar and develop practical skills in Python programming, web development, databases, APIs and project development.",
-      "Whether you are a beginner, student, graduate, job seeker or working professional, you can use this course to build a stronger foundation in modern web development.",
-      "Fill in your details to ask about the syllabus, upcoming batches, course schedule and admission process. You can use the enquiry form to get information about: Python programming fundamentals, Web development with Python, Django and Flask, HTML, CSS and JavaScript, Database development, REST APIs, Git and GitHub, Practical projects, Course schedule and available batches, Learning mode and course duration.",
-      "Submit your enquiry to receive course-related information and guidance. Please verify the current syllabus, schedule, duration and other course details before enrolling.",
-    ],
-    seo: {
-      title: "Web Development with Python Course in Jalandhar | Django, Flask, Databases & REST APIs",
-      description:
-        "Web Development with Python course in Jalandhar covering Python programming, HTML, CSS, JavaScript, Django, Flask, databases and SQL, REST APIs, authentication, Git, GitHub, deployment and web projects.",
-      keywords: [
-        "web development with python course in jalandhar",
-        "python web development training jalandhar",
-        "django course in jalandhar",
-        "python training in jalandhar",
-        "full stack python course punjab",
-      ],
-    },
-    level: "Beginner to Advanced",
-    duration: "6 months",
-    weeklyHours: "7.5 hours per week (5 classes)",
-    modes: ["Classroom — Jalandhar", "Weekend batch"],
-    languages: ["English", "Hindi", "Punjabi"],
-    certification: "GIT Education Certificate in Web Development with Python",
-    seats: 18,
-    rating: { value: 4.8, count: 10 },
-    nextBatch: "1st of every month",
-    highlights: [
-      // Why This Program?
-      { icon: "code", title: "Why This Program?", text: "Choosing a Web Development with Python course in Jalandhar can be a practical way to develop programming skills while learning how modern web applications are designed and built. Python is used across software development, automation, data-related applications, and backend web development, making it a useful language for learners who want to build a broader technical foundation." },
-      { icon: "book", title: "Learn Programming Before Frameworks", text: "One of the benefits of learning web development through Python is that students can first develop programming fundamentals. Concepts such as variables, data types, operators, conditional statements, loops, functions, lists, dictionaries, modules, and error handling help learners understand how software works. A strong programming foundation can make it easier to learn frameworks later because students understand the logic behind the code rather than simply copying framework-specific examples." },
-      { icon: "monitor", title: "Build Dynamic Web Applications", text: "Unlike a basic static webpage, a web application can process user input, communicate with databases, manage accounts, generate dynamic content, and perform different actions based on business requirements. Python frameworks such as Django and Flask can introduce students to backend development and help them understand how requests, responses, routes, views, templates, databases, and application logic work together." },
-      { icon: "cube", title: "Understand Frontend and Backend", text: "Python-based web development is not limited to Python alone. Students can also learn the role of HTML, CSS, and JavaScript in creating the client-side portion of a web application. Understanding the difference between frontend and backend development is important. The frontend is what users interact with in a browser, while the backend handles application logic, data processing, authentication, APIs, and communication with databases." },
-      { icon: "chart", title: "Work With Databases", text: "Most practical web applications need to store and retrieve information. Students can learn database concepts such as tables, records, relationships, queries, CRUD operations, and database connectivity. Depending on the curriculum, learners may work with databases such as MySQL, PostgreSQL, or SQLite. This knowledge can help them build applications that do more than display static information." },
-      { icon: "chip", title: "Learn APIs and Application Integration", text: "Modern web applications frequently communicate with other systems through APIs. Learning how to create or consume REST APIs can help students understand how frontend applications, mobile applications, third-party services, and backend systems exchange data. API knowledge can also become useful when learners move toward full-stack development or integrate external services into their projects." },
-      { icon: "target", title: "Develop Real Projects", text: "Project-based learning allows students to apply programming concepts to complete applications. Examples can include a student management system, blog platform, inventory application, booking system, authentication system, business dashboard, or API-powered application. Projects also give learners an opportunity to practice debugging, database design, user authentication, form handling, validation, and application structure." },
-      { icon: "keyboard", title: "Learn Developer Tools and Workflow", text: "Professional development involves more than writing code. Students can become familiar with tools and practices such as Git, GitHub, virtual environments, package management, debugging, documentation, testing fundamentals, and basic deployment. These skills help learners understand how software projects are organized and maintained." },
-      { icon: "certificate", title: "Create a Technical Portfolio", text: "A portfolio can demonstrate practical ability more effectively than a list of programming languages alone. Students can document projects, explain the technologies used, show their GitHub repositories where appropriate, and describe the problems their applications solve. For learners searching for Python training in Jalandhar or a Python-based web development program, practical project work can therefore be an important factor when comparing available courses. Ultimately, the value of the program depends on consistent coding practice and the depth of hands-on learning. Students who regularly write, test, debug, and improve their own applications can build a stronger foundation for further study, internships, entry-level development roles, freelance projects, or more advanced software development." },
-      // Why Techcadd?
-      { icon: "check", title: "Why Techcadd?", text: "Choosing a Web Development with Python course in Jalandhar should involve more than looking at the course title. Students should consider whether the learning environment provides a clear programming foundation, practical development experience, project opportunities, and guidance that matches their current skill level. For learners considering Techcadd, the most relevant question is what they will actually learn and practice during the program." },
-      { icon: "book", title: "A Structured Learning Path", text: "Python web development involves several connected technologies. A learner may need to understand Python programming before moving into frameworks, databases, APIs, and deployment. A structured progression can make this journey easier to follow. Students can begin with Python syntax and programming logic, then move toward object-oriented programming, database connectivity, web frameworks, API development, authentication, and practical projects." },
-      { icon: "keyboard", title: "Practical Coding Experience", text: "Programming is a skill that develops through practice. Reading examples can introduce a concept, but writing code independently helps students understand how that concept works. A practical learning environment can provide opportunities to create functions, work with files and databases, handle errors, build forms, process requests, and troubleshoot application problems. Debugging is particularly important because real development rarely involves code that works perfectly on the first attempt." },
-      { icon: "monitor", title: "Understanding the Complete Web Application", text: "Students should understand how different parts of a web application communicate. Python generally handles backend logic in Python-based web development, while HTML, CSS, and JavaScript contribute to the browser-side experience. Learning these relationships can help students move beyond isolated programming exercises and understand how complete applications are structured." },
-      { icon: "cube", title: "Framework-Based Development", text: "After developing Python fundamentals, students can explore frameworks such as Django or Flask, depending on the curriculum. Framework learning can introduce concepts such as URL routing, views, templates, models, forms, middleware, authentication, database integration, and application structure. The purpose should be to understand the framework rather than simply memorize commands." },
-      { icon: "chip", title: "Database and API Practice", text: "Practical web applications commonly require persistent data and communication between different software components. Students can therefore benefit from hands-on database exercises and API development. Working with CRUD operations, database queries, JSON data, REST APIs, and authentication can help learners understand common backend development tasks." },
-      { icon: "target", title: "Project Development", text: "Projects provide an opportunity to combine multiple concepts. Instead of learning Python, databases, APIs, and frameworks as completely separate subjects, students can apply them together to create functional applications. A project might involve user registration, login, database records, forms, administrative functionality, search, reporting, or API integration. The complexity can increase as the learner becomes more comfortable with development." },
-      { icon: "document", title: "Learning Developer Practices", text: "A useful training environment can also introduce students to tools that support software development, including Git and GitHub, virtual environments, package management, debugging, documentation, and basic testing. These practices can help students understand how individual coding exercises differ from maintaining a structured software project." },
-      { icon: "shield", title: "Evaluating a Training Program", text: "Students should independently evaluate a course before enrolling. Useful questions include: Is the Python syllabus clearly defined? Are Django or other web frameworks covered? Will students build complete projects? Are databases and APIs included? Is Git/GitHub introduced? How much practical coding time is available? Is trainer support available for debugging? Does the course match the learner's existing programming level? These factors can provide a clearer picture of the learning experience than promotional descriptions alone. For someone looking for Python web development training in Jalandhar, the objective should be to find a program that supports gradual skill development and provides enough practical work to turn concepts into working applications. Techcadd can be considered alongside other available training options based on the learner's syllabus, schedule, learning preferences, and career objectives." },
-    ],
-    outcomes: [
-      "Write Python programs using variables, conditions, loops, functions, collections, modules and exception handling.",
-      "Apply object-oriented programming with classes, inheritance, encapsulation and polymorphism.",
-      "Build browser-based interfaces with HTML, CSS, Flexbox, Grid and responsive layouts.",
-      "Add frontend interaction with JavaScript events, DOM manipulation, form handling and JSON.",
-      "Develop Django applications with URL routing, views, templates, models, forms and the admin interface.",
-      "Create lightweight applications and REST APIs with Flask.",
-      "Design databases and perform CRUD operations using SQL with MySQL, PostgreSQL or SQLite.",
-      "Build and test REST API endpoints using GET, POST, PUT and DELETE.",
-      "Implement user registration, login, sessions, permissions and form validation.",
-      "Manage code with Git and GitHub, debug and test applications, and understand basic deployment.",
-    ],
-    audience: [
-      "12th-Pass Students — Students who have completed Class 12 can consider Python web development as a practical technical skill. Starting with Python fundamentals can help them understand variables, data types, conditions, loops, functions, and object-oriented programming before moving into web technologies. For students planning further studies in computer science, IT, software development, or related areas, early exposure to programming can also provide a useful foundation for more advanced technical learning.",
-      "Graduates — Graduates from BCA, BSc, BTech, computer applications, IT, commerce, science, or other backgrounds can use Python web development to strengthen their technical skill set. A graduate does not necessarily need to specialize exclusively in programming; Python and web development can complement existing knowledge in areas such as business, analytics, data, or digital applications.",
-      "Beginners in Programming — Python is commonly used as an entry point into programming because its syntax is relatively readable. Beginners can first focus on programming logic and problem-solving before learning frameworks and databases. A structured course can gradually introduce learners to functions, modules, error handling, file operations, object-oriented programming, and working with APIs. This progression can make web development easier to understand than attempting to learn a complete framework immediately.",
-      "Students Interested in Web Development — Learners who want to build websites and web applications can explore Python-based frameworks such as Django and Flask. Local Python training programs in Jalandhar commonly include web development, databases, HTML, CSS, JavaScript, Django, Flask, or related technologies. Python can primarily handle backend development, while technologies such as HTML, CSS, and JavaScript are used to create and interact with the front end. Understanding how these parts communicate helps students move toward complete web application development.",
-      "Job Seekers and Freshers — Fresh graduates and job seekers can study Python web development to develop practical programming skills and create portfolio projects. Current Jalandhar-area developer and internship listings mention technologies including Python/Django, REST APIs, databases, HTML/CSS, JavaScript, Git, authentication, testing, and deployment, showing the types of skills learners may encounter in web-development roles. However, completing a course does not automatically guarantee employment. Students should focus on developing programming fundamentals, building projects, using version control, understanding databases, and being able to explain their code.",
-      "Working Professionals — Working professionals can also learn Python web development when they want to add programming skills to their existing experience. Depending on their background, Python can be useful for automation, backend applications, APIs, data-related tasks, and web projects.",
-      "Learners Interested in Freelancing or Projects — Students interested in freelance development or personal projects can use Python frameworks to build practical applications such as dashboards, booking systems, content management systems, business portals, or API-based applications. The exact project possibilities depend on the learner's technical level and requirements.",
-      "Students From Jalandhar and Nearby Areas — Learners searching for Python web development training in Jalandhar can evaluate programs based on syllabus depth, practical assignments, trainer guidance, project work, technologies covered, learning format, and opportunities to practice.",
-    ],
-    eligibility: [
-      "A Web Development with Python course in Jalandhar can be suitable for learners who want to combine programming fundamentals with practical website and web application development. The course can accommodate students from different educational backgrounds, including beginners who have never written professional code before.",
-      "The course can therefore suit beginners as well as learners with some programming experience. The key requirement is a willingness to write code regularly, solve problems, debug errors, and gradually build increasingly complex web applications.",
-      "Course Name: Web Development with Python",
-      "Centre: Techcadd Jalandhar",
-    ],
-    curriculum: [
-      {
-        title: "Python Programming Fundamentals",
-        hours: "24 hours",
-        topics: [
-          "A Web Development with Python course in Jalandhar can cover programming fundamentals, frontend technologies, backend development, databases, APIs, version control, and practical project development. The objective is to help learners progress from writing basic Python programs to understanding how complete web applications are developed.",
-          "Students can begin with the core concepts required for programming: Variables and data types, Operators, Conditional statements, Loops, Functions, Lists, tuples, sets, and dictionaries, Strings, Modules and packages, Exception handling, File handling, Object-oriented programming.",
-          "Regular coding exercises can help learners develop logical thinking and problem-solving skills.",
-        ],
-      },
-      {
-        title: "Advanced Python Concepts",
-        hours: "16 hours",
-        topics: [
-          "After learning the fundamentals, students can explore concepts such as: Classes and objects, Inheritance, Encapsulation, Polymorphism, Iterators and generators, Decorators, Lambda functions, List and dictionary comprehensions, Virtual environments, Package management.",
-          "These concepts can become useful when working on larger Python applications.",
-        ],
-      },
-      {
-        title: "HTML and CSS",
-        hours: "14 hours",
-        topics: [
-          "Python handles much of the backend logic, but web applications also require frontend technologies.",
-          "Students can learn: HTML document structure, Forms, Tables, Links and images, Semantic HTML, CSS selectors, Box model, Flexbox, Grid, Responsive layouts.",
-          "This provides the foundation for creating browser-based interfaces.",
-        ],
-      },
-      {
-        title: "JavaScript Fundamentals",
-        hours: "12 hours",
-        topics: [
-          "Depending on the curriculum, learners can also develop basic JavaScript knowledge for frontend interaction.",
-          "Topics may include: Variables, Functions, Events, DOM manipulation, Form handling, Basic asynchronous concepts, JSON.",
-          "Understanding JavaScript helps students see how browser-side functionality communicates with backend services.",
-        ],
-      },
-      {
-        title: "Django Web Development",
-        hours: "30 hours",
-        topics: [
-          "Django is a Python web framework commonly used for developing structured web applications.",
-          "Students can learn concepts such as: Django project structure, Applications, URL routing, Views, Templates, Models, Forms, Static files, Authentication, CRUD operations, Database integration, Admin interface.",
-          "The emphasis should be on understanding how the framework organizes an application rather than memorizing individual commands.",
-        ],
-      },
-      {
-        title: "Flask Fundamentals",
-        hours: "10 hours",
-        topics: [
-          "Where included in the curriculum, Flask can introduce learners to a lightweight Python web framework.",
-          "Students may work with: Routes, Views, Templates, Forms, Request and response handling, Database connectivity, REST API development.",
-          "Comparing different frameworks can help learners understand that web applications can be structured in multiple ways.",
-        ],
-      },
-      {
-        title: "Database Management",
-        hours: "14 hours",
-        topics: [
-          "Web applications frequently need persistent data.",
-          "Students can learn: Database concepts, Tables and records, Primary and foreign keys, Relationships, SQL basics, CRUD operations, Queries, Database connectivity.",
-          "Depending on the course, learners may work with MySQL, PostgreSQL, or SQLite.",
-        ],
-      },
-      {
-        title: "REST APIs and JSON",
-        hours: "12 hours",
-        topics: [
-          "APIs allow different software systems to communicate.",
-          "Students can learn: HTTP methods, GET, POST, PUT, and DELETE, REST concepts, JSON, API endpoints, Request and response handling, Authentication basics, API testing.",
-          "These skills are useful when connecting web applications with other software or services.",
-        ],
-      },
-      {
-        title: "Authentication and Security Basics",
-        hours: "8 hours",
-        topics: [
-          "Students can understand common web application requirements such as: User registration, Login and logout, Password handling, Sessions, Permissions, Form validation, Basic security practices.",
-          "Security should be treated as an essential part of development rather than an optional final topic.",
-        ],
-      },
-      {
-        title: "Git and GitHub",
-        hours: "6 hours",
-        topics: [
-          "Version control is an important part of modern software development.",
-          "Learners can become familiar with: Git repositories, Commits, Branches, Pulling and pushing changes, Merging, GitHub repositories, Project documentation.",
-          "Using Git throughout projects can help students develop better development habits.",
-        ],
-      },
-      {
-        title: "Developer Tools",
-        hours: "4 hours",
-        topics: [
-          "Students may also work with tools such as: Visual Studio Code, Python interpreter, pip, Virtual environments, Git, GitHub, Browser developer tools, API testing tools.",
-          "These tools support coding, debugging, dependency management, version control, and testing.",
-        ],
-      },
-      {
-        title: "Testing and Debugging",
-        hours: "8 hours",
-        topics: [
-          "Real-world development requires identifying and fixing errors.",
-          "Students can practice: Reading error messages, Debugging code, Testing application functionality, Validating forms, Handling exceptions, Identifying database problems, Checking API responses.",
-          "Developing debugging skills can be particularly valuable because developers regularly encounter unexpected behavior.",
-        ],
-      },
-      {
-        title: "Deployment Fundamentals",
-        hours: "6 hours",
-        topics: [
-          "After developing a web application locally, learners can be introduced to basic deployment concepts.",
-          "Depending on the curriculum, this may include: Hosting concepts, Environment variables, Production settings, Database configuration, Static files, Server deployment, Basic cloud deployment concepts.",
-          "The exact deployment platform should depend on the project and current course curriculum.",
-        ],
-      },
-      {
-        title: "Practical Web Development Projects",
-        hours: "26 hours",
-        topics: [
-          "Project work can combine multiple technologies into complete applications.",
-          "Examples include: Blog application, Student management system, Inventory management system, Appointment or booking application, E-commerce backend, Business dashboard, REST API project, User authentication system.",
-          "Students can use these projects to demonstrate their understanding of Python, databases, frameworks, APIs, frontend technologies, and version control.",
-        ],
-      },
-      {
-        title: "Workplace and Documentation Skills",
-        hours: "4 hours",
-        topics: [
-          "Professional development also involves documenting and presenting technical work. Learners can practice: Writing project documentation, Preparing basic technical reports, Creating presentations, Maintaining spreadsheets, Organizing project information, Communicating technical requirements.",
-          "For students searching for Python web development training in Jalandhar, the combination of programming fundamentals, web technologies, databases, APIs, developer tools, and project work can provide a broader understanding of how Python is applied to web development.",
-          "The most important outcome is not simply learning a list of tools. Students should aim to understand how these technologies work together and develop the ability to independently design, code, debug, test, and improve web applications.",
-        ],
-      },
-    ],
-    tools: [
-      { group: "Languages", items: ["Python", "HTML", "CSS", "JavaScript", "SQL"] },
-      { group: "Frameworks", items: ["Django", "Flask"] },
-      { group: "Databases", items: ["MySQL", "PostgreSQL", "SQLite"] },
-      { group: "Developer tools", items: ["Visual Studio Code", "Python interpreter", "pip", "Virtual environments", "Git", "GitHub", "Browser developer tools", "API testing tools"] },
-    ],
-    projects: [
-      { title: "Blog application", text: "Build a Django blog with models, views and templates, where posts can be created, edited and deleted through forms and the admin interface.", tags: ["Django", "CRUD"] },
-      { title: "Student management system", text: "Design a database for students and courses, and build pages to add, search and update records.", tags: ["Database", "SQL"] },
-      { title: "User authentication system", text: "Add registration, login and logout, sessions, permissions and form validation to a web application.", tags: ["Authentication", "Security"] },
-      { title: "Appointment or booking application", text: "Create a booking application that accepts user input through forms, validates it and stores it in a database.", tags: ["Forms", "Django"] },
-      { title: "REST API project", text: "Build API endpoints with GET, POST, PUT and DELETE that exchange JSON, and check the responses with an API testing tool.", tags: ["REST API", "Flask"] },
-      { title: "Business dashboard", text: "Combine frontend pages, database queries and reporting into a dashboard, keep the code on GitHub and document the project.", tags: ["Capstone", "GitHub"] },
-    ],
-    careers: [
-      { role: "Python Developer (Trainee)", salary: "₹2.4 – 4.5 LPA", demand: "High" },
-      { role: "Django / Backend Developer", salary: "₹2.4 – 5.0 LPA", demand: "High" },
-      { role: "Junior Web Developer", salary: "₹2.0 – 4.0 LPA", demand: "High" },
-      { role: "Junior Full-Stack Developer", salary: "₹2.4 – 5.0 LPA", demand: "Moderate" },
-      { role: "Freelance Web Developer", salary: "Per-client earnings", demand: "Moderate" },
-    ],
-    batches: [
-      { name: "Morning", days: "Mon – Fri", time: "10:00 AM – 11:30 AM", mode: "Classroom", seats: "Open" },
-      { name: "Evening", days: "Mon – Fri", time: "6:30 PM – 8:00 PM", mode: "Classroom", seats: "Open" },
-      { name: "Weekend", days: "Sat – Sun", time: "12:00 PM – 3:00 PM", mode: "Classroom", seats: "Open" },
-    ],
-    faqs: [
-      ["What is a Web Development with Python course?", "A Web Development with Python course teaches programming with Python and introduces students to the technologies used to build web applications, including HTML, CSS, databases, Python frameworks, APIs and development tools."],
-      ["Is Python web development suitable for beginners?", "Yes. Beginners can start with Python fundamentals and gradually progress to web frameworks, databases, APIs and projects. Regular coding practice is important for developing programming skills."],
-      ["Who can join a Python web development course in Jalandhar?", "The course can be suitable for 12th-pass students, graduates, beginners, computer science students, job seekers, working professionals and learners interested in programming or web application development."],
-      ["Do I need coding experience before learning Python web development?", "No. Beginners can start with basic Python programming. However, learners should be prepared to practice regularly because programming skills develop through writing, testing and debugging code."],
-      ["What will I learn in Python web development?", "A course may cover Python programming, HTML, CSS, JavaScript fundamentals, Django or Flask, databases, SQL, REST APIs, authentication, Git, GitHub, debugging and practical web development projects."],
-      ["Is Django included in Python web development?", "Django is a Python web framework commonly used for developing web applications. Whether Django is included depends on the specific course curriculum, so students should verify the syllabus before enrolling."],
-      ["What is the difference between Python and Django?", "Python is a programming language, while Django is a web framework built using Python. Python provides the programming foundation, while Django provides tools and structures that help developers create web applications."],
-      ["Can I learn frontend development with Python?", "Python is primarily used for backend development rather than directly creating browser interfaces. A complete web development program may therefore also teach HTML, CSS and JavaScript for frontend development."],
-      ["Will I learn databases in a Python web development course?", "Database topics are commonly included in practical web development programs. Students may learn SQL, database design, CRUD operations and connecting databases with Python applications. The specific database technology depends on the course syllabus."],
-      ["What are REST APIs in Python web development?", "REST APIs allow applications to communicate with each other through HTTP requests and responses. Python frameworks can be used to create APIs that exchange structured data, commonly using JSON."],
-      ["Can Python web development help me build real projects?", "Yes. Python can be used to build applications such as blogs, management systems, booking platforms, dashboards, business applications, e-commerce backends and API-based services. Project complexity depends on the learner's skills and requirements."],
-      ["Is Git important for Python developers?", "Yes. Git is a version-control system used to track changes in software projects. GitHub can be used to host repositories and collaborate on development projects. Learning these tools can help students understand common software development workflows."],
-      ["Can I get a job after learning Python web development?", "Learning Python web development can help build skills relevant to entry-level development opportunities, but employment depends on factors such as programming ability, project experience, interview performance, portfolio quality, communication skills and employer requirements."],
-      ["Can I use Python web development skills for freelancing?", "Yes. Python developers can work on different types of web applications, backend systems and APIs as freelance projects. Freelancing also requires client communication, project planning, documentation, testing and reliable delivery."],
-      ["How should I choose a Python web development course in Jalandhar?", "Compare the syllabus, Python fundamentals, framework coverage, database training, API development, project work, Git/GitHub, practical coding time, trainer support and learning format. Make sure the course matches your current programming level and career objectives."],
-    ],
-    reviews: [
-      { initials: "BS", name: "Beginner Student", role: "Illustrative review", text: "I was completely new to Python when I started. Learning the basics first and then moving toward web development made the concepts much easier to understand." },
-      { initials: "BC", name: "BCA Student", role: "Illustrative review", text: "I wanted to strengthen my programming skills beyond college assignments. Working with Python, databases and web application concepts helped me understand how development projects are structured." },
-      { initials: "JS", name: "Jalandhar Student", role: "Illustrative review", text: "I was looking for Python training in Jalandhar and wanted something practical. The project-based approach helped me connect Python programming with actual web applications." },
-      { initials: "FR", name: "Fresher", role: "Illustrative review", text: "As a fresher, I wanted to build something that I could show in my portfolio. Learning about backend development, databases and APIs gave me a better understanding of what goes into a web application." },
-      { initials: "PB", name: "Programming Beginner", role: "Illustrative review", text: "Initially I found programming logic difficult, especially debugging errors. Practicing small Python programs before moving to frameworks helped me become more comfortable with coding." },
-      { initials: "WD", name: "Web Development Learner", role: "Illustrative review", text: "My main interest was web development. Learning Python along with HTML, CSS, databases and a Python framework helped me understand the connection between frontend and backend." },
-      { initials: "GS", name: "Graduate Student", role: "Illustrative review", text: "I wanted to add a technical skill after graduation. Python was a good starting point for me, and working on projects helped me practice concepts instead of only reading theory." },
-      { initials: "DL", name: "Database Learner", role: "Illustrative review", text: "I was particularly interested in how websites store and retrieve information. Learning CRUD operations and database connectivity helped me understand the backend side of applications." },
-      { initials: "AL", name: "API Learner", role: "Illustrative review", text: "REST APIs were a new topic for me. Once I understood requests, responses and JSON, it became easier to see how different applications communicate with each other." },
-      { initials: "PS", name: "Project-Focused Student", role: "Illustrative review", text: "I found project work useful because it brought different topics together. Python, database operations, authentication and web pages made more sense when I had to use them in one application." },
-    ],
-    reviewsNote: "These are illustrative review-style items describing typical learner perspectives. They are not verified reviews from named students.",
-    related: ["core-python-course-in-jalandhar", "web-designing-course-in-jalandhar", "wordpress-course-in-jalandhar"],
-  },
-
-  {
     slug: "graphic-designing-course-in-jalandhar",
     title: "Graphic Designing Course in Jalandhar",
     shortTitle: "Graphic Designing",
-    category: "Future Skills",
+    category: "Web, Graphics & Digital Marketing",
+    subCategory: "Graphic Designing",
     icon: "pen",
     tagline: "Build Practical Graphic Design Skills in Jalandhar",
     summary: [
@@ -8059,13 +6919,40 @@ export function getRelatedCourses(course: Course): Course[] {
   return course.related.map(getCourse).filter((c): c is Course => Boolean(c));
 }
 
-/** Courses grouped by category, in catalogue order — used by the /courses index. */
-export function getCoursesByCategory(): { category: string; courses: Course[] }[] {
-  const groups: { category: string; courses: Course[] }[] = [];
-  for (const course of COURSES) {
-    const group = groups.find((g) => g.category === course.category);
-    if (group) group.courses.push(course);
-    else groups.push({ category: course.category, courses: [course] });
+export type CourseGroup = {
+  category: string;
+  subCategories: { title: string; courses: Course[] }[];
+};
+
+/**
+ * Courses grouped by main category and sub-category, in catalogue order — used
+ * by the /courses index. A category the catalogue does not know (one created
+ * in the CMS) follows the four main ones.
+ */
+export function groupCourses(list: Course[]): CourseGroup[] {
+  const order = (titles: string[], title: string) => titles.indexOf(title) + 1 || titles.length + 1;
+  const categoryTitles = CATALOGUE.map((category) => category.title);
+  const groups: CourseGroup[] = [];
+
+  for (const course of list) {
+    let group = groups.find((g) => g.category === course.category);
+    if (!group) {
+      group = { category: course.category, subCategories: [] };
+      groups.push(group);
+    }
+    const sub = group.subCategories.find((s) => s.title === course.subCategory);
+    if (sub) sub.courses.push(course);
+    else group.subCategories.push({ title: course.subCategory, courses: [course] });
+  }
+
+  groups.sort((a, b) => order(categoryTitles, a.category) - order(categoryTitles, b.category));
+  for (const group of groups) {
+    const subTitles = CATALOGUE.find((category) => category.title === group.category)?.subCategories.map((sub) => sub.title) ?? [];
+    group.subCategories.sort((a, b) => order(subTitles, a.title) - order(subTitles, b.title));
   }
   return groups;
+}
+
+export function getCoursesByCategory(): CourseGroup[] {
+  return groupCourses(COURSES);
 }

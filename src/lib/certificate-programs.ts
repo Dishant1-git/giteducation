@@ -163,7 +163,7 @@ const details: Record<string, CertificateDetails> = {
       { part: "Viva", weight: 20, checks: "Explain your report: sources, formulas and what it shows" },
     ],
     passMark: "55% overall, with at least 45% in the timed MIS report",
-    usedFor: ["MIS executive and data-entry supervisor applications", "Accounts and inventory roles that test Excel in the interview", "Proof of skill for promotion in your current job", "Progression to analytics or AI programs"],
+    usedFor: ["MIS executive and data-entry supervisor applications", "Accounts and inventory roles that test Excel in the interview", "Proof of skill for promotion in your current job", "Progression to MIS and reporting work"],
     faqs: [
       ["Do I need MS Office first?", "You should be comfortable with basic Excel: entering data, simple formulas and formatting. A 10-minute placement check at counselling confirms this."],
       ["Is VBA covered?", "Recorded macros and simple edits to them are covered. Full VBA programming is not part of this certificate."],

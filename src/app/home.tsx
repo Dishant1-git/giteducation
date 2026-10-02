@@ -19,7 +19,6 @@ const steps = [
 ];
 
 const categories = [
-  { title: "Artificial Intelligence", icon: "🤖", image: "/images/courses/ai.jpg", slug: "artificial-intelligence-course-in-jalandhar" },
   { title: "Basic Computer", icon: "💻", image: "/images/courses/basic.jpg", slug: "basic-computer-course-in-jalandhar" },
   { title: "MS Office", icon: "📄", image: "/images/courses/msoffice.jpg", slug: "ms-office-course-in-jalandhar" },
   { title: "Advance Excel", icon: "📊", image: "/images/courses/excel.jpg", slug: "advance-excel-course-in-jalandhar" },
@@ -28,15 +27,16 @@ const categories = [
   { title: "CAD / CAM", icon: "📐", image: "/images/categories/cad.jpg", slug: "cad-cam-course-in-jalandhar" },
   { title: "English Typing", icon: "🔤", image: "/images/courses/typing.jpg", slug: "english-typing-course-in-jalandhar" },
   { title: "Digital Marketing", icon: "📣", image: "/images/categories/digital.jpg", slug: "digital-marketing-course-in-jalandhar" },
+  { title: "Web Designing", icon: "🌐", image: "/images/categories/web.jpg", slug: "web-designing-course-in-jalandhar" },
 ];
 
-// Category panels. `pos` picks which part of the photo the narrow panel shows.
+// Category panels, one per main category of the catalogue (src/lib/catalogue.ts).
+// `pos` picks which part of the photo the narrow panel shows.
 const categoryPanels = [
-  { title: "Computer & MS Office", blurb: "Windows, internet, Word, Excel and email basics", image: "/images/categories/office.jpg", href: "/courses/basic-computer-course-in-jalandhar", pos: "object-[72%_50%]" },
-  { title: "Accounting & Tally", blurb: "Tally Prime, GST returns, billing and payroll entries", image: "/images/categories/accounts.jpg", href: "/courses/tally-prime-course-in-jalandhar", pos: "object-[38%_50%]" },
-  { title: "Web Development", blurb: "Web designing, WordPress and development with Python", image: "/images/categories/web.jpg", href: "/courses", pos: "object-center" },
-  { title: "CAD / CAM", blurb: "AutoCAD, SolidWorks and Revit drawings for engineers", image: "/images/categories/cad.jpg", href: "/courses/cad-cam-course-in-jalandhar", pos: "object-[28%_50%]" },
-  { title: "Digital Marketing", blurb: "SEO, Google Ads and Meta Ads for businesses", image: "/images/categories/digital.jpg", href: "/courses/digital-marketing-course-in-jalandhar", pos: "object-[35%_50%]" },
+  { title: "CADD & Design", blurb: "AutoCAD, SolidWorks, Revit and STAAD Pro for engineers", image: "/images/categories/cad.jpg", href: "/courses/cad-cam-course-in-jalandhar", pos: "object-[28%_50%]" },
+  { title: "Basic Computer Courses", blurb: "Windows, MS Office, Advance Excel and typing", image: "/images/categories/office.jpg", href: "/courses/basic-computer-course-in-jalandhar", pos: "object-[72%_50%]" },
+  { title: "Web, Graphics & Digital Marketing", blurb: "Web designing, graphic design, SEO and ads", image: "/images/categories/digital.jpg", href: "/courses/digital-marketing-course-in-jalandhar", pos: "object-[35%_50%]" },
+  { title: "Tally & Accounting", blurb: "Tally Prime, GST returns, billing and QuickBooks", image: "/images/categories/accounts.jpg", href: "/courses/tally-prime-course-in-jalandhar", pos: "object-[38%_50%]" },
 ];
 
 const differences = [
@@ -70,10 +70,9 @@ const ROLE_ICONS: Record<string, string> = {
   accounts: "receipt",
   marketing: "megaphone",
   cad: "cube",
-  ai: "robot",
 };
 
-const marqueeItems = ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime + GST", "Punjabi Typing", "English Typing", "AutoCAD", "SolidWorks", "Digital Marketing", "Web Development", "Artificial Intelligence"];
+const marqueeItems = ["Basic Computer", "MS Office", "Advance Excel", "Tally Prime + GST", "Punjabi Typing", "English Typing", "AutoCAD", "SolidWorks", "Digital Marketing", "Web Designing", "Graphic Designing"];
 
 const heroWords = "Learn the computer skills that turn you into a".split(" ");
 
@@ -235,7 +234,7 @@ export function Home({ posts, faqs }: { posts: BlogPost[]; faqs: [question: stri
                 </span>
               </h1>
               <p style={delay(6, 150)} className="hero-in mx-auto mt-8 max-w-xl text-base leading-relaxed text-white/70 lg:mx-0 lg:text-lg">
-                Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi typing, CAD/CAM and digital marketing, taught hands-on with one computer per student.
+                CAD and design, basic computer and typing, web, graphics and digital marketing, Tally and accounting, taught hands-on with one computer per student.
               </p>
               <div style={delay(7, 150)} className="hero-in mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
                 <a href="#contact" data-enquiry className="group relative isolate inline-flex h-13 items-center justify-center gap-2 overflow-hidden rounded-full bg-accent-yellow px-8 font-semibold text-ink shadow-xl shadow-accent-yellow/25 transition-transform hover:-translate-y-0.5">
@@ -560,9 +559,9 @@ export function Home({ posts, faqs }: { posts: BlogPost[]; faqs: [question: stri
               </article>
               <article data-pointer style={delay(2)} className="reveal reveal-zoom lift spotlight spotlight-light flex flex-col items-center justify-center overflow-hidden rounded-[1.75rem] bg-panel p-6 text-white md:col-span-2">
                 <div className="panel-glow pointer-events-none absolute inset-0" />
-                <h3 className="relative text-center font-display text-xl font-bold tracking-tight">Web Development</h3>
+                <h3 className="relative text-center font-display text-xl font-bold tracking-tight">Web Designing</h3>
                 <span className="text-shine relative mt-2 bg-gradient-to-r from-accent-yellow via-white to-accent-yellow bg-clip-text font-display text-6xl font-extrabold text-transparent">&lt;/&gt;</span>
-                <p className="relative mt-2 text-center text-sm leading-relaxed text-white/70">Web designing, WordPress &amp; development with Python</p>
+                <p className="relative mt-2 text-center text-sm leading-relaxed text-white/70">HTML, CSS, JavaScript, responsive layouts &amp; WordPress</p>
                 <span className="relative mt-3 inline-flex items-center gap-1 font-mono text-xs text-accent-yellow">npm run dev<span className="h-4 w-0.5 animate-pulse bg-accent-yellow" /></span>
               </article>
               <article data-pointer style={delay(0)} className="reveal reveal-left lift spotlight glow-border rounded-[1.75rem] border border-line bg-white p-6 shadow-sm md:col-span-3">

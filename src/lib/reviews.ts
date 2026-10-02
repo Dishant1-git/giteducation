@@ -20,7 +20,6 @@ const PICKS = [
   "cad-cam-course-in-jalandhar",
   "advance-excel-course-in-jalandhar",
   "digital-marketing-course-in-jalandhar",
-  "artificial-intelligence-course-in-jalandhar",
   "basic-computer-course-in-jalandhar",
 ];
 

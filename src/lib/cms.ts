@@ -3,7 +3,8 @@ import "server-only";
 import { cache } from "react";
 
 import { POSTS, type BlogPost } from "@/lib/blog";
-import { COMMON_FAQS, COURSES, type Course } from "@/lib/courses";
+import { OTHER_SUB_CATEGORY, WITHDRAWN_COURSES, placeOf } from "@/lib/catalogue";
+import { COMMON_FAQS, COURSES, groupCourses, type Course, type CourseGroup } from "@/lib/courses";
 import { EVENTS, type EventItem } from "@/lib/events";
 import { GENERAL_FAQS } from "@/lib/faq";
 import { PHOTOS, type GalleryPhoto } from "@/lib/gallery";
@@ -362,12 +363,16 @@ function toCourse(cms: CmsCourse, slugById: Map<string, string>, faqs: Map<strin
   const title = cms.h1 || cms.title;
   const tagline = cms.shortDescription;
   const summary = lines(cms.overview);
+  // The catalogue decides where a course it knows sits. One added in the CMS
+  // goes under its CMS category, in a single sub-category.
+  const place = placeOf(cms.slug);
 
   return {
     slug: cms.slug,
     title,
     shortTitle: cms.title,
-    category: cms.categoryName ?? "Courses",
+    category: place?.category ?? cms.categoryName ?? "Courses",
+    subCategory: place?.subCategory ?? OTHER_SUB_CATEGORY,
     icon: cms.icon ?? "book",
     tagline,
     summary: summary.length ? summary : lines(cms.intro),
@@ -423,10 +428,11 @@ function toCourse(cms: CmsCourse, slugById: Map<string, string>, faqs: Map<strin
  *
  * When the CMS has published courses it is the whole catalogue: a course that
  * is unpublished or deleted there leaves the site, and a new one joins it.
+ * A withdrawn course stays out even while the CMS still has it published.
  */
 export const getCourses = cache(async (): Promise<Course[]> => {
   const data = await cmsGet<List<CmsCourse>>("/courses?limit=500");
-  const items = (data?.items ?? []).filter((course) => course.segment === "courses" && course.slug);
+  const items = (data?.items ?? []).filter((course) => course.segment === "courses" && course.slug && !(course.slug in WITHDRAWN_COURSES));
   if (!items.length) return COURSES;
 
   const [categories, reviewList] = await Promise.all([getFaqCategories(), getCmsReviews()]);
@@ -447,13 +453,7 @@ export async function getRelatedCourses(course: Course): Promise<Course[]> {
   return course.related.map((slug) => courses.find((c) => c.slug === slug)).filter((c): c is Course => Boolean(c));
 }
 
-/** Courses grouped by category, in catalogue order — used by the /courses index. */
-export async function getCoursesByCategory(): Promise<{ category: string; courses: Course[] }[]> {
-  const groups: { category: string; courses: Course[] }[] = [];
-  for (const course of await getCourses()) {
-    const group = groups.find((g) => g.category === course.category);
-    if (group) group.courses.push(course);
-    else groups.push({ category: course.category, courses: [course] });
-  }
-  return groups;
+/** Courses grouped by category and sub-category, in catalogue order — used by the /courses index. */
+export async function getCoursesByCategory(): Promise<CourseGroup[]> {
+  return groupCourses(await getCourses());
 }

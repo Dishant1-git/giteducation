@@ -9,12 +9,12 @@ import { SalaryEstimator } from "./salary-estimator";
 
 export const metadata: Metadata = {
   title: "Tech Salary & Career Growth Estimator | Punjab & NCR",
-  description: `Estimate the monthly salary for computer, accounts, design, CAD, marketing and AI jobs in Punjab and Delhi NCR, and see how it grows with experience. Free tool by ${SITE.name}, ${SITE.address.locality}.`,
+  description: `Estimate the monthly salary for computer, accounts, design, CAD and marketing jobs in Punjab and Delhi NCR, and see how it grows with experience. Free tool by ${SITE.name}, ${SITE.address.locality}.`,
   alternates: { canonical: "/tools/salary-estimator" },
 };
 
 const STEPS = [
-  { icon: "target", title: "Pick a role", text: "Choose the job you are training for, from office work to AI development." },
+  { icon: "target", title: "Pick a role", text: "Choose the job you are training for, from office work to CAD design." },
   { icon: "location", title: "Set place and experience", text: "Pay changes a lot between Jalandhar, the Tricity and Delhi NCR." },
   { icon: "sparkle", title: "Add skills you can prove", text: "Portfolio pieces and certificates are what move an offer upward." },
 ];

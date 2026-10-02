@@ -3,7 +3,7 @@
 import { useId, useState, useSyncExternalStore } from "react";
 
 import { Icon } from "@/components/icon";
-import { courseGroups } from "@/lib/site";
+import { allCourseGroups } from "@/lib/site";
 
 /**
  * Enquiry form shown in the Book Free Demo popup (enquiry-modal.tsx).
@@ -48,7 +48,7 @@ const newSum = (previous?: { a: number; b: number }) => {
 
 const noopSubscribe = () => () => {};
 
-const MENU_COURSES = new Set(courseGroups.flatMap((group) => group.items.map((item) => item.label)));
+const MENU_COURSES = new Set(allCourseGroups.flatMap((group) => group.items.map((item) => item.label)));
 
 export function EnquiryForm({
   formType = "book-demo",
@@ -187,7 +187,7 @@ export function EnquiryForm({
                 {initialCourse}
               </option>
             )}
-            {courseGroups.map((group) => (
+            {allCourseGroups.map((group) => (
               <optgroup key={group.title} label={group.title} className="text-foreground">
                 {group.items.map((item) => (
                   <option key={item.label} value={item.label} className="text-foreground">

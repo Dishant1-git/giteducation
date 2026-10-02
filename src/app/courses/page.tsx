@@ -7,15 +7,15 @@ import { getCoursesByCategory } from "@/lib/cms";
 import { SITE, TEL_HREF } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "All Courses in Jalandhar | Computer, Accounting, CAD & AI Training",
+  title: "All Courses in Jalandhar | CAD, Computer, Web, Design & Tally Training",
   description:
-    "Every course at GIT Education Jalandhar: Basic Computer, MS Office, Advance Excel, Tally Prime with GST, Punjabi and English typing, CAD/CAM, Digital Marketing and Artificial Intelligence.",
+    "Every course at GIT Education Jalandhar, by category: CADD & Design, Basic Computer Courses, Web, Graphics & Digital Marketing, and Tally & Accounting.",
   alternates: { canonical: "/courses" },
 };
 
 export default async function CoursesIndexPage() {
   const groups = await getCoursesByCategory();
-  const total = groups.reduce((sum, group) => sum + group.courses.length, 0);
+  const total = groups.reduce((sum, group) => sum + group.subCategories.reduce((n, sub) => n + sub.courses.length, 0), 0);
 
   return (
     <div>
@@ -48,8 +48,8 @@ export default async function CoursesIndexPage() {
               Every course we run in {SITE.address.locality}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75 lg:text-lg">
-              One computer per student, practical assignments in every class and placement support on every course. Pick a course to see its full syllabus and batch
-              timings.
+              {groups.length} categories, each split by subject. One computer per student, practical assignments in every class and placement support on every
+              course. Pick a course to see its full syllabus and batch timings.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/#contact" data-enquiry className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-yellow px-7 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-white">
@@ -75,35 +75,44 @@ export default async function CoursesIndexPage() {
               </h2>
             </Reveal>
 
-            <Stagger as="ul" className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {group.courses.map((course) => (
-                <StaggerItem as="li" key={course.slug}>
-                  <Link
-                    href={`/courses/${course.slug}`}
-                    className="group flex h-full flex-col rounded-card border border-border-subtle bg-surface-raised p-6 transition-all duration-200 hover:-translate-y-1 hover:border-action hover:shadow-card"
-                  >
-                    <span className="flex items-start justify-between gap-3">
-                      <span className="grid size-11 place-items-center rounded-xl bg-surface-accent text-action transition-colors duration-200 group-hover:bg-action group-hover:text-white">
-                        <Icon name={course.icon} className="size-5" />
-                      </span>
-                      <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-[11px] font-semibold text-content-muted">{course.duration}</span>
-                    </span>
+            {group.subCategories.map((sub, subIndex) => (
+              <div key={sub.title} className="mt-8">
+                <h3 id={`group-${groupIndex}-${subIndex}`} className="flex items-center gap-3 text-sm font-semibold tracking-wide text-content-muted uppercase">
+                  {sub.title}
+                  <span aria-hidden="true" className="h-px flex-1 bg-border-subtle" />
+                </h3>
 
-                    <span className="mt-4 font-display text-lg leading-snug font-bold tracking-tight text-balance">{course.shortTitle}</span>
-                    <span className="mt-2 flex-1 text-sm leading-relaxed text-content-muted">{course.tagline}</span>
-
-                    <span className="mt-5 flex items-end justify-end gap-3 border-t border-border-subtle pt-4">
-                      <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
-                        View course
-                        <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
-                          →
+                <Stagger as="ul" aria-labelledby={`group-${groupIndex}-${subIndex}`} className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {sub.courses.map((course) => (
+                    <StaggerItem as="li" key={course.slug}>
+                      <Link
+                        href={`/courses/${course.slug}`}
+                        className="group flex h-full flex-col rounded-card border border-border-subtle bg-surface-raised p-6 transition-all duration-200 hover:-translate-y-1 hover:border-action hover:shadow-card"
+                      >
+                        <span className="flex items-start justify-between gap-3">
+                          <span className="grid size-11 place-items-center rounded-xl bg-surface-accent text-action transition-colors duration-200 group-hover:bg-action group-hover:text-white">
+                            <Icon name={course.icon} className="size-5" />
+                          </span>
+                          <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-[11px] font-semibold text-content-muted">{course.duration}</span>
                         </span>
-                      </span>
-                    </span>
-                  </Link>
-                </StaggerItem>
-              ))}
-            </Stagger>
+
+                        <span className="mt-4 font-display text-lg leading-snug font-bold tracking-tight text-balance">{course.shortTitle}</span>
+                        <span className="mt-2 flex-1 text-sm leading-relaxed text-content-muted">{course.tagline}</span>
+
+                        <span className="mt-5 flex items-end justify-end gap-3 border-t border-border-subtle pt-4">
+                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
+                            View course
+                            <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
+                              →
+                            </span>
+                          </span>
+                        </span>
+                      </Link>
+                    </StaggerItem>
+                  ))}
+                </Stagger>
+              </div>
+            ))}
           </section>
         ))}
       </div>

@@ -86,19 +86,6 @@ export const ROLES: Role[] = [
       { id: "site", label: "Site or shop-floor exposure" },
     ],
   },
-  {
-    id: "ai",
-    title: "Junior Python / AI Developer",
-    base: [15, 28],
-    courseSlug: "artificial-intelligence-course-in-jalandhar",
-    courseName: "Artificial Intelligence",
-    jobTitles: ["Junior Python Developer", "AI Operations Associate", "Automation Executive"],
-    skills: [
-      { id: "github", label: "3+ projects on GitHub" },
-      { id: "api", label: "Builds with AI APIs" },
-      { id: "sql", label: "SQL & data handling" },
-    ],
-  },
 ];
 
 export type Option = { id: string; label: string; hint: string; factor: number };

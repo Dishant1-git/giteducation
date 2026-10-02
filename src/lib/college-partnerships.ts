@@ -12,7 +12,7 @@ export const FORMATS: PartnershipFormat[] = [
   {
     icon: "users",
     title: "Campus workshops",
-    text: "One to three day hands-on sessions on Excel, Tally with GST, AI tools, CAD or digital marketing, sized for one class or a whole year group.",
+    text: "One to three day hands-on sessions on Excel, Tally with GST, CAD, web designing or digital marketing, sized for one class or a whole year group.",
   },
   {
     icon: "calendar",

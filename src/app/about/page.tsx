@@ -77,7 +77,7 @@ export default function AboutPage() {
                   that a student should leave able to do the work, not just describe it.
                 </p>
                 <p>
-                  Courses run from basic computer and typing to Tally, Advance Excel, graphic design, CAD/CAM, digital marketing and Python. Classes are
+                  Courses run from basic computer and typing to Tally, Advance Excel, graphic design, web designing, CAD/CAM and digital marketing. Classes are
                   small, every student has their own computer, and every course ends with a practical test.
                 </p>
               </div>

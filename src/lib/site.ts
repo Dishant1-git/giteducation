@@ -4,6 +4,8 @@
  * phone number or a nav label propagates everywhere at once.
  */
 
+import { CATALOGUE } from "./catalogue";
+
 export const SITE = {
   name: "GIT Education",
   legalName: "GIT Education — Computer Training Institute",
@@ -75,65 +77,21 @@ export type CourseMenuItem = { label: string; slug?: string; badge?: string };
 /** Where a menu course links: its own page when one exists, otherwise the course listing. */
 export const courseHref = (item: CourseMenuItem) => (item.slug ? `/courses/${item.slug}` : "/courses");
 
-/** Courses mega-menu columns, one group per column. */
-export const courseGroups: { title: string; blurb: string; items: CourseMenuItem[] }[] = [
-  {
-    title: "Basics & Accounting",
-    blurb: "Office, typing, GST and billing skills",
-    items: [
-      { label: "Basic Computer", slug: "basic-computer-course-in-jalandhar" },
-      { label: "MS Office", slug: "ms-office-course-in-jalandhar" },
-      { label: "Advance Excel", slug: "advance-excel-course-in-jalandhar" },
-      { label: "Google Workspace", slug: "google-workspace-course-in-jalandhar" },
-      { label: "CAT Pro", slug: "cat-pro-course-in-jalandhar" },
-      { label: "Punjabi Typing", slug: "punjabi-typing-course-in-jalandhar" },
-      { label: "English Typing", slug: "english-typing-course-in-jalandhar" },
-      { label: "Tally ERP-9", slug: "tally-erp9-course-in-jalandhar" },
-      { label: "Tally Prime", slug: "tally-prime-course-in-jalandhar" },
-      { label: "QuickBooks", slug: "quickbooks-course-in-jalandhar" },
-    ],
-  },
-  {
-    title: "Digital Marketing",
-    blurb: "Promote a business online",
-    items: [
-      { label: "Digital Marketing", slug: "digital-marketing-course-in-jalandhar", badge: "New" },
-      { label: "SEO", slug: "seo-course-in-jalandhar" },
-      { label: "SMO", slug: "smo-course-in-jalandhar" },
-      { label: "Google Ads", slug: "google-ads-course-in-jalandhar" },
-      { label: "Meta Ads", slug: "meta-ads-course-in-jalandhar" },
-      { label: "Graphic Designing", slug: "graphic-designing-course-in-jalandhar" },
-      { label: "Illustrator", slug: "illustrator-course-in-jalandhar" },
-    ],
-  },
-  {
-    title: "CAD / CAM",
-    blurb: "Mechanical and civil design",
-    items: [
-      { label: "AutoCAD" },
-      { label: "SolidWorks", slug: "solidworks-course-in-jalandhar" },
-      { label: "CNC Programming", slug: "cnc-programming-course-in-jalandhar" },
-      { label: "WorkNC", slug: "worknc-course-in-jalandhar" },
-      { label: "SolidCAM", slug: "solidcam-course-in-jalandhar" },
-      { label: "3ds Max", slug: "3ds-max-course-in-jalandhar" },
-      { label: "Revit", slug: "revit-course-in-jalandhar" },
-      { label: "SketchUp", slug: "sketchup-course-in-jalandhar" },
-      { label: "STAAD Pro", slug: "staad-pro-course-in-jalandhar" },
-      { label: "ETABS", slug: "etabs-course-in-jalandhar" },
-    ],
-  },
-  {
-    title: "Programming & AI",
-    blurb: "Python, AI and websites",
-    items: [
-      { label: "Core Python", slug: "core-python-course-in-jalandhar" },
-      { label: "Generative AI", slug: "generative-ai-course-in-jalandhar" },
-      { label: "Web Designing", slug: "web-designing-course-in-jalandhar" },
-      { label: "Web Development with Python", slug: "web-development-with-python-course-in-jalandhar" },
-      { label: "WordPress", slug: "wordpress-course-in-jalandhar" },
-    ],
-  },
-];
+type CourseGroup = { title: string; blurb: string; items: CourseMenuItem[] };
+
+/** Courses mega-menu columns: one per main category, listing only its main courses. */
+export const courseGroups: CourseGroup[] = CATALOGUE.map((category) => ({
+  title: category.title,
+  blurb: category.blurb,
+  items: category.subCategories.flatMap((sub) => sub.courses.filter((course) => course.main)),
+}));
+
+/** Every course, by main category — the full list offered in the enquiry form. */
+export const allCourseGroups: CourseGroup[] = CATALOGUE.map((category) => ({
+  title: category.title,
+  blurb: category.blurb,
+  items: category.subCategories.flatMap((sub) => sub.courses),
+}));
 
 /** Certificate Programs menu: icon cards (icon = key in `lineIcons`), each linking to its own page at /certificate-programs/[slug]. */
 export type CertificateMenuItem = { label: string; icon: string; slug: string; badge?: string };
@@ -251,10 +209,10 @@ export const footerCols: [heading: string, links: [label: string, href: string][
   [
     "More Courses",
     [
-      ["Punjabi Typing", "/courses/punjabi-typing-course-in-jalandhar"],
-      ["English Typing", "/courses/english-typing-course-in-jalandhar"],
       ["CAD / CAM", "/courses/cad-cam-course-in-jalandhar"],
       ["Digital Marketing", "/courses/digital-marketing-course-in-jalandhar"],
+      ["Web Designing", "/courses/web-designing-course-in-jalandhar"],
+      ["Graphic Designing", "/courses/graphic-designing-course-in-jalandhar"],
     ],
   ],
   [

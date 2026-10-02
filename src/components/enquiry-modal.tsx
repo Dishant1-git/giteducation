@@ -206,14 +206,14 @@ export function EnquiryModal() {
               </p>
 
               <figure className="mt-6 hidden rounded-2xl border border-white/10 bg-white/[0.06] p-5 md:block">
-                <blockquote className="text-sm leading-relaxed">&ldquo;AI is the new electricity.&rdquo;</blockquote>
+                <blockquote className="text-sm leading-relaxed">&ldquo;Nobody leaves a class stuck. Trainers sit with each student until the work feels easy.&rdquo;</blockquote>
                 <figcaption className="mt-4 flex items-center gap-3">
                   <span className="grid size-9 place-items-center rounded-full bg-white/10 text-white/80">
-                    <Icon name="robot" className="size-4" />
+                    <Icon name="users" className="size-4" />
                   </span>
                   <span>
-                    <span className="block text-[13px] font-semibold">Andrew Ng</span>
-                    <span className="block text-xs text-white/60">Founder, DeepLearning.AI</span>
+                    <span className="block text-[13px] font-semibold">{SITE.name}</span>
+                    <span className="block text-xs text-white/60">{SITE.tagline}</span>
                   </span>
                 </figcaption>
               </figure>

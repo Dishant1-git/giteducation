@@ -10,7 +10,7 @@
  * "Free to learn, exam paid".
  */
 
-export type TrackId = "ai" | "cad" | "marketing" | "accounts" | "data";
+export type TrackId = "cad" | "marketing" | "accounts" | "data";
 export type BackgroundId = "school" | "graduate" | "engineering" | "working";
 export type RewardId = "job" | "freelance" | "business";
 export type PaceId = "light" | "steady" | "fulltime";
@@ -32,7 +32,6 @@ export const QUESTIONS: Question[] = [
     title: "Which of these would you happily do for a whole afternoon?",
     lead: "Pick the one you would not have to force yourself through.",
     options: [
-      { id: "ai", title: "Get a computer to do the boring part", text: "Prompts, small Python scripts and AI tools that finish in minutes what used to take a day." },
       { id: "cad", title: "Draw and model a real object", text: "Dimensions, sections, assemblies — a part or a floor plan that could actually be built." },
       { id: "marketing", title: "Grow a page's traffic and enquiries", text: "Keywords, ad copy, analytics, and the numbers moving week on week." },
       { id: "accounts", title: "Keep a business's books in order", text: "Billing, GST returns and ledgers that balance at the end of the month." },
@@ -93,32 +92,6 @@ export type Track = {
 };
 
 export const TRACKS: Record<TrackId, Track> = {
-  ai: {
-    id: "ai",
-    name: "AI & Automation",
-    summary: "You like making work disappear. Learn to use AI tools and a little Python to automate reports, content and data work for offices and small businesses.",
-    icon: "robot",
-    courseSlug: "artificial-intelligence-course-in-jalandhar",
-    skill: "AI tools and Python automation",
-    phases: [
-      { title: "Foundations", tasks: ["Use ChatGPT, Gemini and Copilot daily; keep a notebook of prompts that worked", "Learn Python basics: variables, loops, lists and functions", "Read and write Excel and CSV files from Python"] },
-      { title: "Build", tasks: ["Automate one real task: renaming files, merging sheets or sending reminders", "Call an AI API from Python to summarise or classify text", "Learn prompt patterns: role, examples, format and checks"] },
-      { title: "Show", tasks: ["Finish and document the three portfolio projects below", "Record a two-minute screen video of each project running", "Apply to ten openings and pitch two local businesses"] },
-    ],
-    resources: [
-      { name: "Elements of AI", provider: "University of Helsinki", cost: "Free certificate" },
-      { name: "Python and Intro to Machine Learning", provider: "Kaggle Learn", cost: "Free certificate" },
-      { name: "Azure AI Fundamentals (AI-900) learning path", provider: "Microsoft Learn", cost: "Free to learn, exam paid" },
-    ],
-    projects: [
-      { title: "Invoice data extractor", text: "Pull name, date and amount out of 20 PDF bills into one Excel sheet." },
-      { title: "Customer reply assistant", text: "A script that drafts polite replies to common WhatsApp or email enquiries." },
-      { title: "Weekly report bot", text: "Reads a sales sheet and writes a one-paragraph summary with the top changes." },
-    ],
-    jobTitles: ["AI Operations Assistant", "Automation Executive", "Prompt Writer / AI Content Associate", "Junior Python Developer", "MIS Executive (AI tools)"],
-    service: "automate one repetitive task in your office using AI tools",
-    clientType: "office manager or shop owner",
-  },
   cad: {
     id: "cad",
     name: "CAD / CAM Design",
@@ -291,7 +264,7 @@ export type Plan = {
 const ALTERNATE: Record<BackgroundId, TrackId[]> = {
   school: ["marketing", "data"],
   graduate: ["accounts", "marketing"],
-  engineering: ["cad", "ai"],
+  engineering: ["cad", "data"],
   working: ["data", "marketing"],
 };
 

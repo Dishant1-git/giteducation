@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${SITE.name} — ${SITE.tagline}`,
     short_name: SITE.name,
-    description: `Computer courses in ${SITE.address.locality}: office, accounting, CAD, digital marketing and AI.`,
+    description: `Computer courses in ${SITE.address.locality}: CAD and design, basic computer, web and digital marketing, Tally and accounting.`,
     start_url: "/",
     display: "standalone",
     background_color: "#fcfbf8",

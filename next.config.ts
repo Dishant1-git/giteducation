@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { WITHDRAWN_COURSES } from "./src/lib/catalogue";
+
 /**
  * Images uploaded in the CMS (cms-techcadd/) are served by its API under
  * /uploads. Allowing exactly that path lets next/image optimise a blog cover
@@ -11,6 +13,14 @@ const cmsUploads = cmsUrl ? [new URL(`${cmsUrl.replace(/\/$/, "")}/uploads/**`)]
 const cmsIsLocal = cmsUrl ? ["localhost", "127.0.0.1"].includes(new URL(cmsUrl).hostname) : false;
 
 const nextConfig: NextConfig = {
+  // Courses the institute no longer runs keep their old addresses working.
+  async redirects() {
+    return Object.entries(WITHDRAWN_COURSES).map(([slug, destination]) => ({
+      source: `/courses/${slug}`,
+      destination,
+      permanent: true,
+    }));
+  },
   images: {
     remotePatterns: cmsUploads,
     // The optimiser refuses to fetch from a local address by default. Allowed

@@ -138,4 +138,4 @@ export const TEAM_ROLES: { icon: string; title: string; text: string }[] = [
 ];
 
 export const FUTURE_TEXT =
-  "Offices keep moving to new software, and so do we. As AI tools, online accounting and digital marketing change what employers ask for, we add them to the syllabus, so what a student learns here is still what gets them hired.";
+  "Offices keep moving to new software, and so do we. As online accounting, design software and digital marketing change what employers ask for, we add them to the syllabus, so what a student learns here is still what gets them hired.";
