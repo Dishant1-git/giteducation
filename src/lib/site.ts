@@ -4,13 +4,15 @@
  * phone number or a nav label propagates everywhere at once.
  */
 
-import { CATALOGUE } from "./catalogue";
+import { CATALOGUE, categoryHref } from "./catalogue";
 
 export const SITE = {
   name: "GIT Education",
   legalName: "GIT Education — Computer Training Institute",
   tagline: "Computer Training Institute, Jalandhar",
-  url: "https://giteducation.org",
+  // NEXT_PUBLIC_SITE_URL must be this site's own public address: canonical
+  // URLs, the sitemap and the schema are all built from it.
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://giteducation.org").replace(/\/$/, ""),
   phone: "+91 62833 59550",
   whatsapp: "916283359550",
   email: "info@techcadd.com",
@@ -77,12 +79,13 @@ export type CourseMenuItem = { label: string; slug?: string; badge?: string };
 /** Where a menu course links: its own page when one exists, otherwise the course listing. */
 export const courseHref = (item: CourseMenuItem) => (item.slug ? `/courses/${item.slug}` : "/courses");
 
-type CourseGroup = { title: string; blurb: string; items: CourseMenuItem[] };
+type CourseGroup = { title: string; blurb: string; href: string; items: CourseMenuItem[] };
 
 /** Courses mega-menu columns: one per main category, listing only its main courses. */
 export const courseGroups: CourseGroup[] = CATALOGUE.map((category) => ({
   title: category.title,
   blurb: category.blurb,
+  href: categoryHref(category),
   items: category.subCategories.flatMap((sub) => sub.courses.filter((course) => course.main)),
 }));
 
@@ -90,6 +93,7 @@ export const courseGroups: CourseGroup[] = CATALOGUE.map((category) => ({
 export const allCourseGroups: CourseGroup[] = CATALOGUE.map((category) => ({
   title: category.title,
   blurb: category.blurb,
+  href: categoryHref(category),
   items: category.subCategories.flatMap((sub) => sub.courses),
 }));
 
@@ -197,22 +201,14 @@ export const lineIcons: Record<string, string> = {
 };
 
 export const footerCols: [heading: string, links: [label: string, href: string][]][] = [
+  ["Course Categories", CATALOGUE.map((category): [string, string] => [category.title, categoryHref(category)])],
   [
-    "Courses",
+    "Popular Courses",
     [
       ["Basic Computer", "/courses/basic-computer-course-in-jalandhar"],
-      ["MS Office", "/courses/ms-office-course-in-jalandhar"],
-      ["Advance Excel", "/courses/advance-excel-course-in-jalandhar"],
       ["Tally Prime", "/courses/tally-prime-course-in-jalandhar"],
-    ],
-  ],
-  [
-    "More Courses",
-    [
       ["CAD / CAM", "/courses/cad-cam-course-in-jalandhar"],
       ["Digital Marketing", "/courses/digital-marketing-course-in-jalandhar"],
-      ["Web Designing", "/courses/web-designing-course-in-jalandhar"],
-      ["Graphic Designing", "/courses/graphic-designing-course-in-jalandhar"],
     ],
   ],
   [

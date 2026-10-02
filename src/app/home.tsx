@@ -33,10 +33,10 @@ const categories = [
 // Category panels, one per main category of the catalogue (src/lib/catalogue.ts).
 // `pos` picks which part of the photo the narrow panel shows.
 const categoryPanels = [
-  { title: "CADD & Design", blurb: "AutoCAD, SolidWorks, Revit and STAAD Pro for engineers", image: "/images/categories/cad.jpg", href: "/courses/cad-cam-course-in-jalandhar", pos: "object-[28%_50%]" },
-  { title: "Basic Computer Courses", blurb: "Windows, MS Office, Advance Excel and typing", image: "/images/categories/office.jpg", href: "/courses/basic-computer-course-in-jalandhar", pos: "object-[72%_50%]" },
-  { title: "Web, Graphics & Digital Marketing", blurb: "Web designing, graphic design, SEO and ads", image: "/images/categories/digital.jpg", href: "/courses/digital-marketing-course-in-jalandhar", pos: "object-[35%_50%]" },
-  { title: "Tally & Accounting", blurb: "Tally Prime, GST returns, billing and QuickBooks", image: "/images/categories/accounts.jpg", href: "/courses/tally-prime-course-in-jalandhar", pos: "object-[38%_50%]" },
+  { title: "CADD & Design", blurb: "AutoCAD, SolidWorks, Revit and STAAD Pro for engineers", image: "/images/categories/cad.jpg", href: "/courses/category/cad-courses-in-jalandhar", pos: "object-[28%_50%]" },
+  { title: "Basic Computer Courses", blurb: "Windows, MS Office, Advance Excel and typing", image: "/images/categories/office.jpg", href: "/courses/category/basic-computer-courses-in-jalandhar", pos: "object-[72%_50%]" },
+  { title: "Web, Graphics & Digital Marketing", blurb: "Web designing, graphic design, SEO and ads", image: "/images/categories/digital.jpg", href: "/courses/category/web-graphics-digital-marketing-courses-in-jalandhar", pos: "object-[35%_50%]" },
+  { title: "Tally & Accounting", blurb: "Tally Prime, GST returns, billing and QuickBooks", image: "/images/categories/accounts.jpg", href: "/courses/category/tally-accounting-courses-in-jalandhar", pos: "object-[38%_50%]" },
 ];
 
 const differences = [

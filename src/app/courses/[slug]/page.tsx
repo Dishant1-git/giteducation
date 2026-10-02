@@ -36,10 +36,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!course) return { title: "Course not found" };
 
   const path = `/courses/${course.slug}`;
+  // The course's own keywords, then the ways people search for it locally.
+  const subject = course.shortTitle.toLowerCase();
+  const city = SITE.address.locality.toLowerCase();
+  const local = [`${subject} course in ${city}`, `${subject} training in ${city}`, `${subject} classes in ${city}`, `${subject} institute in ${city}`, `${subject} course near me`];
   return {
     title: course.seo.title,
     description: course.seo.description,
-    keywords: course.seo.keywords,
+    keywords: [...new Set([...course.seo.keywords.map((keyword) => keyword.toLowerCase()), ...local])],
     alternates: { canonical: path },
     openGraph: {
       title: course.seo.title,

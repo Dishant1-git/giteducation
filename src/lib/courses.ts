@@ -6,7 +6,7 @@
  * fully-formed, statically generated page; no template changes are needed.
  */
 
-import { CATALOGUE } from "./catalogue";
+import { CATALOGUE, categoryHref } from "./catalogue";
 
 export type CourseModule = {
   title: string;
@@ -6921,6 +6921,8 @@ export function getRelatedCourses(course: Course): Course[] {
 
 export type CourseGroup = {
   category: string;
+  /** The category's own page, when the catalogue has one. */
+  href?: string;
   subCategories: { title: string; courses: Course[] }[];
 };
 
@@ -6937,7 +6939,8 @@ export function groupCourses(list: Course[]): CourseGroup[] {
   for (const course of list) {
     let group = groups.find((g) => g.category === course.category);
     if (!group) {
-      group = { category: course.category, subCategories: [] };
+      const known = CATALOGUE.find((category) => category.title === course.category);
+      group = { category: course.category, href: known && categoryHref(known), subCategories: [] };
       groups.push(group);
     }
     const sub = group.subCategories.find((s) => s.title === course.subCategory);

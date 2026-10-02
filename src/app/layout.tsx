@@ -5,6 +5,7 @@ import { EnquiryModal } from "@/components/enquiry-modal";
 import { SiteChrome } from "@/components/site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { CATALOGUE } from "@/lib/catalogue";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -38,10 +39,53 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Organisation and local-business schema, on every page: who the institute is,
+ * where it is, the city it serves and the subjects it teaches (the catalogue's
+ * categories and courses).
+ */
+const organisation = {
+  "@type": "EducationalOrganization",
+  "@id": `${SITE.url}/#organization`,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: SITE.url,
+  logo: `${SITE.url}/images/logo/tce.png`,
+  telephone: SITE.phone,
+  email: SITE.email,
+  foundingDate: String(SITE.established),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    postalCode: SITE.address.postalCode,
+    addressCountry: SITE.address.country,
+  },
+  areaServed: { "@type": "City", name: SITE.address.locality },
+  knowsAbout: CATALOGUE.flatMap((category) => [category.title, ...category.subCategories.flatMap((sub) => sub.courses.map((course) => course.label))]),
+};
+
+const SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    organisation,
+    {
+      ...organisation,
+      "@type": "LocalBusiness",
+      "@id": `${SITE.url}/#localbusiness`,
+      description: `${SITE.tagline}. ${CATALOGUE.map((category) => category.pageTitle).join(", ")}.`,
+      openingHours: "Mo-Sa 08:00-19:00",
+      parentOrganization: { "@id": `${SITE.url}/#organization` },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
         {/* First stop for keyboard and screen reader users on every page. */}
         <a href="#main-content" className="skip-link">
           Skip to main content

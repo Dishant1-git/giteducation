@@ -231,7 +231,11 @@ function CoursesPanel() {
           <div key={group.title}>
             <div className="mb-4 border-b border-foreground/10 pb-3">
               <span className="font-mono text-xs text-muted">{String(index + 1).padStart(2, "0")}</span>
-              <h3 className="mt-1 text-lg tracking-tight">{group.title}</h3>
+              <h3 className="mt-1 text-lg tracking-tight">
+                <Link href={group.href} className="transition-colors duration-200 hover:text-action">
+                  {group.title}
+                </Link>
+              </h3>
               <p className="mt-0.5 text-xs leading-relaxed text-muted">{group.blurb}</p>
             </div>
             <ul className="space-y-1.5">
@@ -543,7 +547,9 @@ export function SiteHeader() {
                               <div key={group.title}>
                                 <p className="flex items-baseline gap-2 border-b border-foreground/10 pb-1.5 text-sm font-semibold tracking-tight">
                                   <span className="font-mono text-[11px] font-normal text-muted">{String(index + 1).padStart(2, "0")}</span>
-                                  {group.title}
+                                  <Link href={group.href} className="transition-colors hover:text-action">
+                                    {group.title}
+                                  </Link>
                                 </p>
                                 <ul className="mt-1.5 grid grid-cols-2 gap-x-3">
                                   {group.items.map((item) => (

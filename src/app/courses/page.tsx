@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { CourseCard } from "@/components/course-card";
 import { Icon } from "@/components/icon";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { getCoursesByCategory } from "@/lib/cms";
@@ -71,7 +72,13 @@ export default async function CoursesIndexPage() {
             <Reveal>
               <p className="section-rule text-action">Category {String(groupIndex + 1).padStart(2, "0")}</p>
               <h2 id={`group-${groupIndex}`} className="mt-3 font-display text-2xl font-extrabold tracking-[-0.02em] sm:text-3xl">
-                {group.category}
+                {group.href ? (
+                  <Link href={group.href} className="transition-colors duration-200 hover:text-action">
+                    {group.category}
+                  </Link>
+                ) : (
+                  group.category
+                )}
               </h2>
             </Reveal>
 
@@ -85,29 +92,7 @@ export default async function CoursesIndexPage() {
                 <Stagger as="ul" aria-labelledby={`group-${groupIndex}-${subIndex}`} className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {sub.courses.map((course) => (
                     <StaggerItem as="li" key={course.slug}>
-                      <Link
-                        href={`/courses/${course.slug}`}
-                        className="group flex h-full flex-col rounded-card border border-border-subtle bg-surface-raised p-6 transition-all duration-200 hover:-translate-y-1 hover:border-action hover:shadow-card"
-                      >
-                        <span className="flex items-start justify-between gap-3">
-                          <span className="grid size-11 place-items-center rounded-xl bg-surface-accent text-action transition-colors duration-200 group-hover:bg-action group-hover:text-white">
-                            <Icon name={course.icon} className="size-5" />
-                          </span>
-                          <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-[11px] font-semibold text-content-muted">{course.duration}</span>
-                        </span>
-
-                        <span className="mt-4 font-display text-lg leading-snug font-bold tracking-tight text-balance">{course.shortTitle}</span>
-                        <span className="mt-2 flex-1 text-sm leading-relaxed text-content-muted">{course.tagline}</span>
-
-                        <span className="mt-5 flex items-end justify-end gap-3 border-t border-border-subtle pt-4">
-                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-action">
-                            View course
-                            <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
-                              →
-                            </span>
-                          </span>
-                        </span>
-                      </Link>
+                      <CourseCard course={course} />
                     </StaggerItem>
                   ))}
                 </Stagger>

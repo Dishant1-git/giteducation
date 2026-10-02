@@ -20,6 +20,8 @@ export type CatalogueCategory = {
   /** Address of the category page: /courses/category/[slug]. */
   slug: string;
   title: string;
+  /** H1 and <title> of the category page. Keeps the city: these are local-search pages. */
+  pageTitle: string;
   blurb: string;
   /** Key in `lineIcons` (src/lib/site.ts). */
   icon: string;
@@ -30,6 +32,7 @@ export const CATALOGUE: CatalogueCategory[] = [
   {
     slug: "cad-courses-in-jalandhar",
     title: "CADD & Design",
+    pageTitle: "CAD Courses in Jalandhar",
     blurb: "Mechanical, architectural and structural design software",
     icon: "cube",
     subCategories: [
@@ -63,6 +66,7 @@ export const CATALOGUE: CatalogueCategory[] = [
   {
     slug: "basic-computer-courses-in-jalandhar",
     title: "Basic Computer Courses",
+    pageTitle: "Basic Computer Courses in Jalandhar",
     blurb: "Computer basics, office software and typing",
     icon: "monitor",
     subCategories: [
@@ -88,6 +92,7 @@ export const CATALOGUE: CatalogueCategory[] = [
   {
     slug: "web-graphics-digital-marketing-courses-in-jalandhar",
     title: "Web, Graphics & Digital Marketing",
+    pageTitle: "Web, Graphics & Digital Marketing Courses in Jalandhar",
     blurb: "Websites, design software and online promotion",
     icon: "megaphone",
     subCategories: [
@@ -120,6 +125,7 @@ export const CATALOGUE: CatalogueCategory[] = [
   {
     slug: "tally-accounting-courses-in-jalandhar",
     title: "Tally & Accounting",
+    pageTitle: "Tally & Accounting Courses in Jalandhar",
     blurb: "Tally, GST billing and accounting software",
     icon: "receipt",
     subCategories: [
@@ -137,6 +143,8 @@ export const CATALOGUE: CatalogueCategory[] = [
     ],
   },
 ];
+
+export const categoryHref = (category: CatalogueCategory) => `/courses/category/${category.slug}`;
 
 /** Where a course sits, by slug. Undefined for a course the catalogue does not know. */
 export function placeOf(slug: string): { category: string; subCategory: string } | undefined {
