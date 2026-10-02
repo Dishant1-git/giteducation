@@ -123,7 +123,7 @@ function NavDropdown({
   return (
     <div
       ref={wrapperRef}
-      // Narrow panels anchor under their own trigger; wide ones span the whole nav
+      // Narrow panels anchor under their own trigger; wide ones span the header
       className={`group flex items-center self-stretch ${wide ? "" : "relative"}`}
       onPointerEnter={hoverOpen}
       onPointerLeave={hoverClose}
@@ -405,9 +405,13 @@ export function SiteHeader() {
 
       <nav
         aria-label="Primary"
-        className={`relative mx-auto flex items-center justify-between border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        // Deliberately not `relative`, and no backdrop blur: either would make the
+        // nav the dropdown panels' containing block, and the nav changes width
+        // when the bar collapses — the panels would slide sideways with it. They
+        // anchor to the fixed header instead, which is the same in both states.
+        className={`mx-auto flex items-center justify-between border transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           solid
-            ? "max-w-[1240px] rounded-[28px] border-line/80 bg-white/95 px-3 py-2.5 text-foreground shadow-[0_8px_32px_-8px_rgb(13_19_48/0.18)] backdrop-blur-xl [--nav-accent:var(--color-action)] sm:px-4 lg:px-6 2xl:max-w-[1400px]"
+            ? "max-w-[1240px] rounded-[28px] border-line/80 bg-white px-3 py-2.5 text-foreground shadow-[0_8px_32px_-8px_rgb(13_19_48/0.18)] [--nav-accent:var(--color-action)] sm:px-4 lg:px-6 2xl:max-w-[1400px]"
             : "max-w-full rounded-none border-transparent border-b-white/10 bg-transparent px-5 py-3.5 text-white lg:px-10"
         }`}
       >
