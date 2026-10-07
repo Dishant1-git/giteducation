@@ -6,6 +6,7 @@ import { SiteChrome } from "@/components/site-chrome";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { CATALOGUE } from "@/lib/catalogue";
+import { getNavPages } from "@/lib/cms";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -81,7 +82,9 @@ const SCHEMA = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const navPages = await getNavPages();
+
   return (
     <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
       <body>
@@ -90,9 +93,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <SiteHeader />
+        <SiteHeader navPages={navPages} />
         <main id="main-content">{children}</main>
-        <SiteFooter />
+        <SiteFooter navPages={navPages} />
         <SiteChrome />
         <EnquiryModal />
       </body>

@@ -92,7 +92,9 @@ export default async function EventsPage() {
                         {event.time}
                       </span>
                     </p>
-                    <h2 className="mt-3 font-display text-lg leading-snug font-bold tracking-tight text-balance">{event.title}</h2>
+                    <h2 className="mt-3 font-display text-lg leading-snug font-bold tracking-tight text-balance">
+                      <Link href={`/events/${event.id}`} className="transition-colors hover:text-action">{event.title}</Link>
+                    </h2>
                     <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-content-muted">{event.summary}</p>
                     <p className="mt-5 flex items-center gap-1.5 border-t border-border-subtle pt-4 text-xs text-content-muted">
                       <Icon name="location" className="size-3.5 shrink-0 text-action" />
@@ -105,6 +107,9 @@ export default async function EventsPage() {
                     >
                       Reserve a free seat
                     </button>
+                    <Link href={`/events/${event.id}`} className="mt-3 text-center text-sm font-semibold text-action hover:underline">
+                      Event details
+                    </Link>
                   </div>
                 </article>
               </Reveal>

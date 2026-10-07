@@ -68,9 +68,8 @@ export const SITE_MAP: Record<string, Placement> = {
       'The headings on the Courses page. A course appears under the category you choose for it, and the order here is the order on the site. Blog posts use the same list for their category label.',
   },
   pages: {
-    where: '',
-    notLive:
-      'The website has no route for CMS-written pages yet. Its About, Contact and tool pages are built into the site itself, so a page saved here is stored but not published anywhere.',
+    where: 'At its own address using the page slug, and in the main menu or footer when you choose a placement.',
+    url: slugUrl('/'),
   },
   faqs: {
     where:
@@ -81,13 +80,12 @@ export const SITE_MAP: Record<string, Placement> = {
       'The /reviews page, in the order set here. The course name links the card to that course when it matches a course title. A review linked from a course also appears on that course page.',
   },
   testimonials: {
-    where: '',
-    notLive:
-      'The website shows student feedback from the Reviews module only. Testimonials saved here are stored but not displayed.',
+    where: 'Featured, published testimonials appear in the student feedback section on the home page. Video and Google links open from each testimonial.',
   },
   events: {
     where:
-      'The events listing at /events, soonest first. Events whose date has passed drop off the page. The first tag is the course the "Reserve a free seat" button files the enquiry under.',
+      'The events listing at /events, soonest first, and a page of its own. The first tag is the course the "Reserve a free seat" button files the enquiry under.',
+    url: slugUrl('/events/'),
   },
   gallery: {
     where: 'The /gallery page. Every photograph in every published album joins the photo wall, with its caption.',
@@ -98,8 +96,7 @@ export const SITE_MAP: Record<string, Placement> = {
       'The website prints its phone number, address and social links from its own code (src/lib/site.ts), not from here. What you save is kept, and used by this CMS for emails, but changing it does not change the site.',
   },
   redirects: {
-    where: '',
-    notLive: 'The website does not apply CMS redirects yet. Rules saved here are stored but have no effect.',
+    where: 'Enabled redirects are applied by the website before the requested page is served.',
   },
   enquiries: {
     where: 'Received from the website forms — Book a Free Demo and the contact form. Nothing here is published back to it.',
@@ -115,8 +112,7 @@ export const SITE_MAP: Record<string, Placement> = {
     notLive: 'The website has no AI assistant. Entries saved here are stored but nothing reads them.',
   },
   comments: {
-    where: '',
-    notLive: 'Blog posts on the website do not take comments, so there is nothing to moderate here.',
+    where: 'Comments submitted under blog posts are held for moderation here. Approved comments and staff replies appear on their post.',
   },
 }
 

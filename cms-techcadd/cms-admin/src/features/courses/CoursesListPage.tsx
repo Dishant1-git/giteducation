@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BookOpen, Copy, ExternalLink, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
-import { publicUrlFor } from '../../config/siteMap'
+import { publicUrlFor, SITE_URL } from '../../config/siteMap'
 
 import { ApiError } from '../../api'
 import { Button } from '../../components/common/Button'
@@ -125,9 +125,14 @@ export default function CoursesListPage() {
           query.isLoading ? 'Loading…' : `${total} ${total === 1 ? 'course' : 'courses'} in total`
         }
         actions={
-          <Link to="/courses/new">
-            <Button icon={Plus}>Add Course</Button>
-          </Link>
+          <>
+            <a href={`${SITE_URL}/courses`} target="_blank" rel="noopener noreferrer">
+              <Button variant="secondary" icon={ExternalLink}>View all courses</Button>
+            </a>
+            <Link to="/courses/new">
+              <Button icon={Plus}>Add Course</Button>
+            </Link>
+          </>
         }
       />
 

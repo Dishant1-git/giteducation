@@ -21,6 +21,7 @@ import {
   navLinks,
   type MegaMenuData,
 } from "@/lib/site";
+import type { CmsNavPage } from "@/lib/cms-types";
 
 /**
  * Site header.
@@ -320,7 +321,30 @@ function BranchesPanel() {
   );
 }
 
-export function SiteHeader() {
+function ResourcesPanel({ navPages }: { navPages: CmsNavPage[] }) {
+  const headerPages = navPages.filter((page) => page.placement === "header");
+  return (
+    <div>
+      <MegaMenuPanel menu={megaMenus.Resources} label="Resources" />
+      {headerPages.length > 0 && (
+        <nav aria-label="Pages" className="border-t border-foreground/10 px-6 py-4 lg:px-8">
+          <p className="mb-2 font-mono text-[10px] font-semibold tracking-[0.16em] text-muted uppercase">Pages</p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {headerPages.map((page) => (
+              <li key={page.slug}>
+                <Link href={`/${page.slug}`} className="text-sm font-medium text-foreground/75 transition-colors hover:text-action">
+                  {page.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </div>
+  );
+}
+
+export function SiteHeader({ navPages }: { navPages: CmsNavPage[] }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -457,7 +481,7 @@ export function SiteHeader() {
           </Link>
 
           <NavDropdown label="Resources" openId={openId} setOpenId={setOpenId}>
-            <MegaMenuPanel menu={megaMenus.Resources} label="Resources" />
+            <ResourcesPanel navPages={navPages} />
           </NavDropdown>
 
           <NavDropdown label="Branches" wide={false} openId={openId} setOpenId={setOpenId}>
@@ -622,6 +646,16 @@ export function SiteHeader() {
                     </li>
                   ),
                 )}
+              {navPages
+                .filter((page) => page.placement === "header")
+                .map((page) => (
+                  <li key={`cms-page-${page.slug}`}>
+                    <Link href={`/${page.slug}`} className="flex items-center justify-between py-3.5 font-display text-lg font-semibold tracking-tight">
+                      {page.label}
+                      <span aria-hidden="true" className="text-sm text-muted">→</span>
+                    </Link>
+                  </li>
+                ))}
             </ul>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <a href={TEL_HREF} className="flex h-12 items-center justify-center gap-2 rounded-full border border-foreground/20 font-semibold">

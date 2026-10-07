@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Icon } from "@/components/icon";
+import { BlogComments } from "@/components/blog-comments";
 import { Reveal } from "@/components/motion";
 import { formatPostDate } from "@/lib/blog";
 import { getPost, getPosts } from "@/lib/cms";
@@ -178,6 +179,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </ul>
         </div>
       </section>
+      <div className="mx-auto max-w-[820px] px-5 pb-14 lg:px-8">
+        <BlogComments slug={post.slug} />
+      </div>
     </article>
   );
 }

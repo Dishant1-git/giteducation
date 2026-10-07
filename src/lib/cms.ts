@@ -9,6 +9,7 @@ import { EVENTS, type EventItem } from "@/lib/events";
 import { GENERAL_FAQS } from "@/lib/faq";
 import { PHOTOS, type GalleryPhoto } from "@/lib/gallery";
 import { REVIEWS, type StudentReview } from "@/lib/reviews";
+import type { CmsNavPage, SiteTestimonial } from "@/lib/cms-types";
 
 /**
  * The website's reading side of the CMS (cms-techcadd/).
@@ -54,7 +55,17 @@ async function cmsGet<T>(path: string): Promise<T | null> {
 }
 
 type List<T> = { items: T[] };
-type CmsMedia = { url: string; alt?: string };
+type CmsMedia = { url: string; alt?: string; width?: number; height?: number };
+
+const safeHttpUrl = (value: string | undefined): string | undefined => {
+  if (!value) return undefined;
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 /* ---------------------------------------------------------------- *
  * Blog
@@ -81,7 +92,7 @@ const FALLBACK_POST_IMAGE = "/images/categories/office.jpg";
  * line rather than the only one: it stops a pasted embed or a compromised
  * editor account from running script on the public site.
  */
-function cleanHtml(html: string): string {
+export function cleanHtml(html: string): string {
   return html
     .replace(/<\s*(script|style|iframe|object|embed|form)[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
     .replace(/<\s*(script|style|iframe|object|embed|form|link|meta)\b[^>]*>/gi, "")
@@ -123,6 +134,8 @@ export const getPosts = cache(async (): Promise<BlogPost[]> => {
 });
 
 export async function getPost(slug: string): Promise<BlogPost | undefined> {
+  const cmsPost = await cmsGet<CmsBlog>(`/blogs/${encodeURIComponent(slug)}`);
+  if (cmsPost) return toPost(cmsPost, await getCourses());
   return (await getPosts()).find((post) => post.slug === slug);
 }
 
@@ -182,6 +195,159 @@ export const getEvents = cache(async (): Promise<EventItem[]> => {
       image: mediaUrl(event.coverImage?.url) ?? "/images/about/team.jpg",
       enquiry: event.tags[0] ?? event.title,
     }));
+});
+
+export type SiteEvent = EventItem & {
+  body: string;
+  mode: string;
+  endsOn?: string;
+  hostName?: string;
+  venueName?: string;
+  venueAddress?: string;
+  city?: string;
+  mapUrl?: string;
+  registrationUrl?: string;
+  highlights: { text: string }[];
+  agenda: { timeLabel?: string; title: string; detail?: string }[];
+  speakers: { name: string; role?: string; org?: string; bio?: string; photo?: CmsMedia }[];
+  images: { media: CmsMedia; caption?: string }[];
+};
+
+type CmsEventDetails = CmsEvent & {
+  body: string;
+  mode: string;
+  hostName?: string;
+  venueName?: string;
+  venueAddress?: string;
+  city?: string;
+  mapUrl?: string;
+  registrationUrl?: string;
+  highlights: { text: string }[];
+  agenda: { timeLabel?: string; title: string; detail?: string }[];
+  speakers: SiteEvent["speakers"];
+  images: SiteEvent["images"];
+};
+
+/** One published event, including the details shown on its public page. */
+export const getEvent = cache(async (slug: string): Promise<SiteEvent | undefined> => {
+  const event = await cmsGet<CmsEventDetails>(`/events/${encodeURIComponent(slug)}`);
+  if (event) {
+    return {
+      id: event.slug,
+      title: event.title,
+      kind: EVENT_KINDS[event.eventType] ?? "Event",
+      date: event.startsOn.slice(0, 10),
+      time: event.startTime
+        ? [event.startTime, event.endTime].filter(Boolean).map((time) => clock(time as string)).join(" – ")
+        : "Timing on request",
+      summary: event.summary,
+      image: mediaUrl(event.coverImage?.url) ?? "/images/about/team.jpg",
+      enquiry: event.tags[0] ?? event.title,
+      body: cleanHtml(event.body),
+      mode: event.mode,
+      endsOn: event.endsOn,
+      hostName: event.hostName,
+      venueName: event.venueName,
+      venueAddress: event.venueAddress,
+      city: event.city,
+      mapUrl: event.mapUrl,
+      registrationUrl: event.registrationUrl,
+      highlights: event.highlights,
+      agenda: event.agenda,
+      speakers: event.speakers.map((speaker) => ({
+        ...speaker,
+        photo: speaker.photo ? { ...speaker.photo, url: mediaUrl(speaker.photo.url) ?? speaker.photo.url } : undefined,
+      })),
+      images: event.images.map((image) => ({
+        ...image,
+        media: { ...image.media, url: mediaUrl(image.media.url) ?? image.media.url },
+      })),
+    };
+  }
+
+  const fallback = EVENTS.find((item) => item.id === slug);
+  if (!fallback) return undefined;
+  return {
+    ...fallback,
+    body: "",
+    mode: "in-person",
+    highlights: [],
+    agenda: [],
+    speakers: [],
+    images: [],
+  };
+});
+
+/* ---------------------------------------------------------------- *
+ * Testimonials
+ * ---------------------------------------------------------------- */
+
+type CmsTestimonial = {
+  studentName: string;
+  photo?: CmsMedia;
+  courseId?: string;
+  courseName?: string;
+  batch?: string;
+  rating: number;
+  quote: string;
+  videoUrl?: string;
+  googleReviewUrl?: string;
+  featured: boolean;
+};
+
+/** Featured, published student testimonials for the home-page feedback section. */
+export const getTestimonials = cache(async (): Promise<SiteTestimonial[]> => {
+  const data = await cmsGet<List<CmsTestimonial>>("/testimonials?limit=100");
+  const items = data?.items ?? [];
+  if (!items.length) return [];
+  const courses = await cmsGet<List<{ id: string; title: string }>>("/courses?limit=500");
+  const courseNameById = new Map((courses?.items ?? []).map((course) => [course.id, course.title]));
+  return items
+    .filter((testimonial) => testimonial.featured)
+    .map((testimonial) => ({
+      studentName: testimonial.studentName,
+      photo: mediaUrl(testimonial.photo?.url),
+      courseName: testimonial.courseName ?? (testimonial.courseId ? courseNameById.get(testimonial.courseId) : undefined),
+      batch: testimonial.batch,
+      rating: testimonial.rating,
+      quote: testimonial.quote,
+      videoUrl: safeHttpUrl(testimonial.videoUrl),
+      googleReviewUrl: safeHttpUrl(testimonial.googleReviewUrl),
+    }));
+});
+
+/* ---------------------------------------------------------------- *
+ * Pages and navigation
+ * ---------------------------------------------------------------- */
+
+type CmsPageSection = {
+  type: "rich-text" | "image" | "video" | "cta" | "blogs";
+  title?: string;
+  body?: string;
+  media?: CmsMedia;
+  linkUrl?: string;
+  linkLabel?: string;
+  linkTarget: "same" | "new";
+  visible: boolean;
+};
+
+export type SitePage = {
+  title: string;
+  slug: string;
+  template: string;
+  content: string;
+  sections: CmsPageSection[];
+  seo: { metaTitle?: string; metaDescription?: string; canonicalUrl?: string; keywords: string[] };
+};
+
+export const getNavPages = cache(async (): Promise<CmsNavPage[]> => {
+  const data = await cmsGet<List<CmsNavPage>>("/nav-pages");
+  return data?.items ?? [];
+});
+
+export const getPage = cache(async (slug: string): Promise<SitePage | undefined> => {
+  const page = await cmsGet<SitePage>(`/pages/${encodeURIComponent(slug)}`);
+  return page ?? undefined;
 });
 
 /* ---------------------------------------------------------------- *
@@ -244,7 +410,14 @@ export async function getHomeFaqs(): Promise<Faq[]> {
  * Reviews
  * ---------------------------------------------------------------- */
 
-type CmsReview = { id: string; authorName: string; quote: string; courseName?: string; badge?: string };
+type CmsReview = {
+  id: string;
+  authorName: string;
+  quote: string;
+  courseName?: string;
+  badge?: string;
+  googleUrl?: string;
+};
 
 const initialsOf = (name: string) =>
   name
@@ -274,6 +447,7 @@ export async function getReviews(): Promise<StudentReview[]> {
       text: review.quote,
       course: review.courseName ?? "All courses",
       href: course ? `/courses/${course.slug}` : "/courses",
+      googleUrl: safeHttpUrl(review.googleUrl),
     };
   });
 }

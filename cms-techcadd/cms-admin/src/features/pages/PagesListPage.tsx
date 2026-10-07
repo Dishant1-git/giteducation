@@ -207,12 +207,14 @@ export default function PagesListPage() {
               <DropdownItem icon={Pencil} onSelect={() => navigate(`/pages/${page.id}/edit`)}>
                 Edit
               </DropdownItem>
-              <DropdownItem
-                icon={ExternalLink}
-                onSelect={() => window.open(publicUrlFor('pages', page), '_blank', 'noopener')}
-              >
-                View on site
-              </DropdownItem>
+              {page.status === 'published' && publicUrlFor('pages', page) && (
+                <DropdownItem
+                  icon={ExternalLink}
+                  onSelect={() => window.open(publicUrlFor('pages', page), '_blank', 'noopener')}
+                >
+                  View on site
+                </DropdownItem>
+              )}
               <DropdownSeparator />
               <DropdownItem
                 icon={Trash2}

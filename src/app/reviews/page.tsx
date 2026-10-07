@@ -82,6 +82,14 @@ export default async function ReviewsPage() {
                     >
                       {review.course} <span aria-hidden="true">→</span>
                     </Link>
+                    {review.googleUrl && (
+                      <a
+                        href={review.googleUrl}
+                        className="mt-3 inline-flex w-fit items-center gap-1.5 text-xs font-semibold text-action hover:underline"
+                      >
+                        Read this review on Google <span aria-hidden="true">→</span>
+                      </a>
+                    )}
                   </figure>
                 </Reveal>
               </li>

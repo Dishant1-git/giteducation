@@ -7,6 +7,7 @@ export type StudentReview = {
   text: string;
   course: string;
   href: string;
+  googleUrl?: string;
 };
 
 /**

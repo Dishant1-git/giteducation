@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/icon";
+import type { CmsNavPage } from "@/lib/cms-types";
 import { MAIL_HREF, SITE, TEL_HREF, footerCols } from "@/lib/site";
 
 const socials: [label: string, icon: React.ReactNode][] = [
@@ -27,7 +28,7 @@ const socials: [label: string, icon: React.ReactNode][] = [
   ],
 ];
 
-export function SiteFooter() {
+export function SiteFooter({ navPages }: { navPages: CmsNavPage[] }) {
   return (
     <footer id="contact" className="relative overflow-hidden border-t border-border-subtle bg-subtle">
       <div className="mx-auto max-w-6xl px-5">
@@ -119,6 +120,22 @@ export function SiteFooter() {
                     </Link>
                   </li>
                 ))}
+                {navPages.some((page) => page.placement === "footer") && (
+                  <nav aria-label="Additional pages">
+                    <h2 className="sr-only">Additional pages</h2>
+                    <ul className="space-y-4">
+                      {navPages
+                        .filter((page) => page.placement === "footer")
+                        .map((page) => (
+                          <li key={page.slug}>
+                            <Link href={`/${page.slug}`} className="inline-block text-[1.05rem] text-content-muted transition-all duration-200 hover:translate-x-1 hover:text-action">
+                              {page.label}
+                            </Link>
+                          </li>
+                        ))}
+                    </ul>
+                  </nav>
+                )}
               </ul>
             </nav>
           ))}

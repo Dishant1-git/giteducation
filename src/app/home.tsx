@@ -8,6 +8,7 @@ import { BlogSlider } from "@/components/blog-slider";
 import { openEnquiry } from "@/components/enquiry-modal";
 import { Icon } from "@/components/icon";
 import type { BlogPost } from "@/lib/blog";
+import type { SiteTestimonial } from "@/lib/cms-types";
 import { ROLES } from "@/lib/salary-estimator";
 import { SITE, TEL_HREF } from "@/lib/site";
 
@@ -145,7 +146,15 @@ function ArrowButton({ href, children, variant = "brand" }: { href: string; chil
   );
 }
 
-export function Home({ posts, faqs }: { posts: BlogPost[]; faqs: [question: string, answer: string][] }) {
+export function Home({
+  posts,
+  faqs,
+  testimonials,
+}: {
+  posts: BlogPost[];
+  faqs: [question: string, answer: string][];
+  testimonials: SiteTestimonial[];
+}) {
   const [career, setCareer] = useState(0);
   // One open answer per FAQ column, so the two columns never disturb each other.
   const [openFaq, setOpenFaq] = useState<[number | null, number | null]>([0, null]);
@@ -641,20 +650,55 @@ export function Home({ posts, faqs }: { posts: BlogPost[]; faqs: [question: stri
               <ArrowButton href="#contact" variant="panel">Get started today</ArrowButton>
             </div>
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {reviews.map(([initials, name, role, text, gradient], i) => (
-                <figure key={name} data-pointer style={delay(i % 3, 120)} className={`reveal lift spotlight flex flex-col overflow-hidden rounded-3xl border border-line bg-background p-7 hover:border-brand-200 hover:bg-white ${i % 3 === 1 ? "lg:mt-10" : ""}`}>
-                  <span aria-hidden="true" className="pointer-events-none absolute -right-2 -bottom-10 font-display text-[9rem] leading-none text-brand-100">&rdquo;</span>
-                  <div className="relative flex items-center justify-between">
-                    <span className="text-sm tracking-widest text-amber-500">★★★★★</span>
-                    <span className="rounded-full bg-subtle px-2 py-0.5 text-[10px] font-semibold tracking-wide text-muted">Google</span>
-                  </div>
-                  <blockquote className="relative mt-5 flex-1 text-[0.95rem] leading-relaxed">&ldquo;{text}&rdquo;</blockquote>
-                  <figcaption className="relative mt-7 flex items-center gap-3">
-                    <span className={`grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br font-display text-sm font-bold text-white ring-4 ring-white ${gradient}`}>{initials}</span>
-                    <span className="min-w-0"><span className="block text-sm font-semibold">{name}</span><span className="block truncate text-xs text-muted">{role}</span></span>
-                  </figcaption>
-                </figure>
-              ))}
+              {testimonials.length > 0
+                ? testimonials.map((testimonial, i) => (
+                    <figure key={testimonial.studentName + i} data-pointer style={delay(i % 3, 120)} className={`reveal lift spotlight flex flex-col overflow-hidden rounded-3xl border border-line bg-background p-7 hover:border-brand-200 hover:bg-white ${i % 3 === 1 ? "lg:mt-10" : ""}`}>
+                      <span aria-hidden="true" className="pointer-events-none absolute -right-2 -bottom-10 font-display text-[9rem] leading-none text-brand-100">&rdquo;</span>
+                      <div className="relative flex items-center justify-between">
+                        <span className="text-sm tracking-widest text-amber-500" aria-label={`${testimonial.rating} out of 5 stars`}>
+                          {"★".repeat(testimonial.rating)}{"☆".repeat(Math.max(0, 5 - testimonial.rating))}
+                        </span>
+                        {testimonial.googleReviewUrl && (
+                          <a href={testimonial.googleReviewUrl} className="rounded-full bg-subtle px-2 py-0.5 text-[10px] font-semibold tracking-wide text-muted hover:text-action">
+                            Read on Google
+                          </a>
+                        )}
+                      </div>
+                      <blockquote className="relative mt-5 flex-1 text-[0.95rem] leading-relaxed">&ldquo;{testimonial.quote}&rdquo;</blockquote>
+                      <figcaption className="relative mt-7 flex items-center gap-3">
+                        {testimonial.photo ? (
+                          <Image src={testimonial.photo} alt="" width={44} height={44} className="size-11 shrink-0 rounded-full object-cover ring-4 ring-white" />
+                        ) : (
+                          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-600 to-brand-400 font-display text-sm font-bold text-white ring-4 ring-white">
+                            {testimonial.studentName.split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
+                          </span>
+                        )}
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-semibold">{testimonial.studentName}</span>
+                          <span className="block truncate text-xs text-muted">{[testimonial.courseName, testimonial.batch].filter(Boolean).join(" · ") || "Student"}</span>
+                        </span>
+                      </figcaption>
+                      {testimonial.videoUrl && (
+                        <a href={testimonial.videoUrl} className="relative mt-4 inline-flex w-fit items-center gap-2 text-sm font-semibold text-action hover:underline">
+                          Watch video testimonial <span aria-hidden="true">→</span>
+                        </a>
+                      )}
+                    </figure>
+                  ))
+                : reviews.map(([initials, name, role, text, gradient], i) => (
+                    <figure key={name} data-pointer style={delay(i % 3, 120)} className={`reveal lift spotlight flex flex-col overflow-hidden rounded-3xl border border-line bg-background p-7 hover:border-brand-200 hover:bg-white ${i % 3 === 1 ? "lg:mt-10" : ""}`}>
+                      <span aria-hidden="true" className="pointer-events-none absolute -right-2 -bottom-10 font-display text-[9rem] leading-none text-brand-100">&rdquo;</span>
+                      <div className="relative flex items-center justify-between">
+                        <span className="text-sm tracking-widest text-amber-500">★★★★★</span>
+                        <span className="rounded-full bg-subtle px-2 py-0.5 text-[10px] font-semibold tracking-wide text-muted">Google</span>
+                      </div>
+                      <blockquote className="relative mt-5 flex-1 text-[0.95rem] leading-relaxed">&ldquo;{text}&rdquo;</blockquote>
+                      <figcaption className="relative mt-7 flex items-center gap-3">
+                        <span className={`grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br font-display text-sm font-bold text-white ring-4 ring-white ${gradient}`}>{initials}</span>
+                        <span className="min-w-0"><span className="block text-sm font-semibold">{name}</span><span className="block truncate text-xs text-muted">{role}</span></span>
+                      </figcaption>
+                    </figure>
+                  ))}
             </div>
           </div>
         </section>
